@@ -11,7 +11,7 @@
     <properties>
         <!-- 名称是任意的,建议使用有意义的名字 -->
         <spring.version>4.2.4.RELEASE</spring.version>
-        <hibernate.version>5.0.7.Final</hibernate.version>
+        <hibernate.version>5.4.3.Final</hibernate.version>
         <struts.version>2.3.24</struts.version>
     </properties>
     <dependencyManagement>
@@ -58,13 +58,14 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.0.7.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.0.7.Final</version>
+           <version>${hibernate.version}</version>
         </dependency>
+
         <!--实体类get/set注解-->
         <dependency>
             <groupId>org.projectlombok</groupId>
