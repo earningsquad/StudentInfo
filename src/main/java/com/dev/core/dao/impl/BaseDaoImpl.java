@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -19,6 +21,7 @@ import java.util.Map;
 
  */
 @Repository("baseDao")
+@Transactional
 public class BaseDaoImpl<T> implements IBaseDao<T> {
 
 	@Resource(name = "sessionFactory")
