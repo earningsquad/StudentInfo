@@ -3,12 +3,13 @@ package com.dev.core.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 //评教表
 @Entity
 @Table(name = "JUDGE")
 @Data
-public class Judge {
+public class Judge implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +28,9 @@ public class Judge {
     //评教类型
     @Column(name = "TYPE")
     private int type;
+
+    @Column(name = "RESULT")
+    private int result;
+
 
 }
