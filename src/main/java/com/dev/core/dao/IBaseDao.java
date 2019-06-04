@@ -6,10 +6,7 @@ import java.util.Map;
 
 /**
  * 
- * @功能说明：BaseDao基础接口，其他dao接口继续此类
- * @作者： herun
- * @创建日期：2015-09-21
- * @版本号：V1.0
+
  */
 public interface IBaseDao<T> {
 

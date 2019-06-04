@@ -4,6 +4,7 @@ import com.dev.core.dao.IBaseDao;
 import com.dev.core.dao.UserDao;
 import com.dev.core.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class UserService {
 
    @Autowired
+   @Qualifier("baseDao")
    IBaseDao<User> dao;
 
     public Boolean login(String userName,String passwd){

@@ -16,10 +16,7 @@ import java.util.Map;
 
 /**
  * 
- * @功能说明：baseDao基础类，其他dao继承此类
- * @作者： herun
- * @创建日期：2015-09-21
- * @版本号：V1.0
+
  */
 @Repository("baseDao")
 public class BaseDaoImpl<T> implements IBaseDao<T> {
