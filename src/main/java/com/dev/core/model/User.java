@@ -1,11 +1,11 @@
 package com.dev.core.model;
+
 import javax.persistence.*;
-import java.io.Serializable;
 
 //用户表
 @Entity
-@Table(name = "USER", catalog ="studentinfo" )
-public class User implements Serializable {
+@Table(name = "USER")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
