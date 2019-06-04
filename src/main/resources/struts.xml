@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.custom.i18n.resources" value="message" />
+	<constant name="struts.multipart.maxSize" value="9999999999" />
+	<constant name="struts.multipart.saveDir" value="/tmp" />
+
+	<!--禁用动态方法调用 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<!-- 默认的视图主题 -->
+	<constant name="struts.ui.theme" value="simple" />
+	<package name="default" namespace="/" extends="json-default">
+		<!-- 声明拦截器 -->
+<!--
+		<interceptors>
+			<interceptor name="LoginInterceptor" class="com.yyf.Interceptor.LoginInterceptor"></interceptor>
+			&lt;!&ndash; 定义的拦截器栈 &ndash;&gt;
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="LoginInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		&lt;!&ndash; 重新定义默认的拦截器栈 &ndash;&gt;
+		<default-interceptor-ref name="myStack"></default-interceptor-ref>
+-->
+
+		<default-action-ref name="index" />
+
+
+
+		<action name="index">
+			<result type="redirectAction">
+				<param name="actionName">login</param>
+				<param name="namespace">/</param>
+			</result>
+		</action>
+
+	</package>
+
+
+</struts>
