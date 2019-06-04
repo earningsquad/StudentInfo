@@ -2,76 +2,48 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+               http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
+<!-- scan the package and the sub package -->
 
-    <!-- 扫描目录 -->
-    <context:component-scan base-package="com.dev.**"></context:component-scan>
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-    <context:property-placeholder location="classpath:jdbc.properties"  ignore-unresolvable="true"/>
+    <context:component-scan base-package="com.dev.core.**"/>
 
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-          destroy-method="close">
-        <property name="driverClass" value="${jdbc.driver}" />
-        <property name="jdbcUrl" value="${jdbc.url}" />
-        <property name="user" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
-        <property name="initialPoolSize" value="${connection_pools.initial_pool_size}" />
-        <property name="minPoolSize" value="${connection_pools.min_pool_size}" />
-        <property name="maxPoolSize" value="${connection_pools.max_pool_size}" />
-        <property name="maxIdleTime" value="${connection_pools.max_idle_time}" />
-        <property name="acquireIncrement" value="${connection_pools.acquire_increment}" />
-        <property name="checkoutTimeout" value="${connection_pools.checkout_timeout}" />
-    </bean>
+    <context:property-placeholder location="classpath*:jdbc.properties"/>
 
-    <bean id="entityManagerFactory"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.dev.core.model" />
-        <property name="persistenceProvider">
-            <bean class="org.hibernate.jpa.HibernatePersistenceProvider" />
-        </property>
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="generateDdl" value="false" />
-            </bean>
-        </property>
-
+    <!-- 定义数据源,使用的是dbcp连接池 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
 
-    <!-- 开启事物注解 -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
+    <!-- 配置SessionFactory -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 
-    <!-- 配置Spring的SessionFactory -->
-    <bean id="sessionFactory"     class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
-        <property name="annotatedClasses">
-            <list>
-                <value>com.dev.core.model.User</value>
-            </list>
-        </property>
+        <!-- 依赖数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- Hibernate框架相关配置 -->
         <property name="hibernateProperties">
-            <value>
-                hibernate.dialect=org.hibernate.dialect.MySQLDialect
-                <!-- hibernate.dialect=org.hibernate.dialect.SQLServerDialect -->
-                hibernate.show_sql=true
-            </value>
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.formate_sql">true</prop>
+            </props>
         </property>
+
     </bean>
 
-    <!--待解决的JPA问题-->
-    <jpa:repositories base-package="com.dev.core.dao"
-                      entity-manager-factory-ref="entityManagerFactory"
-                      transaction-manager-ref="transactionManager"/>
-     <!--配置 Annotation 驱动，定义事务 -->
-    <tx:annotation-driven transaction-manager="transactionManager"
-                          proxy-target-class="false" />
+    <!-- 开启注解扫描 -->
+    <context:component-scan base-package="com.dev.core.model"/>
 
+    <!-- 声明式事务管理,采用AOP形式切入 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager" >
+    <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
 </beans>

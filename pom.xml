@@ -49,10 +49,7 @@
         </dependency>
         <!--spring-data-jpa start-->
 
-    <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-jpa</artifactId>
-    </dependency>
+
 
         <!-- hibernate 框架 -->
         <dependency>
@@ -60,11 +57,7 @@
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-           <version>${hibernate.version}</version>
-        </dependency>
+
 
         <!--实体类get/set注解-->
         <dependency>
@@ -75,11 +68,7 @@
         </dependency>
         <!--spring-data-jpa end-->
         <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
-        <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.5.4</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.apache.struts</groupId>
@@ -156,6 +145,12 @@
             <version>8.0.13</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
 
     </dependencies>
 

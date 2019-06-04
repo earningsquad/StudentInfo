@@ -1,16 +1,13 @@
 package com.dev.core.service;
 
 import com.dev.core.dao.IBaseDao;
-import com.dev.core.dao.UserDao;
 import com.dev.core.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class UserService {
