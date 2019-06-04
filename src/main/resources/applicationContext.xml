@@ -63,6 +63,22 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
+    <!-- 配置Spring的SessionFactory -->
+    <bean id="sessionFactory"     class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.dev.core.model.User</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+                <!-- hibernate.dialect=org.hibernate.dialect.SQLServerDialect -->
+                hibernate.show_sql=true
+            </value>
+        </property>
+    </bean>
 
 
     <!-- 配置 Annotation 驱动，定义事务 -->

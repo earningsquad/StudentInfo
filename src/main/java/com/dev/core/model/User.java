@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 //用户表
 @Entity
-@Table(name = "USER")
+@Table(name = "USER", catalog ="studentinfo" )
 public class User implements Serializable {
 
     @Id
