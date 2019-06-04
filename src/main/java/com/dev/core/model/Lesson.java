@@ -3,6 +3,7 @@ package com.dev.core.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 //课程表
 @Entity
@@ -23,6 +24,11 @@ public class Lesson {
     @OneToOne
     private TeacherInfo teacherInfo;
 
+    @ManyToMany(targetEntity = StudentInfo.class,fetch=FetchType.EAGER)
+    @JoinTable(name = "STU_LESSON",joinColumns = @JoinColumn(name="LESSON_ID"),inverseJoinColumns =@JoinColumn(name="STUDENT_ID"))
+    private List<StudentInfo> students;
+
+
     //课程详情
     @Column(name = "DETAIL")
     private String detail;
@@ -36,8 +42,8 @@ public class Lesson {
     private String arrange;
 
     //变动信息
-    @Column(name = "CHANGE")
-    private String change;
+    @Column(name = "LE_CHANGE")
+    private String leChange;
 
     //课程容量
     @Column(name = "TOTAL")

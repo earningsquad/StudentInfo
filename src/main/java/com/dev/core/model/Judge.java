@@ -16,12 +16,12 @@ public class Judge {
 
     //评价人ID
     @OneToOne
-    @JoinColumn(name = "judger")
+    @JoinColumn(name = "JUDGER")
     private User judger;
 
     //被评价人ID
     @OneToOne
-    @JoinColumn(name = "beJudeged")
+    @JoinColumn(name = "BEJUDEGED")
     private User beJudeged;
 
     //评教类型

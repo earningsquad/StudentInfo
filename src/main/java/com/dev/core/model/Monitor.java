@@ -21,7 +21,7 @@ public class Monitor {
     private Lesson lesson;
     //教师ID
     @OneToOne
-    @JoinColumn(name="TEA_ID")
+    @JoinColumn(name="TEACHER_ID")
     private TeacherInfo teacherInfo;
 
     //时间

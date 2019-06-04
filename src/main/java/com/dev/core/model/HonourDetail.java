@@ -13,10 +13,12 @@ public class HonourDetail {
 
     //荣耀ID
     @OneToOne
-    @JoinColumn(name = "honour_id")
+    @JoinColumn(name = "HONOUR_ID")
     private Honour honour;
 
     //学生ID
+    @OneToOne
+    @JoinColumn(name = "STUDENT_ID")
     private StudentInfo studentInfo;
 
     //审核状态

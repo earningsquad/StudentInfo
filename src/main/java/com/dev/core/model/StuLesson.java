@@ -29,8 +29,8 @@ public class StuLesson {
     private int score;
 
     //复核
-    @Column(name = "CHECK")
-    private int check;
+    @Column(name = "LE_CHECK")
+    private int leCheck;
 
     //补考状态
     @Column(name = "SUPPLEMENTARY")
