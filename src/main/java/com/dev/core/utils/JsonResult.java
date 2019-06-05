@@ -12,6 +12,11 @@ public class JsonResult {
     @Getter@Setter
     private Object bean;
 
+    public JsonResult() {
+        this.isSuccess = true;
+        this.message = "成功";
+    }
+
     //成功
     public static JsonResult successX(Object object){
         JsonResult jsonResult =new JsonResult();

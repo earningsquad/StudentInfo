@@ -24,12 +24,22 @@ public class CommentService {
     }
 
     //删除留言
-    public void deleteComment(Comment comment){
+    public boolean deleteComment(Comment comment){
+        if(findById(comment.getId())){
+            return false;
+        }
+
         if(comment.getParentId() == 0){
             String hql = "delete Comment where pid = " + comment.getId();
             dao.executeHql(hql);
         }
         dao.delete(comment);
+        return true;
+    }
+
+    public boolean findById(int id){
+        String hql = "from Comment where id" + id;
+        return dao.find(hql).size() == 0;
     }
 
     //查看自己的留言
@@ -37,7 +47,7 @@ public class CommentService {
     public List<Comment> findSelfComment(Comment comment){
         Map<String, Object> param = new HashMap();
         StringBuffer hql = new StringBuffer();
-        hql.append("From Comment where userId = :userId");
+        hql.append("From Comment where user.id = :userId");
         param.put("userId",comment.getUser().getId());
         if(comment.getStartTime() != null){
             hql.append(" and createTime >= :startTime ");
@@ -71,13 +81,13 @@ public class CommentService {
         List<Comment> commentList = dao.find(hql.toString(),param,comment.getPage(),comment.getLimit());
         Map<Comment,List<Comment>> result = new HashMap<>();
         for(Comment mes: commentList){
-            List<Comment> respComment = findById(mes.getId());
+            List<Comment> respComment = findAnswer(mes.getId());
             result.put(mes,respComment);
         }
         return result;
     }
 
-    public List<Comment> findById(int id){
+    public List<Comment> findAnswer(int id){
         String hql = "from Comment where pid = " + id;
         return dao.find(hql);
     }
