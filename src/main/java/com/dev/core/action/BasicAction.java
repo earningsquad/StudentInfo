@@ -5,12 +5,14 @@ import com.dev.core.utils.JsonResult;
 import com.opensymphony.xwork2.ActionSupport;
 import lombok.Getter;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class BasicAction extends ActionSupport {
     @Getter
+    @Autowired
     protected JsonResult result;
    // protected Logger logger = Logger.getLogger(BasicAction.class);
 

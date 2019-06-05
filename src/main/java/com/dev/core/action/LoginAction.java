@@ -1,5 +1,6 @@
 package com.dev.core.action;
 
+import com.dev.core.anno.LoginRequired;
 import com.dev.core.service.UserService;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,14 @@ public class LoginAction extends BasicAction{
 
 
 
+    @Action(value = "test",results = {
+            @Result(name = SUCCESS,type = "json"),
+            @Result(name = ERROR,type = "json")
+    })
+    @LoginRequired
+    public String test(){
+        result.success("test");
+        return SUCCESS;
+    }
 
 }
