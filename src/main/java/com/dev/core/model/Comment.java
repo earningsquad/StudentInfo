@@ -1,14 +1,16 @@
 package com.dev.core.model;
 
+import com.dev.core.pageModel.basicPage;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 //留言表
 @Entity
 @Table(name = "COMMENT")
 @Data
-public class Comment {
+public class Comment extends basicPage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +26,15 @@ public class Comment {
     private String detail;
 
     //父留言ID
-    @JoinColumn(name = "PID")
-    @OneToOne
-    private Comment parentCommit;
+    @Column(name = "PID")
+    private int parentId;
 
     //留言类型
     @Column(name = "TYPE")
     private int type;
 
+    //留言时间
+    @Column(name = "CREATE_TIME")
+    private Date createTime;
 
 }
