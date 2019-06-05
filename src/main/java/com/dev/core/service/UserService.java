@@ -25,7 +25,7 @@ public class UserService {
         Map params=new HashMap();
         params.put("userName",userName);
         params.put("password",passwd);
-        Object object=dao.find("from User  u where userName=? and password=?",params);
+        Object object=dao.find("from User  u where userName=:userName and password=:password",params);
         if (object!=null)
             return true;
         return false;

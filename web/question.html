@@ -3,7 +3,7 @@
 <head lang="en">
 <meta charset="UTF-8">
 <title>评价教师</title>
-<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+  <link rel="stylesheet" href="anq/css/bootstrap.css">
 <link href="anq/css/index.css" rel="stylesheet" type="text/css"/>
 <script src="anq/js/jquery-1.9.1.min.js"></script>
 <script src="anq/js/bootstrap.js"></script>
@@ -205,6 +205,7 @@ $(function(){
     })
 })
 </script>
+
 </head>
 <body>
 
@@ -216,7 +217,7 @@ $(function(){
 
       </div>
      
-      <div style="width: 100%;height:auto;display: inline-block;border: 1px solid white;position: relative;margin-top:10px;">
+      <div style="width: 100%;height:auto;display: inline-block;border: 0px solid white;position: relative;margin-top:10px;">
         <div style="width: 100%;">
           <div style="width: 80%;margin: 0px auto">
             <div style="width: 100%;height:100px;border: 1px solid #CCC;border-bottom:none;background:#FFF;">
@@ -289,13 +290,29 @@ $(function(){
         </div>
       </div>
     </div>
-    <div style="width: 100%;height: auto;display: inline-block;border: 1px solid white;">
+    <div style="width: 100%;height: auto;display: inline-block;border: 0px solid white;">
      <input type="hidden" name="rid" value="<%=>">
-      <div class="text-center" style="width: 100%;"> 底部 </div>
+
     </div>
   </div>
 </div>
 <div class="col-md-1"></div>
 </div>
+<script>
+  var mall = {
+   userName:"xiaoming",
+    password:"123456"
+  };
+  $.ajax({
+    type: "post",
+    url: "http://localhost:8080/login",
+    dataType: "json",
+    contentType:"application/json",
+    data: JSON.stringify(mall) ,
+  });
+
+
+
+</script>
 </body>
 </html>

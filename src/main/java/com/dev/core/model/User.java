@@ -1,5 +1,7 @@
 package com.dev.core.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import javax.persistence.*;
 
 //用户表
@@ -17,7 +19,9 @@ public class User {
 
     //密码
     @Column(name = "PASSWORD")
-    private String password;
+
+    @JSONField(serialize = false)
+    private  String password;
 
     //角色
     @Column(name = "ROLE")

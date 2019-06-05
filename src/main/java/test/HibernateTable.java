@@ -1,5 +1,6 @@
 package test;
 
+import com.alibaba.fastjson.JSON;
 import com.dev.core.dao.IBaseDao;
 import com.dev.core.model.User;
 import org.hibernate.boot.Metadata;
@@ -36,5 +37,13 @@ public class HibernateTable {
         List<User> us = baseDao.find(hql);
         System.out.println(us.get(0).getPassword());
     }
+    @Test
+   public void test1(){
+        User u=new User();
+        u.setUserName("xiaoming");
+        u.setPassword("123456");
+        System.out.println( JSON.toJSONString(u));
 
+
+   }
 }
