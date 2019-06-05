@@ -17,11 +17,6 @@ public class UserService {
    IBaseDao<User> dao;
 
     public Boolean login(String userName,String passwd){
-        //User user=new User();
-        //user.setUserName(userName);
-       // user.setPassword(passwd);
-       // Example<User> example1=Example.of(user);
-        //Optional<User> opt=dao.findOne(example1);
         Map params=new HashMap();
         params.put("userName",userName);
         params.put("password",passwd);

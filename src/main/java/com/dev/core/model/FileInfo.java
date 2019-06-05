@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "FILE")
 @Data
-public class File {
+public class FileInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
