@@ -1,6 +1,8 @@
 package com.dev.core.action;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dev.core.anno.LoginRequired;
+import com.dev.core.anno.RoleRequired;
 import com.dev.core.model.Lesson;
 import com.dev.core.model.LessonFormat;
 import com.dev.core.service.LessonService;
@@ -33,6 +35,8 @@ public class LessonAction extends BasicAction{
             @Result(name = SUCCESS , type = "json"),
             @Result(name = ERROR , type = "json")
     })
+    @LoginRequired
+    @RoleRequired(value = "teacher")
     public String postLesson(){
         Lesson lesson = null;
         try {
@@ -50,9 +54,42 @@ public class LessonAction extends BasicAction{
             @Result(name = SUCCESS , type = "json"),
             @Result(name = ERROR , type = "json")
     })
+    @LoginRequired
     public String findLesson(){
         List<LessonFormat> lessonFormatList = lessonService.findLesson();
         result.success(lessonFormatList,lessonFormatList.size());
+        return SUCCESS;
+    }
+
+    @Action(value = "deleteLesson" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    @LoginRequired
+    public String deleteLesson(){
+        Lesson lesson = null;
+        try {
+            lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        lessonService.deleteLesson(lesson);
+        return SUCCESS;
+    }
+
+    @Action(value = "updateLesson" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    @LoginRequired
+    public String updateLesson(){
+        Lesson lesson = null;
+        try {
+            lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        lessonService.updateLesson(lesson);
         return SUCCESS;
     }
 
