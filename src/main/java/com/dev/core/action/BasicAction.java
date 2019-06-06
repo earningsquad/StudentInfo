@@ -2,6 +2,7 @@ package com.dev.core.action;
 
 import com.dev.core.model.User;
 import com.dev.core.utils.JsonResult;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class BasicAction extends ActionSupport {
      * @return
      */
     protected User getUser(HttpServletRequest request) {
+
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return null;
