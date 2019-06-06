@@ -2,8 +2,10 @@ package com.dev.core.action;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dev.core.model.Lesson;
+import com.dev.core.model.LessonFormat;
 import com.dev.core.service.LessonService;
 import com.dev.core.utils.JsonResult;
+import com.dev.core.utils.ResponseResult;
 import lombok.Getter;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @Scope("prototype")
@@ -23,7 +26,7 @@ public class LessonAction extends BasicAction{
     LessonService lessonService;
 
     @Getter
-    JsonResult result;
+    ResponseResult result = new ResponseResult();
 
     //添加课程
     @Action(value = "addLesson" , results = {
@@ -38,7 +41,7 @@ public class LessonAction extends BasicAction{
             e.printStackTrace();
         }
         lessonService.addLesson(lesson);
-        result = result.successX();
+        result.success();
         return SUCCESS;
     }
 
@@ -48,7 +51,8 @@ public class LessonAction extends BasicAction{
             @Result(name = ERROR , type = "json")
     })
     public String findLesson(){
-        result = result.successX(lessonService.findLesson());
+        List<LessonFormat> lessonFormatList = lessonService.findLesson();
+        result.success(lessonFormatList,lessonFormatList.size());
         return SUCCESS;
     }
 

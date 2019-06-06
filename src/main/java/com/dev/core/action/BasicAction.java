@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class BasicAction extends ActionSupport {
-    @Getter
-    protected JsonResult result;
+
    // protected Logger logger = Logger.getLogger(BasicAction.class);
 
     /**
