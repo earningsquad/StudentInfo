@@ -6,19 +6,20 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @Scope("prototype")
-@Namespace("/")
-@ResultPath("/errorPermissionJSON")
+@Namespace("/errorPermissionJSON")
+@ResultPath("/")
 @ParentPackage("json-default")
 public class ErrorAction extends BasicAction{
+
     @Action(value = "noLogin",results = {
-            @Result(name = SUCCESS,type = "json")
+            @Result(name = SUCCESS,type = "json" ,params={"root", "result", "ignoreHierarchy", "false"})
     })
     public String noLogin(){
         result.fail("没有登录");
         return SUCCESS;
     }
     @Action(value = "noPermission",results = {
-            @Result(name = SUCCESS,type = "json")
+            @Result(name = SUCCESS,type = "json", params={"root", "result", "ignoreHierarchy", "false"})
     })
     public String noPermission(){
         result.fail("没有权限");

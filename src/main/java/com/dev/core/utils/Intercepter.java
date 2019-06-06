@@ -11,6 +11,7 @@ import org.apache.struts2.ServletActionContext;
 import java.lang.reflect.Method;
 
 public class Intercepter implements Interceptor {
+
     @Override
     public void destroy() {
 
@@ -23,14 +24,20 @@ public class Intercepter implements Interceptor {
 
     @Override
     public String intercept(ActionInvocation actionInvocation) throws Exception {
+        //System.out.println("拦截器");
+
         String methodName=actionInvocation.getProxy().getMethod();
         Method currentMethod=actionInvocation.getAction()
                 .getClass().getMethod(methodName, null);
+      //  Annotation[][] annotations=currentMethod.getParameterAnnotations();
+
 
 
         if (currentMethod.isAnnotationPresent(LoginRequired.class)){
             User user= (User) ServletActionContext
                     .getRequest().getSession().getAttribute("user");
+
+
             if (user!=null){
                 if (currentMethod.isAnnotationPresent(RoleRequired.class)){
                   RoleRequired roleRequired=currentMethod.getAnnotation(RoleRequired.class);
@@ -45,7 +52,6 @@ public class Intercepter implements Interceptor {
                 return "noLogin";
             }
         }
-
-        return null;
+        else return actionInvocation.invoke();
     }
 }

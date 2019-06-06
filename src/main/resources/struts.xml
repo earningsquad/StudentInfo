@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd" >
 <struts>
-    <package name="test" extends="struts-default" namespace="/">
+    <package name="root" extends="json-default" namespace="/">
+
+
         <interceptors>
             <!-- 注册拦截器 -->
-            <interceptor name="loginInterceptor" class="com.dev.core.utils.Intercepter"></interceptor>
+            <interceptor name="loginInterceptor" class="checkLogin"></interceptor>
             <!-- 配置拦截器栈 -->
             <interceptor-stack name="myStack">
+
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+
                 <interceptor-ref name="loginInterceptor">
                     <!-- 指定不拦截登陆(login)方法 -->
                     <param name="excludeMethods">login</param>
                 </interceptor-ref>
-                <interceptor-ref name="defaultStack"></interceptor-ref>
             </interceptor-stack>
         </interceptors>
+
         <!-- 指定默认拦截器栈 -->
         <default-interceptor-ref name="myStack"></default-interceptor-ref>
 
         <!-- 配置全局结果集 -->
         <global-results>
             <result name="noPermission" type="redirect">
-                /errorPermissionJSON/noPermissionJSON
+                /errorPermissionJSON/noPermission
             </result>
             <result name="noLogin" type="redirect">
-                /errorPermissionJSON/noLoginJSON
+                /errorPermissionJSON/noLogin
             </result>
+            <result name="json" type="json">
+                <param name="excludeNullProperties" >true</param>
+                <param name="ignoreHierarchy" >false</param>
+                <param name="root" >result</param>
+            </result>
+
+
         </global-results>
 
     </package>
