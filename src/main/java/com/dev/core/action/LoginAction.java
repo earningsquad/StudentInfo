@@ -3,6 +3,9 @@ package com.dev.core.action;
 import com.alibaba.fastjson.JSON;
 import com.dev.core.model.User;
 import com.dev.core.service.UserService;
+import com.dev.core.utils.JsonResult;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,7 +22,9 @@ import java.io.IOException;
 public class LoginAction extends BasicAction{
     @Autowired
     UserService service;
-
+    @Autowired
+    @Getter @Setter
+    protected JsonResult result;
 
 
     @Action(value = "login",results = {
