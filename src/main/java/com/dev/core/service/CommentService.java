@@ -2,9 +2,12 @@ package com.dev.core.service;
 
 import com.dev.core.dao.IBaseDao;
 import com.dev.core.model.Comment;
+import com.dev.core.pageModel.CommentBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional(propagation=Propagation.REQUIRED,rollbackForClassName="Exception")
 public class CommentService {
 
     @Autowired
@@ -62,7 +66,7 @@ public class CommentService {
 
     //查看所有人的留言
     //动态HQL 根据条件查询
-    public Map<Comment,List<Comment>> findComment(Comment comment){
+    public List<CommentBlock> findComment(Comment comment){
         Map<String, Object> param = new HashMap();
         StringBuffer hql = new StringBuffer();
         hql.append("From Comment where parentId = 0");
@@ -78,22 +82,41 @@ public class CommentService {
             hql.append(" and createTime <= :endTime ");
             param.put("endTime",comment.getEndTime());
         }
+        hql.append(" order by createTime desc ");
+        List<CommentBlock> resultList = new ArrayList<>();
         List<Comment> commentList = dao.find(hql.toString(),param,comment.getPage(),comment.getLimit());
-        Map<Comment,List<Comment>> result = new HashMap<>();
         for(Comment mes: commentList){
             List<Comment> respComment = findAnswer(mes.getId());
-            result.put(mes,respComment);
+            CommentBlock commentBlock = new CommentBlock(mes,respComment);
+            resultList.add(commentBlock);
         }
-        return result;
+        return resultList;
     }
 
+    //查询每个留言下的回复
     public List<Comment> findAnswer(int id){
         String hql = "from Comment where pid = " + id;
         return dao.find(hql);
     }
 
+    //回复留言
     public void answerComment(Comment comment){
         dao.save(comment);
+    }
+
+    //查询公告
+    public List<Comment> findNotice(){
+        return dao.find("from Comment where type = 1");
+    }
+
+    //添加公告
+    public void addNotice(Comment comment){
+        dao.save(comment);
+    }
+
+    //添加公告
+    public void deleteNotice(Comment comment){
+        dao.delete(comment);
     }
 
 }

@@ -166,60 +166,34 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="home" role="tabpanel">
                                     <div class="card-block">
+                                        <div class="profiletimeline" id = "commentShow">
+                                            <hr>
+                                        </div>
                                         <div class="profiletimeline">
                                             <div class="sl-item">
-                                                <div class="sl-left"> <img src="../assets/images/users/1.jpg" alt="user" class="img-circle"> </div>
-                                                <div class="sl-right">
-                                                    <div><a href="#" class="link">小明</a> <span class="sl-date">5 分钟 前</span>
-                                                        <p>安排了新任务 <a href="#">设计布局</a></p>
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img1.jpg" alt="user" class="img-responsive radius"></div>
-                                                            <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img2.jpg" alt="user" class="img-responsive radius"></div>
-                                                            <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img3.jpg" alt="user" class="img-responsive radius"></div>
-                                                            <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img4.jpg" alt="user" class="img-responsive radius"></div>
-                                                        </div>
-                                                        <div class="like-comm"> <a href="javascript:void(0)" class="link m-r-10">回复</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
-                                                    </div>
-                                                    <blockquote class="m-t-8">
-                                                            <div class="sl-item-child" >
-                                                                    <div class="sl-left"> <img src="../assets/images/users/3.jpg" alt="user" class="img-circle"> </div>
-                                                                    <div class="sl-right">
-                                                                        <div><a href="#" class="link">乔治</a> <span class="sl-date">5 分钟前</span>
-                                                                            <p class="m-t-10">真好</p>
-                                                                        </div>
-                                                                        <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">回复</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
-                                                                    </div>
-                                                                </div>    
-                                                    </blockquote>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="sl-item">
-                                                <div class="sl-left"> <img src="../assets/images/users/2.jpg" alt="user" class="img-circle"> </div>
+                                                <div class="sl-left"> <img src="../assets/images/users/2.jpg" alt="user" class="img-circle" width="40px"> </div>
                                                 <div class="sl-right">
                                                     <div> <a href="#" class="link">我</a> <span class="sl-date">5 minutes ago</span>
                                                         <div class="m-t-20 row">
                                                             <div class="col-md-3 col-xs-12"><img src="../assets/images/big/img1.jpg" alt="user" class="img-responsive radius"></div>
                                                             <div class="col-md-9 col-xs-12">
-                                                                    <form class="form-horizontal form-material">
+                                                                <form class="form-horizontal form-material">
 
-                                                                            <div class="form-group">
-                                                                                    <label class="col-md-12">留言</label>
-                                                                                    <div class="col-md-12">
-                                                                                        <textarea rows="5" class="form-control form-control-line"></textarea>
-                                                                                    </div>
-                                                                                </div>
-                                                                    </form>
-                                                                    <a href="javascript:;" class="btn btn-warning upload">上传文件
-                                                                            <input class="change" type="file" multiple="multiple" />
-                                                                        </a>
-                                                                <a href="#" class="btn btn-success">留言</a></div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-12">留言</label>
+                                                                        <div class="col-md-12">
+                                                                            <textarea rows="5" id = "commentDetail" class="form-control form-control-line"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <a href="javascript:;" class="btn btn-warning upload">上传文件
+                                                                    <input class="change" type="file" multiple="multiple" />
+                                                                </a>
+                                                                <a href="javascript:void(0);" class="btn btn-success" id = "postComment">留言</a></div>
                                                         </div>
-                                                     </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <hr>
-                                 
                                         </div>
                                     </div>
                                 </div>
@@ -296,6 +270,86 @@
 }
 
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url : "http://localhost:8080/findComment",
+                dataType : "json",//数据格式 
+                type : "post",//请求方式
+                contentType: "application/json",
+                data:JSON.stringify({
+                    "id":"1",
+                    "user":{
+                        "id":"1"
+                    },
+                    "detail":"hello",
+                    "parentId":"0",
+                    "type":"0",
+                    "createTime":"2015-01-01 12:00:00"
+                }),
+                success : function(data) {   //如果请求成功，返回数据。
+                    var str = "";
+                    for(var i = 0; i < data.result.bean.length;i++){
+                        str +='<div class="sl-item">\n' +
+                            '<div class="sl-left"> <img src="../assets/images/users/1.jpg" alt="user" class="img-circle"> </div>\n' +
+                            '<div class="sl-right"><div><a href="#" class="link">'+data.result.bean[i].comment.user.userName+
+                            '</a><span class="sl-date">'+data.result.bean[i].comment.createTime+'</span><p>'+data.result.bean[i].comment.detail+
+                            '</p><div class="row">\n' +
+                            '                        <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img1.jpg" alt="user" class="img-responsive radius"></div>\n' +
+                            '                        <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img2.jpg" alt="user" class="img-responsive radius"></div>\n' +
+                            '                        <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img3.jpg" alt="user" class="img-responsive radius"></div>\n' +
+                            '                        <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img4.jpg" alt="user" class="img-responsive radius"></div>\n' +
+                            '                        </div>\n' +
+                            '                        <div class="like-comm"> <a href="javascript:void(0)" class="link m-r-10">回复</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>\n' +
+                            '                    </div>';
+                        for(var j = 0;j < data.result.bean[i].answerComment.length;j++){
+                            str += '<blockquote class="m-t-8">\n' +
+                                '                        <div class="sl-item-child" >\n' +
+                                '                        <div class="sl-left"> <img src="../assets/images/users/3.jpg" alt="user" class="img-circle"> </div>\n' +
+                                '                        <div class="sl-right">\n' +
+                                '                        <div><a href="#" class="link">'+ data.result.bean[i].answerComment[j].user.userName+'</a> <span class="sl-date">'+data.result.bean[i].answerComment[j].createTime+'</span>\n' +
+                                '                    <p class="m-t-10">'+ data.result.bean[i].answerComment[j].detail +'</p>\n' +
+                                '                        </div>\n' +
+                                '                        <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">回复</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>\n' +
+                                '                    </div>\n' +
+                                '                    </div>\n' +
+                                '                    </blockquote>'
+                        }
+                        str +='</div>\n' +
+                            '                    </div>'
+                    }
+
+                    $('#commentShow').html(str);
+                }
+            })
+        })
+
+        $("#postComment").click(function () {
+            var content = $("#commentDetail").val();
+            var mydate = new Date();
+            $.ajax({
+                url : "http://localhost:8080/postComment",
+                dataType : "json",//数据格式 
+                type : "post",//请求方式
+                contentType: "application/json",
+                data:JSON.stringify({
+                    "user":{
+                        "id":"1"
+                    },
+                    "detail":content,
+                    "parentId":"0",
+                    "type":"0",
+                }),
+                success : function(data) {   //如果请求成功，返回数据。
+                    alert(data.result.message)
+                    window.location.reload()
+                }
+            })
+        })
+
+    </script>
+
 </body>
 
 </html>

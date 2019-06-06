@@ -4,7 +4,9 @@ import com.dev.core.pageModel.basicPage;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 //留言表
 @Entity

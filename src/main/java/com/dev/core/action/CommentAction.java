@@ -3,6 +3,7 @@ package com.dev.core.action;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dev.core.model.Comment;
+import com.dev.core.pageModel.CommentBlock;
 import com.dev.core.service.CommentService;
 import com.dev.core.utils.JsonResult;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +44,10 @@ public class CommentAction extends BasicAction{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Date date = new Date();
+        comment.setCreateTime(date);
         commentService.postComment(comment);
+        result = result.successX();
         return SUCCESS;
     }
 
@@ -92,8 +97,8 @@ public class CommentAction extends BasicAction{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Map<Comment,List<Comment>> comments= commentService.findComment(comment);
-        result = JsonResult.successX(comments);
+        List<CommentBlock> commentList= commentService.findComment(comment);
+        result = JsonResult.successX(commentList);
         return SUCCESS;
     }
 
@@ -110,6 +115,50 @@ public class CommentAction extends BasicAction{
             e.printStackTrace();
         }
         commentService.answerComment(comment);
+        return SUCCESS;
+    }
+
+    //查询公告
+    @Action(value = "findNotice" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    public String findNotice(){
+        result = JsonResult.successX(commentService.findNotice());
+        return SUCCESS;
+    }
+
+    //添加公告
+    @Action(value = "addNotice" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    public String addNotice(){
+        Comment comment = null;
+        try {
+            comment = JSONObject.parseObject(getRequestPostData(),Comment.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        commentService.addNotice(comment);
+        result = JsonResult.successX();
+        return SUCCESS;
+    }
+
+    //删除公告
+    @Action(value = "deleteNotice" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    public String deleteNotice(){
+        Comment comment = null;
+        try {
+            comment = JSONObject.parseObject(getRequestPostData(),Comment.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        commentService.deleteNotice(comment);
+        result = JsonResult.successX();
         return SUCCESS;
     }
 
