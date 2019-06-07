@@ -1,11 +1,11 @@
 package com.dev.core.action;
 
+
 import com.alibaba.fastjson.JSONObject;
 import com.dev.core.anno.LoginRequired;
 import com.dev.core.anno.RoleRequired;
-import com.dev.core.model.Lesson;
-import com.dev.core.model.LessonFormat;
-import com.dev.core.service.LessonService;
+import com.dev.core.model.StuLesson;
+import com.dev.core.service.StuLessonService;
 import com.dev.core.utils.ResponseResult;
 import lombok.Getter;
 import org.apache.struts2.convention.annotation.*;
@@ -21,75 +21,67 @@ import java.util.List;
 @Namespace("/")
 @ResultPath("/")
 @ParentPackage("json-default")
-public class LessonAction extends BasicAction{
-
+public class StuLessonAction extends BasicAction{
     @Autowired
-    LessonService lessonService;
+    StuLessonService stuLessonService;
 
     @Getter
     ResponseResult result = new ResponseResult();
 
-    //添加课程
-    @Action(value = "addLesson" , results = {
+    //选课
+    @Action(value = "selectLesson" , results = {
             @Result(name = SUCCESS , type = "json"),
             @Result(name = ERROR , type = "json")
     })
     @LoginRequired
-    @RoleRequired(value = "teacher")
-    public String postLesson(){
-        Lesson lesson = null;
+    public String selectLesson(){
+        StuLesson stuLesson = null;
         try {
-            lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
+            stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        lessonService.addLesson(lesson);
+        stuLessonService.selectLesson(stuLesson);
         result.success();
         return SUCCESS;
     }
 
-    //查询课程
-    @Action(value = "findLesson" , results = {
-            @Result(name = SUCCESS , type = "json"),
-            @Result(name = ERROR , type = "json")
-    })
-    @LoginRequired
-    public String findLesson(){
-        List<LessonFormat> lessonFormatList = lessonService.findLesson();
-        result.success(lessonFormatList,lessonFormatList.size());
-        return SUCCESS;
-    }
 
-    @Action(value = "deleteLesson" , results = {
+    //退课
+    @Action(value = "retireLesson" , results = {
             @Result(name = SUCCESS , type = "json"),
             @Result(name = ERROR , type = "json")
     })
     @LoginRequired
-    public String deleteLesson(){
-        Lesson lesson = null;
+    public String retireLesson(){
+        StuLesson stuLesson = null;
         try {
-            lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
+            stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        lessonService.deleteLesson(lesson);
+        stuLessonService.retireLesson(stuLesson);
+        result.success();
         return SUCCESS;
     }
 
-    @Action(value = "updateLesson" , results = {
+    //查询已选课程
+    @Action(value = "getLesson" , results = {
             @Result(name = SUCCESS , type = "json"),
             @Result(name = ERROR , type = "json")
     })
     @LoginRequired
-    public String updateLesson(){
-        Lesson lesson = null;
+    public String getLesson(){
+        /*StuLesson stuLesson = null;
         try {
-            lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
+            stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        lessonService.updateLesson(lesson);
+        }*/
+        List<StuLesson> stuLessonList = stuLessonService.getLesson();
+        result.success(stuLessonList,stuLessonList.size());
         return SUCCESS;
     }
+
 
 }
