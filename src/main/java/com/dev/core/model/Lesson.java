@@ -25,7 +25,7 @@ public class Lesson {
     private TeacherInfo teacherInfo;
 
     @ManyToMany(targetEntity = StudentInfo.class,fetch=FetchType.EAGER)
-    @JoinTable(name = "STU_LESSON",joinColumns = @JoinColumn(name="LESSON_ID"),inverseJoinColumns =@JoinColumn(name="STUDENT_ID"))
+    @JoinTable(name = "STU_LESSON",joinColumns = @JoinColumn(name="LESSON_ID"),inverseJoinColumns =@JoinColumn(name="STU_ID"))
     private List<StudentInfo> students;
 
 
