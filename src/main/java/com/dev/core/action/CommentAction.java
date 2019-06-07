@@ -114,6 +114,8 @@ public class CommentAction extends BasicAction{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Date date = new Date();
+        comment.setCreateTime(date);
         commentService.answerComment(comment);
         return SUCCESS;
     }

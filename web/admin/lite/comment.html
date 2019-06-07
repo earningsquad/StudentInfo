@@ -273,7 +273,7 @@
     </style>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function getComment() {
             $.ajax({
                 url : "http://localhost:8080/findComment",
                 dataType : "json",//数据格式 
@@ -295,33 +295,80 @@
                         str +='<div class="sl-item">\n' +
                             '<div class="sl-left"> <img src="../assets/images/users/1.jpg" alt="user" class="img-circle"> </div>\n' +
                             '<div class="sl-right"><div><a href="#" class="link">'+data.result.bean[i].comment.user.userName+
-                            '</a><span class="sl-date">'+data.result.bean[i].comment.createTime+'</span><p>'+data.result.bean[i].comment.detail+
+                            '</a><input id = "pid'+i+'" type="hidden"  value="'+data.result.bean[i].comment.id+'"><span class="sl-date">'+data.result.bean[i].comment.createTime+'</span><p>'+data.result.bean[i].comment.detail+
                             '</p><div class="row">\n' +
                             '                        <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img1.jpg" alt="user" class="img-responsive radius"></div>\n' +
                             '                        <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img2.jpg" alt="user" class="img-responsive radius"></div>\n' +
                             '                        <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img3.jpg" alt="user" class="img-responsive radius"></div>\n' +
                             '                        <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img4.jpg" alt="user" class="img-responsive radius"></div>\n' +
                             '                        </div>\n' +
-                            '                        <div class="like-comm"> <a href="javascript:void(0)" class="link m-r-10">回复</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>\n' +
-                            '                    </div>';
+                            '                        <div class="like-comm"> <a id="r'+i+'" href="javascript:void(0)"  class="link m-r-10 reply" style="color: rgb(14, 186, 238);">回复</a>\n' +
+                            '                                                    \n' +
+                            '                                                            <a id="c'+i+'" href="javascript:void(0)"  class="link m-r-10 closeReply" style="color: rgb(14, 186, 238);display: none;">收起回复</a>\n' +
+                            '                                                             <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a>  </div>\n' +
+                            '                    </div><blockquote id="r'+i+'r" class="m-t-8" style="background:rgb(247, 245, 243);display: none;" >\n' +
+                            '                                                        <input type="text"  value="" placeholder="输入回复" style="width: 100%;">\n' +
+                            '                                                       \n' +
+                            '                                                        <button style="margin: 10px;"  class="btn btn-success post-btn">发表</button>\n' +
+                            '                                                        \n' +
+                            '                                                    </blockquote>';
                         for(var j = 0;j < data.result.bean[i].answerComment.length;j++){
                             str += '<blockquote class="m-t-8">\n' +
-                                '                        <div class="sl-item-child" >\n' +
-                                '                        <div class="sl-left"> <img src="../assets/images/users/3.jpg" alt="user" class="img-circle"> </div>\n' +
-                                '                        <div class="sl-right">\n' +
-                                '                        <div><a href="#" class="link">'+ data.result.bean[i].answerComment[j].user.userName+'</a> <span class="sl-date">'+data.result.bean[i].answerComment[j].createTime+'</span>\n' +
-                                '                    <p class="m-t-10">'+ data.result.bean[i].answerComment[j].detail +'</p>\n' +
-                                '                        </div>\n' +
-                                '                        <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">回复</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>\n' +
-                                '                    </div>\n' +
-                                '                    </div>\n' +
-                                '                    </blockquote>'
+                                '                                                            <div class="sl-item-child" >\n' +
+                                '                                                                    <div class="sl-left"> <img src="../assets/images/users/3.jpg" alt="user" class="img-circle"> </div>\n' +
+                                '                                                                    <div class="sl-right">\n' +
+                                '                                                                        <div><a href="#" class="link">'+ data.result.bean[i].answerComment[j].user.userName+'</a> <span class="sl-date">'+data.result.bean[i].answerComment[j].createTime+'</span>\n' +
+                                '                                                                            <p class="m-t-10">'+data.result.bean[i].answerComment[j].detail+'</p>\n' +
+                                '                                                                        </div>\n' +
+                                '                                                                    </div>\n' +
+                                '                                                                </div>    \n' +
+                                '                                                    </blockquote>'
                         }
                         str +='</div>\n' +
                             '                    </div>'
                     }
 
                     $('#commentShow').html(str);
+
+                    $(".reply").click(function(){
+                        id=$(this).attr("id").substr(1,2)
+                        $(this).hide()
+                        $("#c"+id).show()
+                        $("#r"+id+"r").show(100)
+
+                    })
+                    $(".closeReply").click(function(){
+                        id=$(this).attr("id").substr(1,2)
+                        $(this).hide()
+                        $("#r"+id).show()
+
+                        $("#r"+id+"r").hide(100)
+                    })
+
+                    $(".post-btn").click(function () {
+                        var id = $(this).parent().attr('id')
+                        var nums = id.substr(1,1)
+                        var pid = $("#pid"+nums).val()
+                        var detail = $("#"+id+" input").val();
+                        $.ajax({
+                            url : "http://localhost:8080/answerComment",
+                            dataType : "json",//数据格式 
+                            type : "post",//请求方式
+                            contentType: "application/json",
+                            data:JSON.stringify({
+                                "user":{
+                                    "id":"1"
+                                },
+                                "detail":detail,
+                                "parentId":pid,
+                                "type":"0",
+                            }),
+                            success : function (data) {
+                                getComment();
+                            }
+                        })
+
+                    })
                 }
             })
             $.ajax({
@@ -364,6 +411,33 @@
                 }
             })
         })
+
+        $("#postComment").click(function () {
+            var content = $("#commentDetail").val();
+            var mydate = new Date();
+            $.ajax({
+                url : "http://localhost:8080/postComment",
+                dataType : "json",//数据格式 
+                type : "post",//请求方式
+                contentType: "application/json",
+                data:JSON.stringify({
+                    "user":{
+                        "id":"1"
+                    },
+                    "detail":content,
+                    "parentId":"0",
+                    "type":"0",
+                }),
+                success : function(data) {   //如果请求成功，返回数据。
+                    alert(data.result.message)
+                    window.location.reload()
+                }
+            })
+        })
+
+        /*$("#post-btn").click(function () {
+            alert($(this).parent().siblings('.id').text());
+        })*/
 
     </script>
 
