@@ -47,56 +47,40 @@
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
         <header class="topbar">
-            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
-                <!-- ============================================================== -->
-                <!-- Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
-                        <!-- Logo icon --><b>
-                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                            
-                            <!-- Light Logo icon -->
-                            <img src="../assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                        </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text --><span>
+                <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="index.html" style="color: white;">
+                           学生信息管理系统 </a>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <div class="navbar-collapse">
+                        <!-- ============================================================== -->
+                        <!-- toggle and nav items -->
+                        <!-- ============================================================== -->
+                        <ul class="navbar-nav mr-auto mt-md-0">
+                            <!-- This is  -->
+                            <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
                          
-                         <!-- Light Logo text -->    
-                         <img src="../assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav mr-auto mt-md-0">
-                        <!-- This is  -->
-                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
+                        </ul>
                         <!-- ============================================================== -->
-                        <!-- Search -->
+                        <!-- User profile and search -->
                         <!-- ============================================================== -->
-                        <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
-                        </li>
-                    </ul>
-                    <!-- ============================================================== -->
-                    <!-- User profile and search -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav my-lg-0">
-                        <!-- ============================================================== -->
-                        <!-- Profile -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class="profile-pic m-r-10" />Markarn Doe</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+                        <ul class="navbar-nav my-lg-0">
+                            <!-- ============================================================== -->
+                            <!-- Profile -->
+                            <!-- ============================================================== -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class="profile-pic m-r-10" />用户名</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
@@ -178,8 +162,18 @@
                                                             <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img3.jpg" alt="user" class="img-responsive radius"></div>
                                                             <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img4.jpg" alt="user" class="img-responsive radius"></div>
                                                         </div>
-                                                        <div class="like-comm"> <a href="javascript:void(0)" class="link m-r-10">回复</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
+                                                        <div class="like-comm"> 
+                                                                <a id="r1" href="javascript:void(0)"  class="link m-r-10 reply" style="color: rgb(14, 186, 238);">回复</a>
+                                                    
+                                                            <a id="c1" href="javascript:void(0)"  class="link m-r-10 closeReply" style="color: rgb(14, 186, 238);display: none;">收起回复</a>
+                                                             <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
                                                     </div>
+                                                    <blockquote id="r1r" class="m-t-8" style="background:rgb(247, 245, 243);display: none;" >
+                                                        <input type="text"  value="" placeholder="输入回复" style="width: 100%;">
+                                                       
+                                                        <button style="margin: 10px;"  class="btn btn-success">发表</button>
+                                                        
+                                                    </blockquote>
                                                     <blockquote class="m-t-8">
                                                             <div class="sl-item-child" >
                                                                     <div class="sl-left"> <img src="../assets/images/users/3.jpg" alt="user" class="img-circle"> </div>
@@ -187,9 +181,20 @@
                                                                         <div><a href="#" class="link">乔治</a> <span class="sl-date">5 分钟前</span>
                                                                             <p class="m-t-10">真好</p>
                                                                         </div>
-                                                                        <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">回复</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
+                                                                        <div class="like-comm m-t-20"> 
+                                                                                <a id="r2" href="javascript:void(0)"  class="link m-r-10 reply" style="color: rgb(14, 186, 238);">回复</a>
+                                                    
+                                                                                <a id="c2" href="javascript:void(0)"  class="link m-r-10 closeReply" style="color: rgb(14, 186, 238);display: none;">收起回复</a>
+                                                                              
+                                                                            <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
                                                                     </div>
                                                                 </div>    
+                                                                <blockquote id="r2r" class="m-t-8" style="background:rgb(247, 245, 243);display: none;" >
+                                                                        <input type="text"  value="" placeholder="输入回复" style="width: 100%;">
+                                                                       
+                                                                        <button style="margin: 10px;"  class="btn btn-success">发表</button>
+                                                                        
+                                                                    </blockquote>
                                                     </blockquote>
                                                 </div>
                                             </div>
@@ -278,6 +283,23 @@
     <script src="../assets/plugins/c3-master/c3.min.js"></script>
     <!-- Chart JS -->
     <script src="js/dashboard1.js"></script>
+    <script>
+       $(".reply").click(function(){
+        id=$(this).attr("id").substr(1,2)
+           $(this).hide()
+           $("#c"+id).show()
+           $("#r"+id+"r").show(100)
+       
+       })
+       $(".closeReply").click(function(){
+        id=$(this).attr("id").substr(1,2)
+           $(this).hide()
+           $("#r"+id).show()
+          
+           $("#r"+id+"r").hide(100)
+       })
+      
+    </script>
     <style>
     .sl-item-child{
         padding-left: 80px;
