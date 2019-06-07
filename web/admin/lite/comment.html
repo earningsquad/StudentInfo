@@ -123,10 +123,11 @@
                         <h3 class="text-themecolor">留言板</h3>
                         <div class="col-lg-12 col-md-12" >
                                 <div class="card">
-                                    <div class="card-block">
-                                        <h3 class="card-title">公告 </h3>
-                                        <h6 class="card-subtitle">内容</h6>
-                                        
+                                    <div class = "noticeList">
+                                        <div class="card-block">
+                                            <h3 class="card-title">公告 </h3>
+                                            <h6 class="card-subtitle">内容</h6>
+                                        </div>
                                     </div>
                                     <div>
                                         <hr class="m-t-0 m-b-0">
@@ -321,6 +322,22 @@
                     }
 
                     $('#commentShow').html(str);
+                }
+            })
+            $.ajax({
+                url : "http://localhost:8080/findNotice",
+                dataType : "json",//数据格式 
+                type : "post",//请求方式
+                contentType: "application/json",
+                success : function(data) {   //如果请求成功，返回数据。
+                    var str = "";
+                    for(var i = 0; i < data.result.bean.length; i++){
+                        str += '<div class="card-block">\n' +
+                            '                                            <h3 class="card-title">公告 </h3>\n' +
+                            '                                            <h6 class="card-subtitle">'+data.result.bean[i].detail+'</h6>\n' +
+                            '                                        </div>'
+                    }
+                    $('.noticeList').html(str)
                 }
             })
         })

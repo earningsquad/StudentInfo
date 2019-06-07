@@ -70,10 +70,8 @@ public class CommentService {
         Map<String, Object> param = new HashMap();
         StringBuffer hql = new StringBuffer();
         hql.append("From Comment where parentId = 0");
-        if(comment.getType() != 0){
-            hql.append(" and type = :type");
-            param.put("type",comment.getType());
-        }
+        hql.append(" and type = :type");
+        param.put("type",comment.getType());
         if(comment.getStartTime() != null){
             hql.append(" and createTime >= :startTime ");
             param.put("startTime",comment.getStartTime());

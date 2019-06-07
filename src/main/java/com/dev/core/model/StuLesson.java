@@ -8,14 +8,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "STU_LESSON")
 @Data
-public class StuLesson {
+public class  StuLesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     //学生ID
-    @JoinColumn(name = "STU_ID")
+    @JoinColumn(name = "STUDENT_ID")
     @OneToOne
     private StudentInfo studentInfo;
 
