@@ -1,6 +1,7 @@
 package com.dev.core.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -27,7 +28,7 @@ public class StudentInfo {
     private String warn;
 
     //用户ID
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "UID")
     private User user;
 

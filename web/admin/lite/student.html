@@ -23,15 +23,11 @@
     <link href="css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="css/colors/blue.css" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -154,7 +150,7 @@
                         <div class="card">
                             <div class="card-block">
                                 <h4 class="card-title">学生信息</h4>
-                                <h6 class="card-subtitle">增加<button class="btn  waves-effect btn-default" onclick="test()">添加学生</button></h6>
+                                <h6 class="card-subtitle">增加<button class="btn  waves-effect btn-default" onclick="start()">添加学生</button></h6>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -166,21 +162,8 @@
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>小明</td>
-                                                <td><h6 class="text-muted  text-warn"><i class="fa fa-circle font-10 m-r-10"></i>无警告</h6></td>
-                                                <td><button class="btn  waves-effect btn-default" onclick="test()">编辑学生</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>小明</td>
-                                                <td><h6 class="text-muted  text-success"><i class="fa fa-circle font-10 m-r-10"></i>学业预警</h6></td>
-                                            </tr>
-                                         
+                                        <tbody id="showDetail">
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -190,45 +173,47 @@
                     <div id="diy" class="col-lg-12 col-xlg-9 col-md-7" style="display: none;">
                         <div class="card">
                             <div class="card-block">
-                                <form class="form-horizontal form-material">
+                                <form class="form-horizontal form-material" id="editInf" onsubmit="false" >
                                     <div class="form-group">
                                         <label class="col-md-12">学生姓名</label>
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="输入学生姓名" class="form-control form-control-line">
+                                            <input type="text" id="name" name="name" placeholder="输入学生姓名" class="form-control form-control-line">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                             <label class="col-md-12">用户名</label>
                                             <div class="col-md-12">
-                                                <input type="text" placeholder="输入用户名" class="form-control form-control-line">
+                                                <input type="text" id="userName" name="userName" placeholder="输入用户名" class="form-control form-control-line">
                                             </div>
                                         </div>
                                     <div class="form-group">
                                         <label class="col-md-12">密码</label>
                                         <div class="col-md-12">
-                                            <input type="password" value="password" class="form-control form-control-line">
+                                            <input type="password" id="password" name="password" value="password" class="form-control form-control-line">
                                         </div>
                                     </div>
                                 
                                     <div class="form-group">
                                         <label class="col-md-12">警告</label>
                                         <div class="col-md-12">
-                                            <textarea rows="2" class="form-control form-control-line"></textarea>
+                                            <textarea name="warn" id="warn" rows="2" class="form-control form-control-line"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-12">班级</label>
                                         <div class="col-sm-12">
-                                            <select class="form-control form-control-line">
-                                                <option>一班</option>
-                                                <option>二班</option>
-                                                <option>三班</option>
+                                            <select name="classNumber" class="form-control form-control-line">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button class="btn btn-success" onclick="test2()">提交</button>
+                                            <input type="hidden" id="flag" value="0">
+                                            <input type="hidden" name="id" id="uid" value="0">
+                                            <input type="button" class="btn btn-success" value="提交" onclick="subitdata()"></input>
                                         </div>
                                     </div>
                                 </form>
@@ -259,11 +244,16 @@
     
     <!-- ============================================================== -->
     <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
+
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="../assets/plugins/jquery/jquery.min.js"></script>
+
+    <!-- ============================================================== -->
+    <script src="js/student.js"></script>
+
+
+    <!-- ============================================================== -->
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>
     <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -288,16 +278,62 @@
     <script src="../assets/plugins/c3-master/c3.min.js"></script>
     <!-- Chart JS -->
     <script src="js/dashboard1.js"></script>
-    <script>
-        function test(){
-            $("#all").hide("200")
-            $("#diy").show("200")
-        }
-        function test2(){
-            $("#diy").hide("200")
-            $("#all").show("200")
-        }
-    </script>
+<script>
+    function start(){
+        $("#all").hide("200")
+        $("#diy").show("200")
+    }
+    function close(){
+        $("#diy").hide("200")
+        $("#all").show("200")
+    }
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [ o[this.name] ];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    }
+
+
+    function subitdata() {
+        var id=$("#flag").val();
+        var uid=$("#uid").val();
+        var params = $("form").serializeObject();
+        $.ajax({
+            url : "http://localhost:8080/addStu",
+            type : "POST",
+            data : {'information':JSON.stringify(params),'stuId':id},
+            success : function(result) {
+                if (id == 1) {
+                    alert("修改成功")
+                    $("#flag").val("0");
+                } else {
+                    alert("添加成功")
+                }
+                if(uid>0){
+                    $("#uid").val("0");
+                }
+                allStu()
+                close()
+            },
+            error:function(msg){
+                alert("12345")
+            }
+        })
+
+   }
+
+</script>
+
 </body>
 
 </html>

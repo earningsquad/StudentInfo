@@ -1,6 +1,7 @@
 package test;
 
 import com.dev.core.dao.IBaseDao;
+import com.dev.core.model.StudentInfo;
 import com.dev.core.model.User;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -36,5 +37,13 @@ public class HibernateTable {
         List<User> us = baseDao.find(hql);
         System.out.println(us.get(0).getPassword());
     }
+    @Test
+   public void test1(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+        IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
+        StudentInfo s=new StudentInfo();
+        s.setId(3);
+        baseDao.delete(s);
 
+   }
 }
