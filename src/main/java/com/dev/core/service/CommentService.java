@@ -34,15 +34,15 @@ public class CommentService {
         }
 
         if(comment.getParentId() == 0){
-            String hql = "delete Comment where pid = " + comment.getId();
+            String hql = "delete Comment where parentId = " + comment.getId();
             dao.executeHql(hql);
         }
-        dao.delete(comment);
+        dao.executeHql("delete Comment where id = " + comment.getId());
         return true;
     }
 
     public boolean findById(int id){
-        String hql = "from Comment where id" + id;
+        String hql = "from Comment where id = " + id;
         return dao.find(hql).size() == 0;
     }
 

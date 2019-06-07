@@ -412,32 +412,6 @@
             })
         })
 
-        $("#postComment").click(function () {
-            var content = $("#commentDetail").val();
-            var mydate = new Date();
-            $.ajax({
-                url : "http://localhost:8080/postComment",
-                dataType : "json",//数据格式 
-                type : "post",//请求方式
-                contentType: "application/json",
-                data:JSON.stringify({
-                    "user":{
-                        "id":"1"
-                    },
-                    "detail":content,
-                    "parentId":"0",
-                    "type":"0",
-                }),
-                success : function(data) {   //如果请求成功，返回数据。
-                    alert(data.result.message)
-                    window.location.reload()
-                }
-            })
-        })
-
-        /*$("#post-btn").click(function () {
-            alert($(this).parent().siblings('.id').text());
-        })*/
 
     </script>
 
