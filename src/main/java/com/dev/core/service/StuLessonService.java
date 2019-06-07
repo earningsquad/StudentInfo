@@ -23,8 +23,9 @@ public class StuLessonService {
     }
 
     public List<StuLesson> getLesson(){
-        String hql = "From stuLesson";
-        return dao.find(hql);
+        String hql = "from StuLesson";
+        List<StuLesson> stuLessons = dao.find(hql);
+        return stuLessons;
     }
 
 }

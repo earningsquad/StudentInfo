@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class BasicAction extends ActionSupport {
 
+    public static String ISUCCESS="json";
     @Getter
     protected JsonResult result;
    // protected Logger logger = Logger.getLogger(BasicAction.class);

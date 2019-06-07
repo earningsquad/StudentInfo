@@ -26,7 +26,7 @@ public class StuLessonAction extends BasicAction{
     StuLessonService stuLessonService;
 
     @Getter
-    ResponseResult result = new ResponseResult();
+    ResponseResult results = new ResponseResult();
 
     //选课
     @Action(value = "selectLesson" , results = {
@@ -42,7 +42,7 @@ public class StuLessonAction extends BasicAction{
             e.printStackTrace();
         }
         stuLessonService.selectLesson(stuLesson);
-        result.success();
+        results.success();
         return SUCCESS;
     }
 
@@ -61,7 +61,7 @@ public class StuLessonAction extends BasicAction{
             e.printStackTrace();
         }
         stuLessonService.retireLesson(stuLesson);
-        result.success();
+        results.success();
         return SUCCESS;
     }
 
@@ -79,7 +79,7 @@ public class StuLessonAction extends BasicAction{
             e.printStackTrace();
         }*/
         List<StuLesson> stuLessonList = stuLessonService.getLesson();
-        result.success(stuLessonList,stuLessonList.size());
+        results.success(stuLessonList,stuLessonList.size());
         return SUCCESS;
     }
 

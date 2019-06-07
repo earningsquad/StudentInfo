@@ -27,7 +27,7 @@ public class LessonAction extends BasicAction{
     LessonService lessonService;
 
     @Getter
-    ResponseResult result = new ResponseResult();
+    ResponseResult results = new ResponseResult();
 
     //添加课程
     @Action(value = "addLesson" , results = {
@@ -44,7 +44,7 @@ public class LessonAction extends BasicAction{
             e.printStackTrace();
         }
         lessonService.addLesson(lesson);
-        result.success();
+        results.success();
         return SUCCESS;
     }
 
@@ -56,7 +56,7 @@ public class LessonAction extends BasicAction{
     @LoginRequired
     public String findLesson(){
         List<LessonFormat> lessonFormatList = lessonService.findLesson();
-        result.success(lessonFormatList,lessonFormatList.size());
+        results.success(lessonFormatList,lessonFormatList.size());
         return SUCCESS;
     }
 
