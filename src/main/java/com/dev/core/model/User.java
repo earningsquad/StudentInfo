@@ -23,6 +23,10 @@ public class User {
     @Column(name = "ROLE")
     private String role;
 
+    //基本照片
+    @Column(name = "USERIMAGE")
+    private String image;
+
     public int getId() {
         return id;
     }
@@ -53,5 +57,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
