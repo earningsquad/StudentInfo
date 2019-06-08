@@ -43,17 +43,7 @@ public class StudentInfo {
     @Column(name = "LOCATION")
     private String location;
 
-    @Column(name = "NAME")
-    private String nlocation;
 
-    @Column(name = "NAME")
-    private String origin;
-
-    @Column(name = "NAME")
-    private String contacts;
-
-    @Column(name = "NAME")
-    private String conPhoneNumber;
 
 
     private int politicsStatus;
