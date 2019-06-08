@@ -24,9 +24,8 @@ public class Comment {
     private String detail;
 
     //父留言ID
-    @JoinColumn(name = "PID")
-    @OneToOne
-    private Comment parentCommit;
+    @Column(name = "PID")
+    private int parentId;
 
     //留言类型
     @Column(name = "TYPE")
