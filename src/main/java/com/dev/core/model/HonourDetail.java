@@ -35,6 +35,6 @@ public class HonourDetail {
     //文件ID
     @OneToOne
     @JoinColumn(name = "FILE_ID")
-    private File file;
+    private FileInfo file;
 
 }

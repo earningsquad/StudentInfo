@@ -187,20 +187,20 @@
                            
                             <div class="form-group">
                               <label>上传材料</label>
-                              <input type="file" name="img[]" id="fileUp"class="file-upload-default">
+                              <input type="file" name="img[]"  onchange="chengetext()" id="fileUp"class="file-upload-default">
                               <div class="input-group col-xs-12">
-                                <input type="text" class="form-control file-upload-info" disabled placeholder="上传文档">
+                                <input type="text" id="fbt" class="form-control file-upload-info" disabled placeholder="上传文档">
                                 <span class="input-group-append">
-                                  <button class="file-upload-browse btn btn-info" type="button" onclick="$('#fileUp').click()">上传文件</button>
+                                  <button class="file-upload-browse btn btn-info"  type="button" onclick="$('#fileUp').click()">上传文件</button>
                                 </span>
                               </div>
                             </div>
                          
                             <div class="form-group">
                               <label for="exampleTextarea1">申请理由</label>
-                              <textarea class="form-control" id="exampleTextarea1" rows="2" >在学习上勤奋刻苦，工作中认真负责，一心向党。</textarea>
+                              <textarea class="form-control" id="exampleTextarea1" rows="2" >在学习上勤奋刻苦，工作中认真负责。</textarea>
                             </div>
-                            <button type="submit" class="btn btn-success mr-2">申请</button>
+                            <button type="button" class="btn btn-success mr-2">申请</button>
                             <button class="btn btn-light">取消</button>
                           </form>
                         </div>
@@ -257,10 +257,36 @@
                 }
             }),
             success : function(data) {   //如果请求成功，返回数据。
-                alert(data.result.message)
+
+              fileUpload()
             }
         })
     })
+    function chengetext(){
+    $("#fbt").val( $('#fileUp').val())
+
+    }
+    function fileUpload(){
+
+      var formData = new FormData();
+
+      formData.append('file', $('#fileUp')[0].files[0]);
+      $.ajax({
+        url : '/filesupload',
+        type : 'POST',
+        data : formData,
+        contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
+        processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
+        dataType: 'json',//这里是返回类型，一般是json,text等
+        clearForm: true,//提交后是否清空表单数据
+        success: function(data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+          alert('上传成功');
+        },
+        error: function(data, status, e) {  //提交失败自动执行的处理函数。
+          console.error(e);
+        }
+      });
+    }
   </script>
 
 </body>
