@@ -47,18 +47,7 @@ function  getFile(){
     });
 }
 function down(name){
-    alert(name)
-    $.ajax({
-        url : '/toDownload',
-        type : 'POST',
-        data : {"fileName":name},
-        success: function(data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
-
-        },
-        error: function(data, status, e) {  //提交失败自动执行的处理函数。
-            console.error(e);
-        }
-    });
+    window.location.href="http://localhost:8080/toDownload?fileName="+name
 
 
 
