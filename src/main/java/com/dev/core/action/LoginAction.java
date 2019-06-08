@@ -19,7 +19,7 @@ import java.io.IOException;
 @Scope("prototype")
 @Namespace("/")
 @ResultPath("/")
-public class LoginAction extends BasicAction{
+public class    LoginAction extends BasicAction{
     @Autowired
     UserService service;
 

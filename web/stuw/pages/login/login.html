@@ -112,6 +112,9 @@
        success : function(result) {
          if(result.isSuccess==true) {
            window.location.href = "http://localhost:8080/stuw/index.html"
+         }else{
+           alert("用户名或密码错误，请重新输入")
+
          }
        },
        error:function(msg){

@@ -28,6 +28,7 @@ public class BasicAction extends ActionSupport {
      */
     protected User getUser(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
+        System.out.println(user.getUserName()+"----------");
         if (user == null) {
             return null;
         }
