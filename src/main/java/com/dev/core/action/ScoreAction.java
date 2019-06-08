@@ -23,6 +23,8 @@ public class ScoreAction extends BasicAction {
     Map<String,Object> tresult;
     @Getter@Setter
     int id;
+     @Setter
+    int score;
     @Action(value = "searchScore",results = {
             @Result(name = SUCCESS,type = "json" , params={"root", "tresult"}),
             @Result(name = ERROR,type = "json" )
@@ -52,9 +54,21 @@ public class ScoreAction extends BasicAction {
   public String deleteScore(){
         service.deleteStu(id);
        return ISUCCESS;
-
   }
 
+    @Action(value = "updateScore")
+   public String updateScore(){
 
+      service.updateScore(id,score);
+        return ISUCCESS;
+   }
+
+    @Action(value = "addStuScore")
+   public String addStuScore(){
+
+
+
+      return ISUCCESS;
+   }
 
 }

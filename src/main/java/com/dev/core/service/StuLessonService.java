@@ -28,5 +28,16 @@ public class StuLessonService  {
         return true;
     }
 
+    public Boolean updateScore(int id,int score){
+      try {
+          StuLesson s=dao.getByHql("From StuLesson where id="+id);
+          s.setScore(score);
+          dao.update(s);
+          return true;
+      }catch (Exception e){
+
+      }
+        return false;
+    }
 
 }
