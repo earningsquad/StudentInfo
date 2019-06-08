@@ -18,7 +18,9 @@ public class MyInfoService {
     public void update(MyBasicInfo myBasicInfo){
        StudentInfo studentInfo= (StudentInfo) baseDao.getById(StudentInfo.class,myBasicInfo.getStudentId());
        myBasicInfo.getStudentInfoE(studentInfo);
+       // baseDao.update(studentInfo.getUser());
        baseDao.update(studentInfo);
+
     }
     //查看我的基本信息
     public MyBasicInfo getBasic(int uid){

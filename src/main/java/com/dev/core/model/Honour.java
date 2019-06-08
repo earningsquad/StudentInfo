@@ -15,6 +15,12 @@ public class Honour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
+    //荣耀类型
+    @Column(name = "NAME")
+    private String name;
+
+
     //荣耀类型
     @Column(name = "TYPE")
     private int type;

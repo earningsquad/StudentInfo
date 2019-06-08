@@ -53,6 +53,7 @@ public class MyInfoAction extends BasicAction{
         Map myInfos=new HashMap<>();
         myInfos.put("myWholeInfo",myWholeInfo);
         myInfos.put("myScores",myScores);
+        System.out.println(myHonour);
         myInfos.put("myHonour",myHonour);
         result.success(myInfos);
         return ISUCCESS;

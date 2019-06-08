@@ -1,14 +1,15 @@
 package com.dev.core.model;
 
-import lombok.ToString;
+import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 //学生荣耀表
 @Entity
-@ToString
 @Table(name = "HONOUR_DETAIL")
-public class HonourDetail {
+@Data
+public class HonourDetail implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

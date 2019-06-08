@@ -21,9 +21,10 @@ public class MyBasicInfo {
         studentInfoEntity.setMyImg(fileLocation);
         studentInfoEntity.setLocation1(adress);
         studentInfoEntity.setDetial(detial);
-        User user=new User();
+        User user=studentInfoEntity.getUser();
         user.setId(userId);
         user.setUserName(userName);
+        if (!password.contains("*"))
         user.setPassword(password);
         studentInfoEntity.setUser(user);
         return studentInfoEntity;

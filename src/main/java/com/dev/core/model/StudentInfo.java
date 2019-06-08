@@ -3,6 +3,7 @@ package com.dev.core.model;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,8 +25,17 @@ public class StudentInfo {
     private String from;
     private String detial;
     private String myImg;
-
     private String birthday;
+    private String engName;
+    @Column(name = "ENG_NAME")
+    public String getEngName() {
+        return engName;
+    }
+
+    public void setEngName(String engName) {
+        this.engName = engName;
+    }
+
     @Column(name = "BIRTHDAY")
     public String getBirthday() {
         return birthday;
@@ -34,6 +44,11 @@ public class StudentInfo {
     public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
+
+
+    @ManyToMany(targetEntity = StudentInfo.class,fetch=FetchType.EAGER)
+    @JoinTable(name = "HONOUR_DETAIL",joinColumns = @JoinColumn(name="HONOUR_ID"),inverseJoinColumns =@JoinColumn(name="STUDENT_ID"))
+    private List students;
 
     @Transient
     public MyBasicInfo getMyBasicInfo(){
@@ -45,7 +60,12 @@ public class StudentInfo {
         myBasicInfo.setStudentId(getId());
         myBasicInfo.setUserId(getUser().getId());
         myBasicInfo.setUserName(getUser().getUserName());
-        myBasicInfo.setPassword(getUser().getPassword().substring(0,3)+"****"+getUser().getPassword().substring(getUser().getPassword().length()-3,getUser().getPassword().length()-1));
+        //myBasicInfo.setPassword(getUser().getPassword().substring(0,3)+"****"+getUser().getPassword().substring(getUser().getPassword().length()-3,getUser().getPassword().length()-1));
+        String passwdFirst=getUser().getPassword().substring(0,1);
+        String passwdLAst=getUser().getPassword().substring(getUser().getPassword().length()-2,getUser().getPassword().length()-1);
+        myBasicInfo.setPassword(passwdFirst+"****"+passwdLAst);
+
+
         return myBasicInfo;
     }
 

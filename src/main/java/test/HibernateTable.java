@@ -1,5 +1,6 @@
 package test;
 
+import com.alibaba.fastjson.JSON;
 import com.dev.core.dao.IBaseDao;
 import com.dev.core.model.MyBasicInfo;
 import com.dev.core.model.MyWholeInfo;
@@ -60,11 +61,13 @@ public class HibernateTable {
     public void test7(){
         ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
         MyInfoService myInfoService= (MyInfoService) ctx.getBean("myInfoService");
-        MyBasicInfo myBasicInfo=myInfoService.getBasic(1);
+        MyBasicInfo myBasicInfo=myInfoService.getBasic(2);
         System.out.println(myBasicInfo);
         //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
         myBasicInfo.setName("小小明");
         myBasicInfo.setFileLocation("c:\\");
+        myBasicInfo.setUserId(2);
+        myBasicInfo.setPassword("2222");
         myInfoService.update(myBasicInfo);// myBasicInfo.getStudentInfoE();
     }
 
@@ -92,7 +95,9 @@ public class HibernateTable {
     public void test5(){
         ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
         MyInfoService myInfoService= (MyInfoService) ctx.getBean("myInfoService");
-        System.out.println(myInfoService.getMyHonour(1));
+        List list=myInfoService.getMyHonour(1);
+        System.out.println(list);
+        System.out.println(JSON.toJSONString(list));
         //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
 
     }

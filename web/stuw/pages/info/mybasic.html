@@ -175,16 +175,16 @@
                           </p>
                           <form class="forms-sample">
                             <div class="form-group">
-                              <label for="exampleInputName1">我的姓名</label>
-                              <input type="text" disabled class="form-control" id="exampleInputName1" value="小明">
+                              <label for="name">我的姓名</label>
+                              <input type="text" disabled class="form-control" name="name" id="name" value="小明">
                             </div>
                             <div class="form-group">
-                              <label for="exampleInputEmail3">我的用户账户</label>
-                              <input type="email" class="form-control" id="exampleInputEmail3" disabled value="xiaoming">
+                              <label for="userName">我的用户账户</label>
+                              <input type="email" class="form-control" name="userName" id="userName" disabled value="xiaoming">
                             </div>
                             <div class="form-group">
-                              <label for="exampleInputPassword4">我的密码</label>
-                              <input type="text" class="form-control" id="exampleInputPassword4" disabled value="xiao**12">
+                              <label for="password">我的密码</label>
+                              <input type="text"  class="form-control" name="password" id="password" disabled value="xiao**12">
                             </div>
                             <div class="form-group">
                               <label>上传文件</label>
@@ -197,14 +197,16 @@
                               </div>
                             </div>
                             <div class="form-group">
-                              <label for="exampleInputCity1">地址</label>
-                              <input type="text" class="form-control" id="exampleInputCity1" disabled value="天津市">
+                              <label for="adress">地址</label>
+                              <input type="text" class="form-control" name="adress" id="adress" disabled value="天津市">
                             </div>
                             <div class="form-group">
-                              <label for="exampleTextarea1">自我鉴定</label>
-                              <textarea class="form-control" id="exampleTextarea1" rows="2" disabled>在学习上勤奋刻苦，工作中认真负责，一心向党。</textarea>
+                              <label for="detial">自我鉴定</label>
+                              <textarea class="form-control" id="detial"  name="detial" rows="2" disabled>在学习上勤奋刻苦，工作中认真负责，一心向党。</textarea>
                             </div>
-                            <button type="submit" class="btn btn-success mr-2">编辑</button>
+                            <input type="hidden" name="userId" id="userId" value="">
+                            <input type="hidden" name="studentId" id="studentId" value="">
+                            <button type="submit" id="sub" class="btn btn-success mr-2">编辑</button>
                             <button class="btn btn-light">取消</button>
                           </form>
                         </div>
@@ -223,7 +225,7 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-
+  </div>
   <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
   <script src="../../vendors/js/vendor.bundle.addons.js"></script>
@@ -236,6 +238,111 @@
   <!-- endinject -->
   <!-- Custom js for this page-->
   <script src="../../js/dashboard.js"></script>
+    <script>
+      $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+          if (o[this.name]) {
+            if (!o[this.name].push) {
+              o[this.name] = [ o[this.name] ];
+            }
+            o[this.name].push(this.value || '');
+          } else {
+            o[this.name] = this.value || '';
+          }
+        });
+        return o;
+      }
+
+      function arrange(obj){
+        temp=""
+        for(var i in obj){//用javascript的for/in循环遍历对象的属性
+          //temp += i+":"+obj[i]+"\n";
+          $("#"+i).val(obj[i])
+        }
+        console.info(temp)
+      }
+      function refresh(){
+        $.ajax({
+          url:"/stu/myBasicInfo",
+          success:function(d) {
+            if (d.isSuccess) {
+              arrange(d.bean)
+            }else {
+              alert("未登录")
+              window.location.href="/stuw/pages/login/login.html"
+            }
+
+            disable=true;
+            //console.info(d)
+          },error:function (d) {
+            console.info(d)
+          }
+        })
+      }
+      $(function () {
+      refresh()
+      //  disable=true;
+      })
+    </script>
+
+    <script>
+
+
+
+      $('#password').bind('click', function(){
+        $("#password").val("")
+        $('#password').unbind('click');
+      });
+      disable=true;
+      $("#sub").click(function () {
+        if (disable){
+          if (confirm("确定更改？")){
+            var origLength;
+            origLength = document.all.length;
+            for(i=0;i<origLength;i++){
+              document.all[i].disabled=false;
+            }
+            $("#sub").html("保存")
+            disable=false
+          }
+
+
+        }else {
+          if (confirm("确定提交？"))
+          {
+            subitdata( $("form"),"/stu/myBasicInfo")
+          }
+        }
+      })
+      function subitdata(form,url) {
+
+        var params = form.serializeObject();
+        //console.info(params)
+        $.ajax({
+          url : url,
+          type : "POST",
+          contentType:"application/json",
+          data :JSON.stringify(params),
+          success : function(result) {
+            console.info(result)
+            if (result.isSuccess) {
+              alert("修改成功")
+              refresh();
+            }else {
+              alert("未登录")
+              window.location.href="/stuw/pages/login/login.html"
+            }
+
+          },
+          error:function(msg){
+           console.info(msg)
+          }
+        })
+      }
+
+    </script>
   <!-- End custom js for this page-->
 </body>
 
