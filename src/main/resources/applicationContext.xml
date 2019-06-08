@@ -12,7 +12,7 @@
     <context:component-scan base-package="com.dev.core.**"/>
 
     <context:property-placeholder location="classpath*:jdbc.properties"/>
-
+    <bean id="checkLogin" class="com.dev.core.utils.Intercepter"></bean><!--struts2的拦截器，必须在这里配置一下，不然不起作用  -->
     <!-- 定义数据源,使用的是dbcp连接池 -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>

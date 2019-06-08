@@ -1,7 +1,13 @@
 package com.dev.core.action;
 
+import com.alibaba.fastjson.JSON;
+import com.dev.core.anno.LoginRequired;
+import com.dev.core.anno.RoleRequired;
+import com.dev.core.model.User;
 import com.dev.core.service.UserService;
-import org.apache.struts2.convention.annotation.*;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ResultPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -13,43 +19,46 @@ import java.io.IOException;
 @Scope("prototype")
 @Namespace("/")
 @ResultPath("/")
-@ParentPackage("json-default")
 public class LoginAction extends BasicAction{
     @Autowired
     UserService service;
 
 
-
-    @Action(value = "login",results = {
-            @Result(name = SUCCESS,type = "json"),
-            @Result(name = ERROR,type = "json")
-    })
+    @Action(value = "login")
     public String login()  {
-
-
         try {
-            System.out.println(getRequestPostData());
+            User user= JSON.parseObject(getRequestPostData(),User.class);
+            if (service.login(user)){
+                setUser(user);
+                result.success(user);
+            }
+            else {
+                result.fail("失败");
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-//       /* User user= JSON.parseObject(userJson,User.class);
-//        if (user!=null){
-//            Boolean flag=service.login(user.getUserName(),user.getPassword());
-//            if (flag){
-//                result.success("登录成功");
-//                return SUCCESS;
-//                //登录成功
-//            }else {
-//                //登录失败
-//                result.fail("用户名或密码错误");
-//                return ERROR;
-//            }*/
-            //logger.info("flag:"+flag+" result:"+result);
-     //   }
-    return ERROR;
+
+
+        return ISUCCESS;
     }
 
 
 
+    @Action(value = "test")
+    @LoginRequired
+    @RoleRequired("tea")
+    public String test(){
+        result.success("test");
+        return ISUCCESS;
+    }
+
+    @LoginRequired
+    public String test1(){
+        result.success("test");
+        return ISUCCESS;
+    }
 
 }

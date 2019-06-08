@@ -2,7 +2,9 @@ package com.dev.core.utils;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JsonResult {
 
     @Getter@Setter
