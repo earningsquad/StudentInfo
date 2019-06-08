@@ -31,4 +31,7 @@ public class FileInfo {
     @Column(name = "FILE_LOCATION")
     private String fileLocation;
 
+    @Column(name="UPLOADTIME")
+    private String uploadTime;
+
  }

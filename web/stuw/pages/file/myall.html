@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../../css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/favicon.png" />
+  <script src="load.js"></script>
 </head>
 
 <body>
@@ -127,7 +128,7 @@
                   <a class="nav-link "  href="pages/ui-features/buttons.html">我的基本信息</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active" href="pages/ui-features/typography.html">我的全信息</a>
+                  <a class="nav-link " href="pages/ui-features/typography.html">我的全信息</a>
                 </li>
               </ul>
             </div>
@@ -139,7 +140,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pages/charts/chartjs.html">
+            <a class="nav-link active" href="#">
               <i class="menu-icon mdi mdi-chart-line"></i>
               <span class="menu-title">文件管理</span>
             </a>
@@ -162,14 +163,19 @@
           </div>
      
           <div class="row">
-           
+         
+              
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
+                  
                   <div class="card-body">
-                    <h4 class="card-title">Hoverable Table</h4>
+                    <h4 class="card-title">文件管理</h4>
                     <p class="card-description">
-                      Add class
-                      <code>.table-hover</code>
+                      <input type="file" name="file" id="file" onchange="fileUpload()" style="display:none">
+                      <div> <button type="button" class="btn btn-info btn-fw" onclick="select_file()">
+                          <i class="mdi mdi-upload"></i>上传</button>
+                       </div>
+                 
                     </p>
                     <div class="table-responsive">
                       <table class="table table-hover">
@@ -198,7 +204,8 @@
                             
                             </td>
                             <td>
-                                <button class="btn btn-success"></button>
+                                <button type="button" class="btn btn-dark btn-fw">
+                                    <i class="mdi mdi-cloud-download"></i>下载</button>
                             </td>
                           </tr>
                         </tbody>
