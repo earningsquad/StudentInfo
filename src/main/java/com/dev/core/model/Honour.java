@@ -19,15 +19,35 @@ public class Honour {
     @Column(name = "TYPE")
     private int type;
 
+    //荣耀名称
+    @Column(name = "NAME")
+    private String name;
+
     //状态
     @Column(name = "STATE")
     private int state;
 
     //荣耀信息
     @Column(name = "DETAIL")
-    private String detial;
+    private String detail;
 
     @ManyToMany(targetEntity = StudentInfo.class,fetch=FetchType.EAGER)
     @JoinTable(name = "HONOUR_DETAIL",joinColumns = @JoinColumn(name="HONOUR_ID"),inverseJoinColumns =@JoinColumn(name="STUDENT_ID"))
     private List students;
+
+    public Honour() {
+    }
+
+    public Honour(int type, String name, int state, String detail) {
+        this.type = type;
+        this.name = name;
+        this.state = state;
+        this.detail = detail;
+    }
+
+    public Honour(int type, String name, String detail) {
+        this.type = type;
+        this.name = name;
+        this.detail = detail;
+    }
 }
