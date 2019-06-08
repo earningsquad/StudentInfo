@@ -7,6 +7,7 @@ public class LessonFormat {
     private int id;
     private String leName;
     private String teacher;
+    private int teacherId;
     private String detail;
     private String progress;
     private String arrange;
@@ -17,6 +18,7 @@ public class LessonFormat {
         this.id = lesson.getId();
         this.leName = lesson.getLeName();
         this.teacher = lesson.getTeacherInfo().getName();
+        this.teacherId = lesson.getTeacherInfo().getId();
         this.detail = lesson.getDetail();
         this.progress = lesson.getProgress();
         this.arrange = lesson.getArrange();

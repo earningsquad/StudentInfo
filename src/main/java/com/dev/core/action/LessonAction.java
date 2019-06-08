@@ -89,6 +89,7 @@ public class LessonAction extends BasicAction{
             e.printStackTrace();
         }
         lessonService.updateLesson(lesson);
+        results.success();
         return SUCCESS;
     }
 
