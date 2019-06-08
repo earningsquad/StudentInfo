@@ -24,7 +24,7 @@ public class HonourDetail {
     @JoinColumn(name = "STUDENT_ID")
     private StudentInfo studentInfo;
 
-    //审核状态
+    //审核状态  0：审核中  1：通过  2：失败
     @Column(name = "STATE")
     private int state;
 
