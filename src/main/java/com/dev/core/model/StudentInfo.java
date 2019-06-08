@@ -31,4 +31,31 @@ public class StudentInfo {
     @JoinColumn(name = "UID")
     private User user;
 
+    @Column(name = "ENGLISH_NAME")
+    private String englishName;
+
+    @Column(name = "GENDER")
+    private int gender;
+
+    @Column(name = "BIRTHDAY")
+    private String birthday;
+
+    @Column(name = "LOCATION")
+    private String location;
+
+    @Column(name = "NAME")
+    private String nlocation;
+
+    @Column(name = "NAME")
+    private String origin;
+
+    @Column(name = "NAME")
+    private String contacts;
+
+    @Column(name = "NAME")
+    private String conPhoneNumber;
+
+
+    private int politicsStatus;
+
 }
