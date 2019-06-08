@@ -1,6 +1,7 @@
 package test;
 
 import com.dev.core.dao.IBaseDao;
+import com.dev.core.model.StudentInfo;
 import com.dev.core.model.User;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -14,7 +15,6 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
 public class HibernateTable {
 
@@ -36,5 +36,12 @@ public class HibernateTable {
         List<User> us = baseDao.find(hql);
         System.out.println(us.get(0).getPassword());
     }
+    @Test
+    public void test1(){
+        StudentInfo studentInfo=new StudentInfo();
+        studentInfo.setClassNumber(1);
+        System.out.println(studentInfo.getClassNumber());
+    }
+
 
 }
