@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FileService {
@@ -28,8 +30,14 @@ public class FileService {
             return false;
         }
        return  true;
-
     }
 
+
+     public List<FileInfo> findFile(int uid){
+         List<FileInfo> files=new ArrayList<>();
+         files=dao.find("from  FileInfo where fileUploader="+uid);
+
+         return files;
+     }
 
 }
