@@ -53,7 +53,7 @@ public class FileUploadAction extends BasicAction {
             fileInfo.setFileName(fileFileName[i]);
             fileInfo.setFileLocation(target);
             fileInfo.setUploadTime(df.format(new Date()));
-          //  fileInfo.setFileUploader(getUser(request));
+            fileInfo.setFileUploader(getUser(request));
             fileService.uploadFile(fileInfo);
         }
         return SUCCESS;

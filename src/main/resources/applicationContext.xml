@@ -31,11 +31,11 @@
         <!-- Hibernate框架相关配置 -->
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL55Dialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.formate_sql">false</prop>
+                <prop key="hibernate.formate_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
-
+                <prop key="hibernate.max_fetch_depth">2</prop>
             </props>
         </property>
 

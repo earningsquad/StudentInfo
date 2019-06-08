@@ -1,8 +1,11 @@
 package com.dev.core.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 //用户表
+@Data
 @Entity
 @Table(name = "USER")
 public class User {
@@ -27,43 +30,4 @@ public class User {
     @Column(name = "USERIMAGE")
     private String image;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 }
