@@ -1,9 +1,12 @@
 package com.dev.core.model;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 
 //学生荣耀表
 @Entity
+@ToString
 @Table(name = "HONOUR_DETAIL")
 public class HonourDetail {
 

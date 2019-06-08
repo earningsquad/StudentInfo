@@ -15,7 +15,7 @@ public class StuLesson {
     private int id;
 
     //学生ID
-    @JoinColumn(name = "STU_ID")
+    @JoinColumn(name = "STUDENT_ID")
     @OneToOne
     private StudentInfo studentInfo;
 

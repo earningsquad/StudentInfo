@@ -2,7 +2,6 @@ package com.dev.core.action;
 
 import com.dev.core.model.FileInfo;
 import com.dev.core.service.FileService;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FileUtils;

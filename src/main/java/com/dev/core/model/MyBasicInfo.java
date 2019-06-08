@@ -1,7 +1,5 @@
-package com.dev.core.bean;
+package com.dev.core.model;
 
-import com.dev.core.model.StudentInfoEntity;
-import com.dev.core.model.User;
 import lombok.Data;
 
 @Data
@@ -16,8 +14,8 @@ public class MyBasicInfo {
     private String adress;
     private String detial;
 
-    public StudentInfoEntity getStudentInfoE(){
-        StudentInfoEntity studentInfoEntity=new StudentInfoEntity();
+    public StudentInfo getStudentInfoE(StudentInfo studentInfoEntity){
+      //  StudentInfo studentInfoEntity=new StudentInfo();
         studentInfoEntity.setId(studentId);
         studentInfoEntity.setName(name);
         studentInfoEntity.setMyImg(fileLocation);

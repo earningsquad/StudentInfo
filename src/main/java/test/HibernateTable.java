@@ -1,8 +1,10 @@
 package test;
 
 import com.dev.core.dao.IBaseDao;
-import com.dev.core.model.StudentInfo;
+import com.dev.core.model.MyBasicInfo;
+import com.dev.core.model.MyWholeInfo;
 import com.dev.core.model.User;
+import com.dev.core.service.MyInfoService;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -38,10 +40,61 @@ public class HibernateTable {
     }
     @Test
     public void test1(){
-        StudentInfo studentInfo=new StudentInfo();
+        MyWholeInfo studentInfo=new MyWholeInfo();
         studentInfo.setClassNumber(1);
         System.out.println(studentInfo.getClassNumber());
     }
 
+    @Test
+    public void test2(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+        MyInfoService myInfoService= (MyInfoService) ctx.getBean("myInfoService");
+        MyBasicInfo myBasicInfo=myInfoService.getBasic(1);
+        System.out.println(myBasicInfo);
+        //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
+
+    }
+
+    //修改我的基本信息
+    @Test
+    public void test7(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+        MyInfoService myInfoService= (MyInfoService) ctx.getBean("myInfoService");
+        MyBasicInfo myBasicInfo=myInfoService.getBasic(1);
+        System.out.println(myBasicInfo);
+        //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
+        myBasicInfo.setName("小小明");
+        myBasicInfo.setFileLocation("c:\\");
+        myInfoService.update(myBasicInfo);// myBasicInfo.getStudentInfoE();
+    }
+
+   //查看全部信息
+    @Test
+    public void test3(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+        MyInfoService myInfoService= (MyInfoService) ctx.getBean("myInfoService");
+        System.out.println(myInfoService.getWholeInfo(1));
+        //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
+
+    }
+    //查看我的成绩
+    @Test
+    public void test4(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+        MyInfoService myInfoService= (MyInfoService) ctx.getBean("myInfoService");
+        System.out.println(myInfoService.getMyScores(1));
+        //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
+
+    }
+
+    //查看我的荣誉
+    @Test
+    public void test5(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+        MyInfoService myInfoService= (MyInfoService) ctx.getBean("myInfoService");
+        System.out.println(myInfoService.getMyHonour(1));
+        //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
+
+    }
 
 }

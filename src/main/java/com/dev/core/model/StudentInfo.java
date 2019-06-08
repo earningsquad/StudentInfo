@@ -1,11 +1,14 @@
 package com.dev.core.model;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@ToString
 @Table(name = "student_info", schema = "studentinfo", catalog = "")
-public class StudentInfoEntity {
+public class StudentInfo {
     private int id;
     private Integer classNumber;
     private String name;
@@ -21,9 +24,9 @@ public class StudentInfoEntity {
     private String from;
     private String detial;
     private String myImg;
-    @Column(name = "BIRTHDAY")
-    private String birthday;
 
+    private String birthday;
+    @Column(name = "BIRTHDAY")
     public String getBirthday() {
         return birthday;
     }
@@ -32,12 +35,25 @@ public class StudentInfoEntity {
         this.birthday = birthday;
     }
 
+    @Transient
+    public MyBasicInfo getMyBasicInfo(){
+        MyBasicInfo myBasicInfo=new MyBasicInfo();
+        myBasicInfo.setAdress(getLocation1());
+        myBasicInfo.setDetial(getDetial());
+        myBasicInfo.setFileLocation(getMyImg());
+        myBasicInfo.setName(getName());
+        myBasicInfo.setStudentId(getId());
+        myBasicInfo.setUserId(getUser().getId());
+        myBasicInfo.setUserName(getUser().getUserName());
+        myBasicInfo.setPassword(getUser().getPassword().substring(0,3)+"****"+getUser().getPassword().substring(getUser().getPassword().length()-3,getUser().getPassword().length()-1));
+        return myBasicInfo;
+    }
 
+
+    private User user;
     //用户ID
     @OneToOne
     @JoinColumn(name = "UID")
-    private User user;
-
     public User getUser() {
         return user;
     }
@@ -168,7 +184,7 @@ public class StudentInfoEntity {
     }
 
     @Basic
-    @Column(name = "FROM")
+    @Column(name = "STU_FROM")
     public String getFrom() {
         return from;
     }
@@ -201,7 +217,7 @@ public class StudentInfoEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StudentInfoEntity that = (StudentInfoEntity) o;
+        StudentInfo that = (StudentInfo) o;
         return id == that.id &&
                 Objects.equals(classNumber, that.classNumber) &&
                 Objects.equals(name, that.name) &&

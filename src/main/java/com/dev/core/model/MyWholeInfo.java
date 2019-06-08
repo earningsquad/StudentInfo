@@ -2,7 +2,8 @@ package com.dev.core.model;
 
 //学生信息表
 
-public class StudentInfo extends StudentInfoEntity {
+public class MyWholeInfo extends StudentInfo {
+
     public MyBasicInfo getMyBasicInfo(){
         MyBasicInfo myBasicInfo=new MyBasicInfo();
         myBasicInfo.setAdress(getLocation1());
