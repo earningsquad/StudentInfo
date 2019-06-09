@@ -1,0 +1,67 @@
+﻿{
+    "code": 0,
+    "msg": "",
+    "count": 1000,
+    "data": [
+        {
+            "id": "1222",
+            "leName": "英语课",
+            "teacher": "英语老师",
+            "progress": "1%",
+            "total": "30000000",
+            "leChange": "无变更",
+            "arrage": "安排",
+            "detial": "课程介绍"
+        },
+        {
+            "id": "1222",
+            "leName": "英语课",
+            "teacher": "英语老师",
+            "progress": "1%",
+            "total": "30000000",
+            "leChange": "无变更",
+            "arrage": "安排",
+            "detial": "课程介绍"
+        },
+        {
+            "id": "1222",
+            "leName": "英语课",
+            "teacher": "英语老师",
+            "progress": "1%",
+            "total": "30000000",
+            "leChange": "无变更",
+            "arrage": "安排",
+            "detial": "课程介绍"
+        },
+        {
+            "id": "1222",
+            "leName": "英语课",
+            "teacher": "英语老师",
+            "progress": "1%",
+            "total": "30000000",
+            "leChange": "无变更",
+            "arrage": "安排",
+            "detial": "课程介绍"
+        },
+        {
+            "id": "1222",
+            "leName": "英语课",
+            "teacher": "英语老师",
+            "progress": "1%",
+            "total": "30000000",
+            "leChange": "无变更",
+            "arrage": "安排",
+            "detial": "课程介绍"
+        },
+        {
+            "id": "1222",
+            "leName": "英语课",
+            "teacher": "英语老师",
+            "progress": "1%",
+            "total": "30000000",
+            "leChange": "无变更",
+            "arrage": "安排",
+            "detial": "课程介绍"
+        }
+    ]
+}
