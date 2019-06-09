@@ -16,7 +16,6 @@
 <table class="layui-hide" id="demo" lay-filter="test"></table>
  
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -51,7 +50,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   });
   
   //执行一个 table 实例
-  table.render({
+  var tableIns= table.render({
     elem: '#demo'
     ,height: 420
     ,url: '/searchScore' //数据接口
@@ -65,7 +64,9 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
       ,{field: 'leName', title: '课程名', width:80}
       ,{field: 'stuId', title: '学生ID', width:80, sort: true}
       ,{field: 'stuName', title: '学生名', sort: true, width:80, totalRow: true}
-      ,{field: 'score', title: '成绩', width: 80}
+      ,{field: 'score', title: '成绩', width: 80, sort: true}
+      ,{field: 'lecheck', title: '是否申请复合', width: 160, sort: true}
+      ,{field: 'supply', title: '是否为补考成绩', width: 160, sort: true}
       ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
     ]]
   });
@@ -77,6 +78,47 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     switch(obj.event){
       case 'add':
         layer.msg('添加');
+        var name = encodeURIComponent(data.toolName);
+        layer.open({
+          type: 2,
+          title: '新增学生成绩信息',
+          shadeClose: true,
+          shade: 0.8,
+          maxmin: true,
+          area: ['50%', '70%'],
+          content: 'http://localhost:8080/admin/lite/addScore.html',//设置你要弹出的jsp页面
+          success: function(layero, index){
+              var body = layer.getChildFrame('body', index);
+              body.find('form button:eq(0)').click(function () {
+                var stNumber = body.find('form input:eq(0)').val()
+                var supply = body.find('form input:radio[name=\"supply\"]:checked').val()
+                var lessonId = body.find('form select option:selected').val()
+                var score = body.find('#score').val()
+                 var ids=[]
+                ids.push(lessonId)
+                ids.push(stNumber)
+                ids.push(score)
+                ids.push(supply)
+                var params = $.param({'add':ids},true);
+                  layui.$.ajax({
+                      url: "http://localhost:8080/addStuScore",
+                      type : "post",//请求方式
+                      async: false,   //不要让它异步提交
+                      cache : false,
+                      data:params,
+                      dataType : 'json',
+                      success: function (data) {
+                          layer.closeAll();
+                        tableIns.reload()
+                      }
+                  });
+                  return false;
+              })
+
+
+          }
+        });
+
       break;
       case 'update':
         if(data.length === 0){
@@ -119,10 +161,24 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         })
       });
     } else if(layEvent === 'edit'){
-      layer.msg('编辑操作');
 
+      layer.prompt({title: '输入改动后的成绩', formType: 1}, function(pass, index){
+        $.ajax({
+          url : "http://localhost:8080/updateScore",
+          type : "POST",
+          data : {'Id':data.id,'score':pass},
+          success : function(result) {
+            layer.msg('修改成功' );
+            tableIns.reload()
+            layer.close(index);
+          },
+          error:function(msg){
+          }
+        })
 
+        layer.close(index);
 
+        });
 
 
 
