@@ -19,13 +19,20 @@ public class StuLessonService {
     }
 
     public void retireLesson(StuLesson stuLesson){
-        dao.delete(stuLesson);
+        String sql = "DELETE FROM stu_lesson WHERE LESSON_ID = "+stuLesson.getLesson().getId()+" and STUDENT_ID = "+stuLesson.getStudentInfo().getId();
+        dao.executeSql(sql);
     }
 
     public List<StuLesson> getLesson(){
         String hql = "from StuLesson";
         List<StuLesson> stuLessons = dao.find(hql);
         return stuLessons;
+    }
+
+    //查询已结课的课程
+    public List<StuLesson> getLessonEnding(int stuId){
+        String hql = "from StuLesson where student_id = "+stuId+"  and  supplementary != 0";
+        return dao.find(hql);
     }
 
 }

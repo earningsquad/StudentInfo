@@ -181,7 +181,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
                   "id":obj.data.id
               }),
               success: function(res){
-                  alert("删除成功")
+                  window.location.reload()
               }
           })
       });
@@ -221,7 +221,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
                 "id":data.id,
                 "leName":data.leName,
                 "teacherInfo":{
-                    "name":data.teacher
+                    "id":data.teacherId
                 },
                 "progress":data.progress,
                 "total":data.total,

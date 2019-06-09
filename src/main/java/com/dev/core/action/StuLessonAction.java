@@ -5,6 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.dev.core.anno.LoginRequired;
 import com.dev.core.anno.RoleRequired;
 import com.dev.core.model.StuLesson;
+
+import com.dev.core.model.StudentInfo;
+import com.dev.core.service.LessonService;
 import com.dev.core.service.StuLessonService;
 import com.dev.core.utils.ResponseResult;
 import lombok.Getter;
@@ -24,9 +27,11 @@ import java.util.List;
 public class StuLessonAction extends BasicAction{
     @Autowired
     StuLessonService stuLessonService;
+    @Autowired
+    LessonService lessonService;
 
     @Getter
-    ResponseResult results = new ResponseResult();
+    ResponseResult results;
 
     //选课
     @Action(value = "selectLesson" , results = {
@@ -35,6 +40,7 @@ public class StuLessonAction extends BasicAction{
     })
     @LoginRequired
     public String selectLesson(){
+         results = new ResponseResult();
         StuLesson stuLesson = null;
         try {
             stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
@@ -42,6 +48,7 @@ public class StuLessonAction extends BasicAction{
             e.printStackTrace();
         }
         stuLessonService.selectLesson(stuLesson);
+        lessonService.updateLessonTotal(stuLesson.getLesson().getId());
         results.success();
         return SUCCESS;
     }
@@ -54,12 +61,16 @@ public class StuLessonAction extends BasicAction{
     })
     @LoginRequired
     public String retireLesson(){
+         results = new ResponseResult();
         StuLesson stuLesson = null;
         try {
             stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        StudentInfo studentInfo = new StudentInfo();
+        studentInfo.setId(1);
+        stuLesson.setStudentInfo(studentInfo);
         stuLessonService.retireLesson(stuLesson);
         results.success();
         return SUCCESS;
@@ -72,6 +83,7 @@ public class StuLessonAction extends BasicAction{
     })
     @LoginRequired
     public String getLesson(){
+         results = new ResponseResult();
         /*StuLesson stuLesson = null;
         try {
             stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);

@@ -100,7 +100,7 @@
         })
     })
 
-    /*$('.layui-btn').click(function () {
+    $('.layui-btn').click(function () {
         $.ajax({
             url: "http://localhost:8080/addLesson",
             type : "post",//请求方式
@@ -120,6 +120,7 @@
             dataType: "json",
             success: function (data) {
                 var index = parent.layer.getFrameIndex(window.name);
+                window.parent.location.reload()
                 parent.layer.close(index);
             },
             fali:function () {
@@ -128,7 +129,7 @@
         });
         return false;
 
-    })*/
+    })
 
 </script>
 </html>

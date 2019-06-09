@@ -35,7 +35,8 @@ public class Notify implements Serializable {
     @Column(name = "DETAIL")
     private String detail;
 
-    //通知类型
+
+    //通知类型 1：缺课提醒
     @Column(name = "TYPE")
     private String type;
 

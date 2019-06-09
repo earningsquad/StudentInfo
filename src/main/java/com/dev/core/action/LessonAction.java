@@ -30,7 +30,7 @@ public class LessonAction extends BasicAction{
     TeacherInfoService teacherInfoService;
 
     @Getter
-    ResponseResult results = new ResponseResult();
+    ResponseResult results;
 
     //添加课程
     @Action(value = "addLesson" , results = {
@@ -40,6 +40,7 @@ public class LessonAction extends BasicAction{
     @LoginRequired
     //@RoleRequired(value = "teacher")
     public String addLesson(){
+        results = new ResponseResult();
         Lesson lesson = null;
         try {
             lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
@@ -58,17 +59,47 @@ public class LessonAction extends BasicAction{
     })
     @LoginRequired
     public String findLesson(){
+        results = new ResponseResult();
         List<LessonFormat> lessonFormatList = lessonService.findLesson();
         results.success(lessonFormatList,lessonFormatList.size());
         return SUCCESS;
     }
 
+    //查询没有选择的课程
+    @Action(value = "findUnSelectLesson" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    @LoginRequired
+    public String findUnSelectLesson(){
+        results = new ResponseResult();
+        List<LessonFormat> lessonFormatList = lessonService.findUnSelectLesson(1);
+        results.success(lessonFormatList,lessonFormatList.size());
+        return SUCCESS;
+    }
+
+    //查询已选的课程
+    @Action(value = "findSelectLesson" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    @LoginRequired
+    public String findSelectLesson(){
+        results = new ResponseResult();
+        List<LessonFormat> lessonFormatList = lessonService.findSelectLesson(1);
+        results.success(lessonFormatList,lessonFormatList.size());
+        return SUCCESS;
+    }
+
+
+    //删除课程
     @Action(value = "deleteLesson" , results = {
             @Result(name = SUCCESS , type = "json"),
             @Result(name = ERROR , type = "json")
     })
     @LoginRequired
     public String deleteLesson(){
+        results = new ResponseResult();
         Lesson lesson = null;
         try {
             lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
@@ -85,6 +116,7 @@ public class LessonAction extends BasicAction{
     })
     @LoginRequired
     public String updateLesson(){
+        results = new ResponseResult();
         Lesson lesson = null;
         try {
             lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
@@ -101,6 +133,7 @@ public class LessonAction extends BasicAction{
             @Result(name = ERROR , type = "json")
     })
     public String getTeacherInfoList(){
+        results = new ResponseResult();
         results.success(teacherInfoService.getTeacherInfoList());
         return SUCCESS;
     }
