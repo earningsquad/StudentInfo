@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
+<link rel="stylesheet" type="text/css" href="css/skin_/table.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.grid.css" />
+
+
+<title>表格</title>
+</head>
+
+<body>
+<div id="container">
+	<div id="hd"></div>
+    <div id="bd">
+    	<div id="main">
+        
+            <div class="table">
+            	<div class="opt ue-clear">
+                	
+                	<span class="optarea">
+                        <a href="javascript:;" class="add">
+                            <i class="icon"></i>
+                            <span class="text">添加</span>
+                        </a>
+                        <a href="javascript:;" class="delete">
+                            <i class="icon"></i>
+                            <span class="text">删除</span>
+                        </a>
+                   
+                
+                    </span>
+                </div>
+                
+                <div class="grid"></div>
+                
+                <div class="pagination"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.select.js"></script>
+<script type="text/javascript" src="js/core.js"></script>
+<script type="text/javascript" src="js/jquery.pagination.js"></script>
+<script type="text/javascript" src="js/jquery.grid.js"></script>
+<script type="text/javascript" src="js/WdatePicker.js"></script>
+<script type="text/javascript">
+	$('select').select();
+	var head = [{
+				label: 'ID',
+				width: 100,
+				sortable: 'default',
+				name: 'id'	
+			},{
+				label:'学生姓名',
+				width: 150,
+				sortable: 'default',
+				name:'name'	
+			},{
+				label:'课程名',
+				width:150	
+			},{
+				label: '分数',
+				width: 150	
+			},{
+				label: '任课老师',
+				minWidth: 200	
+			},{
+				label: '考试时间',
+				width: 120	
+			},{
+				label: '是否审核',
+				width:100	
+			}];
+			
+	var oper = [{label:'审核',onclick:function(){
+						alert('审核');
+				}},{label:'不予审核',onclick: function(){
+					alert('不予审核')	
+				}}]
+	var tbody = [
+					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper], 
+					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","未审核",oper],
+					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
+					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
+					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
+					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper]	
+				]
+					
+					
+		$('.grid').Grid({
+			thead: head,
+			tbody: null,
+			height:400,
+			checkbox: {
+				single:true	
+			},
+			operator: {
+				type : "normal",
+				width : 100	
+			},
+			sortCallBack : function(name,index,type){
+				alert(name+","+index+','+type);
+			}
+			
+		});
+	
+	$('.grid').Grid('addLoading');
+	
+	/// 模拟异步
+	setTimeout(function(){
+		$('.grid').Grid('setData',tbody, head);
+	},2000)
+	
+	
+	$('.pagination').pagination(100,{
+		callback: function(page){
+			alert(page);	
+		},
+		display_msg: false
+	});
+	
+	$('.search-box input[type=radio]').click(function(e) {
+        if($(this).prop('checked')){
+			if($(this).attr('data-define') === 'define'){
+				$('.define-input').show();
+			}else{
+				$('.define-input').hide();
+			}
+		}
+    });
+</script>
+</html>
