@@ -38,7 +38,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   ,upload = layui.upload //上传
   ,element = layui.element //元素操作
   ,slider = layui.slider //滑块
-  
+
   //向世界问个好
   layer.msg('Hello World');
   
@@ -68,7 +68,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     ,totalRow: true //开启合计行
     ,cols: [[ //表头
       {type: 'checkbox', fixed: 'left'}
-      ,{field: 'id', title: '课程ID', width:80, sort: true, fixed: 'left', totalRowText: '合计：'}
+      ,{field: 'id', title: '课程ID', width:80, sort: true, fixed: 'left', totalRowText: '合计：',hide:true}
       ,{field: 'teacherId', title: '老师ID', width:80, sort: true, fixed: 'left', hide:true}
       ,{field: 'leName', title: '课程名', width:80 , edit: 'text'}
       ,{field: 'teacher', title: '任课教师', width: 90, sort: true , edit: 'text' }
@@ -88,6 +88,54 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     switch(obj.event){
       case 'add':
         layer.msg('添加');
+          var name = encodeURIComponent(data.toolName);
+          layer.open({
+              type: 2,
+              title: '新增课程信息',
+              shadeClose: true,
+              shade: 0.8,
+              maxmin: true,
+              area: ['70%', '70%'],
+              content: 'http://localhost:8080/admin/lite/editLesson.html',//设置你要弹出的jsp页面
+              success: function(layero, index){
+                  var body = layer.getChildFrame('body', index);
+                  var leLesson = body.find('form input:eq(0)').val()
+                  var progress = body.find('form input:eq(1)').val()
+                  var total = body.find('form input:eq(2)').val()
+                  var leChange = body.find('form input:eq(3)').val()
+                  var arrange = body.find('form input:eq(4)').val()
+                  var detail = body.find('form input:eq(5)').val()
+
+
+                  /*body.find('form button:eq(0)').click(function () {
+                      alert("ss")
+                      var teacherId = body.find('form select option:selected').val()
+                      layui.$.ajax({
+                          url: "http://localhost:8080/addLesson",
+                          type : "post",//请求方式
+                          contentType: "application/json",
+                          async: false,   //不要让它异步提交
+                          data: JSON.stringify({
+                              "leName":leLesson ,
+                              "teacherInfo":{
+                                  "id":teacherId
+                              } ,
+                              "progress":progress ,
+                              "total":total ,
+                              "leChange":leChange ,
+                              "arrange":arrange ,
+                              "detail":detail
+                          }),
+                          dataType: "json",
+                          success: function (data) {
+                              layer.closeAll();
+                          }
+                      });
+                      return false;
+                  })*/
+
+              }
+          });
       break;
       case 'update':
         if(data.length === 0){
@@ -107,6 +155,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
       break;
     };
   });
+
   
   //监听行工具事件
   table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
@@ -142,26 +191,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
         });*/
 
         // console.log(data.toolName);
-        //开启编辑格式
-        /*var name = encodeURIComponent(data.toolName);
-        layer.open({
-            type: 2,
-            title: '编辑课程信息',
-            shadeClose: true,
-            shade: 0.8,
-            maxmin: true,
-            area: ['70%', '70%'],
-            content: 'http://localhost:8080/admin/lite/editLesson.html?toolSceneId='+data.toolSceneId+'&'+'id='+data.id,//设置你要弹出的jsp页面
-            success: function(layero, index){
-                var body = layer.getChildFrame('body', index);
-                var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                var inputList = body.find("input");//获取到子窗口的所有的input标签
-                for (var i = 0; i < inputList.length; i++ ) {
-                    layui.$(inputList[i]).val(editList[i]); //遍历子窗口的input标签，将之前数组中的值一次放入显示
-                }
-            }
-        });
-        layer.msg('编辑操作');*/
+
     }
   });
 
@@ -170,37 +200,11 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
             ,form = layui.form
             ,layer = layui.layer
             ,layedit = layui.layedit;
-        var index = parent.layer.getFrameIndex(window.name); //修改成功的时候点击 确定 会关闭子窗口，这里获取一下子窗口
         form.render();
         //监听提交
-        form.on('submit(editLesson)', function(data){ //这块要跟表单中的lay-filter="editStudent"对应
-            $.ajax({
-                url: "http://localhost:8080/updateLesson",
-                type : "post",//请求方式
-                contentType: "application/json",
-                async: false,   //不要让它异步提交
-                data: JSON.stringify({
-                    "id":data.id,
-                    "leName":data.leName,
-                    "teacher":data.teacher,
-                    "progress":data.progress,
-                    "total":data.total,
-                    "leChange":data.leChange,
-                    "arrange":data.arrange,
-                    "detail":data.detail
-                }),
-                dataType: "json",
-                success: function (data) {
-                    if(data.results.code =='0'){
-                        layer.alert("修改成功",{icon: 1,time:2000},function () {
-                            layer.close(layer.index);
-                            window.parent.location.reload();    //重新加载父页面，进行数据刷新
-                        });
-                    } else{
-                        layer.alert("修改失败",{icon: 2,time:2000});
-                    }
-                }
-            });
+        form.on('submit(addLesson)', function(){ //这块要跟表单中的lay-filter="editStudent"对应
+            alert("aa")
+
             return false;
         });
 

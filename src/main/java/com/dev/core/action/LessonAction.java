@@ -6,6 +6,7 @@ import com.dev.core.anno.RoleRequired;
 import com.dev.core.model.Lesson;
 import com.dev.core.model.LessonFormat;
 import com.dev.core.service.LessonService;
+import com.dev.core.service.TeacherInfoService;
 import com.dev.core.utils.ResponseResult;
 import lombok.Getter;
 import org.apache.struts2.convention.annotation.*;
@@ -25,6 +26,8 @@ public class LessonAction extends BasicAction{
 
     @Autowired
     LessonService lessonService;
+    @Autowired
+    TeacherInfoService teacherInfoService;
 
     @Getter
     ResponseResult results = new ResponseResult();
@@ -35,8 +38,8 @@ public class LessonAction extends BasicAction{
             @Result(name = ERROR , type = "json")
     })
     @LoginRequired
-    @RoleRequired(value = "teacher")
-    public String postLesson(){
+    //@RoleRequired(value = "teacher")
+    public String addLesson(){
         Lesson lesson = null;
         try {
             lesson = JSONObject.parseObject(getRequestPostData(),Lesson.class);
@@ -90,6 +93,15 @@ public class LessonAction extends BasicAction{
         }
         lessonService.updateLesson(lesson);
         results.success();
+        return SUCCESS;
+    }
+
+    @Action(value = "getTeacherInfoList" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    public String getTeacherInfoList(){
+        results.success(teacherInfoService.getTeacherInfoList());
         return SUCCESS;
     }
 

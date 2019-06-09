@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" href="../assets/plugins/layui/css/layui.css" media="all">
+<script src="js/jquery.min.js"></script>
+<script src="../assets/plugins/layui/layui.js"></script>
+<body>
+
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">课程名</label>
+            <div class="layui-input-inline">
+                <input name="leName" lay-verify="required" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+
+        <div class="layui-inline" >
+            <label class="layui-form-label">任课老师</label>
+            <div class="layui-input-block">
+                <select id = "tea" name="teacher" lay-verify="required">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">课程进度</label>
+            <div class="layui-input-inline">
+                <input name="progress" lay-verify="required|number" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">课程容量</label>
+            <div class="layui-input-inline">
+                <input name="total" lay-verify="required|number" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">课程变更 </label>
+            <div class="layui-input-inline">
+                <input name="leChange" lay-verify="required" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">课程安排 </label>
+            <div class="layui-input-inline">
+                <input name="arrange" lay-verify="required" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">课程详情 </label>
+            <div class="layui-input-inline">
+                <input name="detail" lay-verify="required" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <button  lay-submit="" class="layui-btn" lay-filter="addLesson">立即提交</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+
+<script>
+
+
+    $(document).ready(function () {
+
+
+        layui.use('form', function(){
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+            //……
+
+            //但是，如果你的HTML是动态生成的，自动渲染就会失效
+            //因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+            form.render();
+        });
+
+
+        $.ajax({
+            url: "http://localhost:8080/getTeacherInfoList",
+            type : "post",//请求方式
+            contentType: "application/json",
+            async: false,   //不要让它异步提交
+            dataType: "json",
+            success: function (data) {
+                var str = '<option value=""></option>'
+                for(var i = 0;i < data.results.data.length;i++){
+                    str += '<option value="'+data.results.data[i].id+'">'+data.results.data[i].name+'</option>'
+                }
+
+                $("#tea").html(str);
+            }
+        })
+    })
+
+    /*$('.layui-btn').click(function () {
+        $.ajax({
+            url: "http://localhost:8080/addLesson",
+            type : "post",//请求方式
+            contentType: "application/json",
+            async: false,   //不要让它异步提交
+            data: JSON.stringify({
+                "leName":$("input[name='leName']").val() ,
+                "teacherInfo":{
+                    "id":$("select option:selected").val()
+                } ,
+                "progress":$("input[name='progress']").val() ,
+                "total":$("input[name='total']").val() ,
+                "leChange":$("input[name='leChange']").val() ,
+                "arrange":$("input[name='arrange']").val() ,
+                "detail":$("input[name='detail']").val()
+            }),
+            dataType: "json",
+            success: function (data) {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            },
+            fali:function () {
+                alert("shibai")
+            }
+        });
+        return false;
+
+    })*/
+
+</script>
+</html>
