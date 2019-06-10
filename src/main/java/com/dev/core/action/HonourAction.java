@@ -126,4 +126,34 @@ public class HonourAction extends BasicAction{
         return SUCCESS;
     }
 
+    //查看申请的荣誉
+    @Action(value = "showHonourDetail" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    public String showHonourDetail(){
+        /*HttpServletRequest request = ServletActionContext.getRequest();
+        User user = getUser(request);*/
+        List<HonourDetailFormat> honourDetailList = honourDetailService.showHonourDetail();
+        honourResult.success(honourDetailList,honourDetailList.size());
+        return SUCCESS;
+    }
+
+    //申请荣誉
+    @Action(value = "updateHonourDetail" , results = {
+            @Result(name = SUCCESS , type = "json"),
+            @Result(name = ERROR , type = "json")
+    })
+    public String updateHonourDetail(){
+        HonourDetail honourDetail = null;
+        try {
+            honourDetail = JSONObject.parseObject(getRequestPostData(),HonourDetail.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        honourDetailService.updateHonourDetail(honourDetail);
+        honourResult.success();
+        return SUCCESS;
+    }
+
 }

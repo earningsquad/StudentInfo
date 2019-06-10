@@ -10,7 +10,10 @@ public class HonourDetailFormat {
     private int type;
     private String detail;
     private String applyReason;
-    private int state;
+    private String state;
+    private String studentName;
+    private String fileName;
+    private String fileLocation;
 
     public HonourDetailFormat(HonourDetail honourDetail){
         this.id = honourDetail.getId();
@@ -19,7 +22,17 @@ public class HonourDetailFormat {
         this.type = honourDetail.getHonour().getType();
         this.detail = honourDetail.getHonour().getDetail();
         this.applyReason = honourDetail.getApplyReason();
-        this.state = honourDetail.getState();
+        this.fileLocation = honourDetail.getFile().getFileLocation();
+        this.fileName = honourDetail.getFile().getFileName();
+        if(honourDetail.getState() == 0){
+            this.state = "未审核";
+        }else if(honourDetail.getState() == 1){
+            this.state = "审核通过";
+        }else {
+            this.state = "审核不通过";
+        }
+
+        this.studentName = honourDetail.getStudentInfo().getName();
     }
 
 }

@@ -31,4 +31,22 @@ public class HonourDetailService {
         }
         return honourDetailFormatList;
     }
+
+    public List<HonourDetailFormat> showHonourDetail(){
+        String hql = "from HonourDetail ";
+        List<HonourDetail> honourDetailList = dao.find(hql);
+        List<HonourDetailFormat> honourDetailFormatList = new ArrayList<>(honourDetailList.size());
+        for(HonourDetail h : honourDetailList){
+            HonourDetailFormat honourDetailFormat = new HonourDetailFormat(h);
+            honourDetailFormatList.add(honourDetailFormat);
+        }
+        return honourDetailFormatList;
+    }
+
+    public void updateHonourDetail(HonourDetail honourDetail){
+        String hql = "update HonourDetail set state = "+honourDetail.getState()+
+                " where id = " + honourDetail.getId();
+        dao.executeHql(hql);
+    }
+
 }
