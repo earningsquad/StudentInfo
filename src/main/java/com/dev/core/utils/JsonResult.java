@@ -22,6 +22,15 @@ public class JsonResult {
         jsonResult.setBean(object);
         return jsonResult;
     }
+
+    //成功
+    public static JsonResult successX(){
+        JsonResult jsonResult =new JsonResult();
+        jsonResult.setIsSuccess(true);
+        jsonResult.setMessage("success");
+        return jsonResult;
+    }
+
     //失败
     public static JsonResult failX(String errorMsg){
         JsonResult jsonResult =new JsonResult();

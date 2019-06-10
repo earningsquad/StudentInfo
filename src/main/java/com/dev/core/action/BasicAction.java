@@ -4,20 +4,15 @@ import com.dev.core.model.User;
 import com.dev.core.utils.JsonResult;
 import com.opensymphony.xwork2.ActionSupport;
 import lombok.Getter;
-import lombok.Setter;
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@ParentPackage("root")
 public class BasicAction extends ActionSupport {
-    public static String ISUCCESS="json";
 
-    @Autowired
-    @Getter@Setter
+    public static String ISUCCESS="json";
+    @Getter
     protected JsonResult result;
    // protected Logger logger = Logger.getLogger(BasicAction.class);
 
@@ -38,8 +33,9 @@ public class BasicAction extends ActionSupport {
     public void setUser(User user) {
         HttpServletRequest request= ServletActionContext
                 .getRequest();
-         request.getSession().setAttribute("user",user);
+        request.getSession().setAttribute("user",user);
     }
+
 
     /**
      * 系统日志
