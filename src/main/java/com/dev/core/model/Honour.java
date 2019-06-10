@@ -31,6 +31,21 @@ public class Honour {
     @Column(name = "DETAIL")
     private String detail;
 
+    public Honour() {
+    }
+
+    public Honour(int type, String name, int state, String detail) {
+        this.type = type;
+        this.name = name;
+        this.state = state;
+        this.detail = detail;
+    }
+
+    public Honour(int type, String name, String detail) {
+        this.type = type;
+        this.name = name;
+        this.detail = detail;
+    }
     @ManyToMany(targetEntity = StudentInfo.class,fetch=FetchType.EAGER)
     @JoinTable(name = "HONOUR_DETAIL",joinColumns = @JoinColumn(name="HONOUR_ID"),inverseJoinColumns =@JoinColumn(name="STUDENT_ID"))
     private List students;
