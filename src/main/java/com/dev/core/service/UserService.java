@@ -36,4 +36,10 @@ public class UserService {
 
         return false;
     }
+
+    public List<User> getStudentUser(){
+        String hql = "from User where role = 1";
+        return dao.find(hql);
+    }
+
 }

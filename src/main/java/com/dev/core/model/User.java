@@ -26,4 +26,11 @@ public class User {
     @Column(name = "ROLE")
     private String role;
 
+    //用户ID
+    @OneToOne(mappedBy = "user")
+    private StudentInfo studentInfo;
+
+    @OneToOne(mappedBy = "user")
+    private TeacherInfo teacherInfo;
+
 }

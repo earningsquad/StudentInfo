@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/WdatePicker.css" />
+    <link rel="stylesheet" type="text/css" href="css/skin_/table.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.grid.css" />
+
+
+    <title>表格</title>
+</head>
+
+<body>
+
+<div id="container">
+    <div id="hd"></div>
+    <div id="bd">
+        <div id="main">
+
+            <div class="table">
+                <div class="opt ue-clear">
+                	<span class="optarea">
+                        <a href="javascript:;" class="add">
+                            <i class="icon"></i>
+                            <span class="text">发布预警</span>
+                        </a>
+                        <a href="javascript:;" class="delete">
+                            <i class="icon"></i>
+                            <span class="text">删除预警</span>
+                        </a>
+
+                    </span>
+                </div>
+
+                <div class="grid"></div>
+
+                <div class="pagination"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.select.js"></script>
+<script type="text/javascript" src="js/core.js"></script>
+<script type="text/javascript" src="js/jquery.pagination.js"></script>
+<script type="text/javascript" src="js/jquery.grid.js"></script>
+<script type="text/javascript" src="js/WdatePicker.js"></script>
+<script src="js/jqueryui/jquery-ui.js"></script>
+<script src="layui/layui.js"></script>
+<link rel="stylesheet" href="js/jqueryui/jquery-ui.structure.css">
+<link rel="stylesheet" href="js/jqueryui/jquery-ui.theme.css">
+
+<script>
+    layui.use('layer', function() {
+        var layer = layui.layer //弹层
+
+        layui.$(".add").click(function () {
+            layer.open({
+                type: 2,
+                title: '发布预警',
+                shadeClose: true,
+                shade: 0.8,
+                maxmin: true,
+                area: ['30%', '30%'],
+                content: 'http://localhost:8080/Teacher/addNotify.html',//设置你要弹出的jsp页面
+                success: function (layero, index) {
+
+                }
+            })
+        })
+    })
+</script>
+<script type="text/javascript">
+
+    var eachArr = []
+
+    $.ajax({
+        url:"http://localhost:8080/findNotify",
+        type : "post",//请求方式
+        dataType:"json",
+        success: function (respon) {
+            $.each(respon.results.data,function (key,value) {
+                var arr=[]
+                arr.push(value.id,value.notifyName,value.beNotifyName,value.type,value.detail,value.date)
+                eachArr.push(arr)
+            })
+        }
+
+    })
+
+    $(".delete").click(function () {
+        var chk_value =[];//定义一个数组
+        $('input:checked').each(function(){//遍历每一个名字为interest的复选框，其中选中的执行函数
+            chk_value.push($(this).parents("tr").index());//将选中的值添加到数组chk_value中
+        });
+        var ids = [];
+        for(var i = 0;i < chk_value.length;i++){
+            //id.push()
+            ids.push($(".__data tr:eq("+chk_value[i]+") td[name='id'] div").html())
+        }
+        var params = $.param({'add':ids},true);
+        $.ajax({
+            url:"http://localhost:8080/deleteNotify",
+            type : "post",//请求方式
+            dataType:"json",
+            data:params,
+            success: function (respon) {
+                window.location.reload();
+            }
+        })
+    })
+
+
+    var tbody = eachArr;
+
+    $('select').select();
+    var head = [{
+        label: 'ID',
+        width: 100,
+        sortable: 'default',
+        name: 'id'
+    },{
+        label:'通知人',
+        width: 150,
+        sortable: 'default'
+    },{
+        label:'接收人',
+        width:150
+    },{
+        label: '通知类型',
+        width: 150
+    },{
+        label: '通知内容',
+        minWidth: 200
+    },{
+        label: '通知时间',
+        width: 120
+    }];
+
+
+
+
+
+
+
+    $('.grid').Grid({
+        thead: head,
+        tbody: null,
+        height:400,
+        checkbox: {
+            single:true
+        },
+        operator: {
+            type : "normal",
+            width : 100
+        },
+        sortCallBack : function(name,index,type){
+            alert(name+","+index+','+type);
+        }
+
+    });
+
+    $('.grid').Grid('addLoading');
+
+    /// 模拟异步
+    setTimeout(function(){
+        $('.grid').Grid('setData',tbody, head);
+    },2000)
+
+
+    $('.pagination').pagination(100,{
+        callback: function(page){
+            alert(page);
+        },
+        display_msg: false
+    });
+
+    $('.search-box input[type=radio]').click(function(e) {
+        if($(this).prop('checked')){
+            if($(this).attr('data-define') === 'define'){
+                $('.define-input').show();
+            }else{
+                $('.define-input').hide();
+            }
+        }
+    });
+</script>
+</html>
