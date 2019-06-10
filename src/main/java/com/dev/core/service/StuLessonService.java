@@ -64,6 +64,23 @@ public class StuLessonService  {
 
       }
     return false;
+    }
 
+    public Boolean TeaAddLess( int[] ids){
+        try {
+            Lesson le=(Lesson)dao.getByHql("From Lesson where id="+ ids[0]);
+            StudentInfo st=(StudentInfo)dao.getByHql("From StudentInfo where id="+ ids[1]);
+            StuLesson sl=new StuLesson();
+            sl.setScore(ids[2]);
+            sl.setLeCheck(ids[3]);
+            sl.setLesson(le);
+            sl.setStudentInfo(st);
+            sl.setSupplementary(0);
+            dao.save(sl);
+            return true;
+        }catch (Exception e){
+
+        }
+        return false;
     }
 }

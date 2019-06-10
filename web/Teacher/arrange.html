@@ -147,74 +147,75 @@
                 updateTable(arr)
         }
         })
-        function beTeacher(){
+        function beTeacher() {
             $.ajax({
                 url: "http://localhost:8080/beTeacher",
-                type : "post",//请求方式
+                type: "post",//请求方式
                 dataType: "json",
                 success: function (data) {
-                    var arr=[]
-                    $.each(data,function (key,value) {
-                        arr.push([value.id,value.leName,value.time,value.location,value.amounts,value.invigilator,value.teacher])
+                    var arr = []
+                    $.each(data, function (key, value) {
+                        arr.push([value.id, value.leName, value.time, value.location, value.amounts, value.invigilator, value.teacher])
                     })
                     updateTable(arr)
                 }
             })
-function updateTable( arr){
-    var head = [{
-        label: 'ID',
-        width: 100,
-        sortable: 'default',
-        name: 'id'
-    },{
-        label:'课程名称',
-        width: 150,
-        sortable: 'default',
-        name:'name'
-    },{
-        label:'考试时间',
-        width:150
-    },{
-        label: '考试地点',
-        minWidth: 150
-    },{
-        label: '考试人数',
-        width: 150
-    },{
-        label: '监考员',
-        width: 150
-    },{
-        label: '任课教师',
-        width:150
-    }];
+
+            function updateTable(arr) {
+                var head = [{
+                    label: 'ID',
+                    width: 100,
+                    sortable: 'default',
+                    name: 'id'
+                }, {
+                    label: '课程名称',
+                    width: 150,
+                    sortable: 'default',
+                    name: 'name'
+                }, {
+                    label: '考试时间',
+                    width: 150
+                }, {
+                    label: '考试地点',
+                    minWidth: 150
+                }, {
+                    label: '考试人数',
+                    width: 150
+                }, {
+                    label: '监考员',
+                    width: 150
+                }, {
+                    label: '任课教师',
+                    width: 150
+                }];
 
 
-    var tbody =arr
+                var tbody = arr
 
-    $('.grid').Grid({
-        thead: head,
-        tbody: null,
-        height:400,
-        checkbox: {
-            single:true
-        },
-        sortCallBack : function(name,index,type){
-            alert(name+","+index+','+type);
+                $('.grid').Grid({
+                    thead: head,
+                    tbody: null,
+                    height: 400,
+                    checkbox: {
+                        single: true
+                    },
+                    sortCallBack: function (name, index, type) {
+                        alert(name + "," + index + ',' + type);
+                    }
+
+                });
+
+                $('.grid').Grid('addLoading');
+
+                /// 模拟异步
+                setTimeout(function () {
+                    $('.grid').Grid('setData', tbody, head);
+                }, 1000)
+
+
+            }
         }
+	}
 
-    });
-
-    $('.grid').Grid('addLoading');
-
-    /// 模拟异步
-    setTimeout(function(){
-        $('.grid').Grid('setData',tbody, head);
-    },1000)
-
-
-}
-
-
-    }
 </script>
 </html>

@@ -75,7 +75,6 @@ public class ScoreAction extends BasicAction {
 
     @Action(value = "addStuScore")
     public String addStuScore(){
-
     service.addStuLess(add);
       return ISUCCESS;
     }
@@ -86,7 +85,6 @@ public class ScoreAction extends BasicAction {
         List<Lesson> les=new ArrayList<>();
         tresult=new HashMap<>();
         les=service.allLesson();
-        System.out.println(les.size()+"----------");
         int i=0;
         List<Map<String,String>> templ=new ArrayList<>();
         for(Lesson l:les){
