@@ -35,7 +35,12 @@ public class StuLessonService  {
         dao.delete(s);
         return true;
     }
-
+    public  Boolean updateLessCheck(int id,int flag){
+        StuLesson s=(StuLesson)dao.getByHql("FROM StuLesson where id="+id);
+        s.setLeCheck(flag);
+        dao.update(s);
+        return true;
+    }
     public Boolean updateScore(int id,int score){
       try {
           StuLesson s=(StuLesson)dao.getByHql("From StuLesson where id="+id);

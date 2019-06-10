@@ -3,6 +3,7 @@ package com.dev.core.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 //学生课程信息表
 @Entity
@@ -35,4 +36,6 @@ public class StuLesson {
     //补考状态
     @Column(name = "SUPPLEMENTARY")
     private  int supplementary;
+
+
    }

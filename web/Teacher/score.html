@@ -51,89 +51,126 @@
 <script type="text/javascript" src="js/jquery.grid.js"></script>
 <script type="text/javascript" src="js/WdatePicker.js"></script>
 <script type="text/javascript">
-	$('select').select();
-	var head = [{
-				label: 'ID',
-				width: 100,
-				sortable: 'default',
-				name: 'id'	
-			},{
-				label:'学生姓名',
-				width: 150,
-				sortable: 'default',
-				name:'name'	
-			},{
-				label:'课程名',
-				width:150	
-			},{
-				label: '分数',
-				width: 150	
-			},{
-				label: '任课老师',
-				minWidth: 200	
-			},{
-				label: '考试时间',
-				width: 120	
-			},{
-				label: '是否审核',
-				width:100	
-			}];
-			
-	var oper = [{label:'审核',onclick:function(){
-						alert('审核');
-				}},{label:'不予审核',onclick: function(){
-					alert('不予审核')	
-				}}]
-	var tbody = [
-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper], 
-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","未审核",oper],
-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper]	
-				]
-					
-					
-		$('.grid').Grid({
-			thead: head,
-			tbody: null,
-			height:400,
-			checkbox: {
-				single:true	
-			},
-			operator: {
-				type : "normal",
-				width : 100	
-			},
-			sortCallBack : function(name,index,type){
-				alert(name+","+index+','+type);
-			}
-			
-		});
-	
-	$('.grid').Grid('addLoading');
-	
-	/// 模拟异步
-	setTimeout(function(){
-		$('.grid').Grid('setData',tbody, head);
-	},2000)
-	
-	
-	$('.pagination').pagination(100,{
-		callback: function(page){
-			alert(page);	
-		},
-		display_msg: false
-	});
-	
-	$('.search-box input[type=radio]').click(function(e) {
-        if($(this).prop('checked')){
-			if($(this).attr('data-define') === 'define'){
-				$('.define-input').show();
-			}else{
-				$('.define-input').hide();
-			}
-		}
+    function ssss(flag,id) {
+        return function () {
+            checkScore(flag,id)
+        }
+    }
+
+
+    var tbody=[[]]
+    $.ajax({
+        url : "http://localhost:8080/TeaSearchAllScore",
+        type : "get",
+        success : function(data) {
+            tbody=data;
+
+            var oper1=[
+                {label:'已审核'}
+            ]
+            var oper2=[
+                {label:'不予审核'}
+            ]
+            for(var tlength=0;tlength<tbody.length;tlength++){
+                if(tbody[tlength][6]==1){
+                    tbody[tlength].push(oper1)
+                }
+                else if(tbody[tlength][6]==-1){
+                    tbody[tlength].push(oper2)
+                }
+                else  if(tbody[tlength][6]==0) {
+                           var a=tbody[tlength][0]
+                    tbody[tlength].push([{label:'审核',onclick:ssss(1,a)
+
+                    },{label:'不予审核',onclick:ssss(-1,a)}]
+
+                    )
+                }
+            }
+        }
+    })
+
+
+    $('select').select();
+    var head = [{
+        label: 'ID',
+        width: 100,
+        sortable: 'default',
+        name: 'id'
+    },{
+        label:'学生姓名',
+        width: 150,
+        sortable: 'default',
+        name:'name'
+    },{
+        label:'课程名',
+        width:150
+    },{
+        label: '分数',
+        width: 150
+    },{
+        label: '任课老师',
+        minWidth: 200
+    },{
+        label: '考试时间',
+        width: 120
+    }];
+
+
+    $('.grid').Grid({
+        thead: head,
+        tbody: null,
+        height:400,
+        checkbox: {
+            single:true
+        },
+        operator: {
+            type : "normal",
+            width : 100
+        },
+        sortCallBack : function(name,index,type){
+            alert(name+","+index+','+type);
+        }
+
     });
+
+    $('.grid').Grid('addLoading');
+
+    /// 模拟异步
+    setTimeout(function(){
+        $('.grid').Grid('setData',tbody, head);
+    },2000)
+
+
+    $('.pagination').pagination(100,{
+        callback: function(page){
+            alert(page);
+        },
+        display_msg: false
+    });
+
+    $('.search-box input[type=radio]').click(function(e) {
+        if($(this).prop('checked')){
+            if($(this).attr('data-define') === 'define'){
+                $('.define-input').show();
+            }else{
+                $('.define-input').hide();
+            }
+        }
+    });
+    function checkScore(flag,id) {
+          alert(flag+"---"+id)
+        $.ajax({
+            url: "http://localhost:8080/updateStuLessCheck",
+            type: "POST",
+            data: {'id': id, 'flag': flag},
+            success: function (result) {
+                         window.location.reload()
+
+            },
+
+        })
+    }
+
 </script>
 </html>

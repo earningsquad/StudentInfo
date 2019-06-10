@@ -3,6 +3,7 @@ package com.dev.core.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 //课程表
@@ -49,5 +50,7 @@ public class Lesson {
     @Column(name = "TOTAL")
     private int total;
 
-
+    @JoinColumn(name = "MONITOR_ID")
+    @OneToOne
+    private Monitor monitor;
 }
