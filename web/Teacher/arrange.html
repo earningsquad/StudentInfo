@@ -28,7 +28,7 @@
                             <span class="name">
                             	
 								<span class="text"><a href="#">我的科目</a></span>
-								<span class="text"><a href="#">我的监考</a></span>
+								<span class="text"><a href="javascript:beInvigilate()">我的监考</a></span>
                             </span>
                         </span>
                         
@@ -53,6 +53,18 @@
 <script type="text/javascript" src="js/jquery.grid.js"></script>
 <script type="text/javascript" src="js/WdatePicker.js"></script>
 <script type="text/javascript">
+    var arr=[]
+    $.ajax({
+        url: "http://localhost:8080/AllMonitor",
+        type : "post",//请求方式
+        dataType: "json",
+        success: function (data) {
+         $.each(data,function (key,value) {
+             arr.push([value.id,value.leName,value.time,value.location,value.amounts,value.invigilator,value.teacher])
+         })
+        }
+    })
+
 	$('select').select();
 	var head = [{
 				label: 'ID',
@@ -82,18 +94,7 @@
 			}];
 			
 
-	var tbody = [
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"], 
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"], 
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"], 
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"], 
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"], 
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"], 
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"], 
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"], 
-					["201301","高数","1982-10-18","软件学院B503","30","苗婉秋","葛军"]
-					]
-					
+	var tbody =arr
 					
 		$('.grid').Grid({
 			thead: head,
@@ -132,5 +133,88 @@
 			}
 		}
     });
+
+	function beInvigilate(){
+        $.ajax({
+            url: "http://localhost:8080/beInvigilate",
+            type : "post",//请求方式
+            dataType: "json",
+            success: function (data) {
+                var arr=[]
+                $.each(data,function (key,value) {
+                    arr.push([value.id,value.leName,value.time,value.location,value.amounts,value.invigilator,value.teacher])
+                })
+                updateTable(arr)
+        }
+        })
+        function beTeacher(){
+            $.ajax({
+                url: "http://localhost:8080/beTeacher",
+                type : "post",//请求方式
+                dataType: "json",
+                success: function (data) {
+                    var arr=[]
+                    $.each(data,function (key,value) {
+                        arr.push([value.id,value.leName,value.time,value.location,value.amounts,value.invigilator,value.teacher])
+                    })
+                    updateTable(arr)
+                }
+            })
+function updateTable( arr){
+    var head = [{
+        label: 'ID',
+        width: 100,
+        sortable: 'default',
+        name: 'id'
+    },{
+        label:'课程名称',
+        width: 150,
+        sortable: 'default',
+        name:'name'
+    },{
+        label:'考试时间',
+        width:150
+    },{
+        label: '考试地点',
+        minWidth: 150
+    },{
+        label: '考试人数',
+        width: 150
+    },{
+        label: '监考员',
+        width: 150
+    },{
+        label: '任课教师',
+        width:150
+    }];
+
+
+    var tbody =arr
+
+    $('.grid').Grid({
+        thead: head,
+        tbody: null,
+        height:400,
+        checkbox: {
+            single:true
+        },
+        sortCallBack : function(name,index,type){
+            alert(name+","+index+','+type);
+        }
+
+    });
+
+    $('.grid').Grid('addLoading');
+
+    /// 模拟异步
+    setTimeout(function(){
+        $('.grid').Grid('setData',tbody, head);
+    },1000)
+
+
+}
+
+
+    }
 </script>
 </html>
