@@ -54,4 +54,5 @@ public class MyInfoService {
         List<HonourDetail> list= (List) baseDao.findByHqL("from HonourDetail where STUDENT_ID="+stuId);
         return list;
     }
+
 }

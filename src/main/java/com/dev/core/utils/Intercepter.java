@@ -1,7 +1,9 @@
 package com.dev.core.utils;
 
 
+import com.dev.core.anno.GetUser;
 import com.dev.core.anno.LoginRequired;
+import com.dev.core.anno.RawPostData;
 import com.dev.core.anno.RoleRequired;
 import com.dev.core.model.User;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -9,6 +11,7 @@ import com.opensymphony.xwork2.interceptor.Interceptor;
 import org.apache.struts2.ServletActionContext;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 public class Intercepter implements Interceptor {
 
@@ -27,15 +30,34 @@ public class Intercepter implements Interceptor {
         //System.out.println("拦截器");
 
         String methodName=actionInvocation.getProxy().getMethod();
-        Method currentMethod=actionInvocation.getAction()
-                .getClass().getMethod(methodName, null);
+
+        Method currentMethod=null;
+        User user= (User) ServletActionContext
+                .getRequest().getSession().getAttribute("user");
+      try {
+          currentMethod=actionInvocation.getAction()
+                  .getClass().getMethod(methodName, null);
+      }catch (NoSuchMethodException e){
+/*
+          currentMethod=actionInvocation.getProxy().getAction()
+                  .getClass().getMethod(methodName,User.class);
+          currentMethod=actionInvocation.getProxy().getAction()
+                  .getClass().getMethod(methodName,String.class);
+          =actionInvocation.getProxy().getAction()*/
+         Method[] methods=actionInvocation.getProxy().getAction().getClass().getDeclaredMethods();
+                 for (Method method:methods){
+                  if (method.getName().equals(methodName))
+                     currentMethod=method;
+                 }
+      }
+
       //  Annotation[][] annotations=currentMethod.getParameterAnnotations();
 
 
 
+
         if (currentMethod.isAnnotationPresent(LoginRequired.class)){
-            User user= (User) ServletActionContext
-                    .getRequest().getSession().getAttribute("user");
+
 
 
             if (user!=null){
@@ -47,11 +69,37 @@ public class Intercepter implements Interceptor {
                     }
                 }
 
-                return actionInvocation.invoke();
+
+
+              //  return actionInvocation.invoke();
             }else {
                 return "noLogin";
             }
         }
-        else return actionInvocation.invoke();
+
+        Parameter[] parameters=currentMethod.getParameters();
+        Object[] params=new Object[2];
+
+        if (parameters.length<3){
+            int i;
+            for ( i=0;i<parameters.length;i++){
+                Parameter parameter=parameters[i];
+                if (parameter.isAnnotationPresent(GetUser.class))
+                {
+                    params[i]=user;
+                }
+                else if (parameter.isAnnotationPresent(RawPostData.class))
+                {
+                    params[i]=GetRawData.getPostRawData(ServletActionContext
+                            .getRequest());
+                }
+            }
+            if (i==1)
+             return (String) currentMethod.invoke(actionInvocation.getProxy().getAction(),params[0]);
+            if (i==2)
+            return (String) currentMethod.invoke(actionInvocation.getProxy().getAction(),params[0],params[1]);
+        }
+
+        return actionInvocation.invoke();
     }
 }

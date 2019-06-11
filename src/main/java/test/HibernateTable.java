@@ -101,5 +101,17 @@ public class HibernateTable {
         //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
 
     }
+    @Test
+    public void test6(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+        MyInfoService myInfoService= (MyInfoService) ctx.getBean("myInfoService");
+        System.out.println(JSON.toJSONString(myInfoService.getWholeInfo(2)));
+    }
+    @Test
+    public void test8(){
+        System.out.println();
+
+
+    }
 
 }

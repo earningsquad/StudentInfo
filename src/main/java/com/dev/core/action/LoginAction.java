@@ -1,8 +1,9 @@
 package com.dev.core.action;
 
 import com.alibaba.fastjson.JSON;
+import com.dev.core.anno.GetUser;
 import com.dev.core.anno.LoginRequired;
-import com.dev.core.anno.RoleRequired;
+import com.dev.core.anno.RawPostData;
 import com.dev.core.model.User;
 import com.dev.core.service.UserService;
 import org.apache.struts2.convention.annotation.Action;
@@ -11,8 +12,6 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
-import java.io.IOException;
 
 
 @Controller
@@ -25,9 +24,9 @@ public class    LoginAction extends BasicAction{
 
 
     @Action(value = "login")
-    public String login()  {
-        try {
-            User user= JSON.parseObject(getRequestPostData(),User.class);
+    public String login(@RawPostData String rawData)  {
+
+            User user= JSON.parseObject(rawData,User.class);
             if (service.login(user)){
                 setUser(user);
                 result.success(user);
@@ -37,9 +36,7 @@ public class    LoginAction extends BasicAction{
             }
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
 
         return ISUCCESS;
@@ -48,10 +45,9 @@ public class    LoginAction extends BasicAction{
 
 
     @Action(value = "test")
-    @LoginRequired
-    @RoleRequired("tea")
-    public String test(){
+    public String test(@GetUser User user,@RawPostData String string){
         result.success("test");
+        System.out.println(user+string);
         return ISUCCESS;
     }
 
