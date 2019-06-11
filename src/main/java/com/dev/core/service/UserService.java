@@ -30,7 +30,9 @@ public class UserService {
 
         if (list!=null&&list.size()>0){
             String role=((User)list.get(0)).getRole();
+            int uid= ((User)list.get(0)).getId();
             user.setRole(role);
+            user.setId(uid);
             return true;
         }
 
