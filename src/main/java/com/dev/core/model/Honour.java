@@ -3,7 +3,6 @@ package com.dev.core.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 //荣耀表
 @Entity
@@ -16,9 +15,6 @@ public class Honour {
     private int id;
 
 
-    //荣耀类型
-    @Column(name = "NAME")
-    private String name;
 
 
     //荣耀类型
