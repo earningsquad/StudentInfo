@@ -1,9 +1,8 @@
 package com.dev.core.action;
 
-import com.alibaba.fastjson.JSON;
 import com.dev.core.anno.GetUser;
+import com.dev.core.anno.JsonObj;
 import com.dev.core.anno.LoginRequired;
-import com.dev.core.anno.RawPostData;
 import com.dev.core.model.User;
 import com.dev.core.service.UserService;
 import org.apache.struts2.convention.annotation.Action;
@@ -24,9 +23,9 @@ public class    LoginAction extends BasicAction{
 
 
     @Action(value = "login")
-    public String login(@RawPostData String rawData)  {
+    public String login(@JsonObj User user  )  {
 
-            User user= JSON.parseObject(rawData,User.class);
+          //  User user= JSON.parseObject(rawData,User.class);
             if (service.login(user)){
                 setUser(user);
                 result.success(user);
@@ -35,19 +34,15 @@ public class    LoginAction extends BasicAction{
                 result.fail("失败");
             }
 
-
-
-
-
         return ISUCCESS;
     }
 
 
 
     @Action(value = "test")
-    public String test(@GetUser User user,@RawPostData String string){
+    public String test(@GetUser User user,@JsonObj User string){
         result.success("test");
-        System.out.println(user+string);
+        System.out.println(user+string.getUserName());
         return ISUCCESS;
     }
 

@@ -1,10 +1,8 @@
 package com.dev.core.utils;
 
 
-import com.dev.core.anno.GetUser;
-import com.dev.core.anno.LoginRequired;
-import com.dev.core.anno.RawPostData;
-import com.dev.core.anno.RoleRequired;
+import com.alibaba.fastjson.JSON;
+import com.dev.core.anno.*;
 import com.dev.core.model.User;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
@@ -38,12 +36,7 @@ public class Intercepter implements Interceptor {
           currentMethod=actionInvocation.getAction()
                   .getClass().getMethod(methodName, null);
       }catch (NoSuchMethodException e){
-/*
-          currentMethod=actionInvocation.getProxy().getAction()
-                  .getClass().getMethod(methodName,User.class);
-          currentMethod=actionInvocation.getProxy().getAction()
-                  .getClass().getMethod(methodName,String.class);
-          =actionInvocation.getProxy().getAction()*/
+
          Method[] methods=actionInvocation.getProxy().getAction().getClass().getDeclaredMethods();
                  for (Method method:methods){
                   if (method.getName().equals(methodName))
@@ -78,9 +71,10 @@ public class Intercepter implements Interceptor {
         }
 
         Parameter[] parameters=currentMethod.getParameters();
-        Object[] params=new Object[2];
+        if (parameters.length>0){
+            Object[] params=new Object[parameters.length];
+            Boolean flag=false;
 
-        if (parameters.length<3){
             int i;
             for ( i=0;i<parameters.length;i++){
                 Parameter parameter=parameters[i];
@@ -92,13 +86,27 @@ public class Intercepter implements Interceptor {
                 {
                     params[i]=GetRawData.getPostRawData(ServletActionContext
                             .getRequest());
+                    flag=true;
+                }else if (parameter.isAnnotationPresent(JsonObj.class)){
+                    if (flag) throw  new Exception("can use both RawPostData and JsonObj");
+                    String json=GetRawData.getPostRawData(ServletActionContext
+                            .getRequest());
+                    params[i]= JSON.parseObject(json,parameter.getType());
+                }else {
+                    return actionInvocation.invoke();
                 }
+
             }
-            if (i==1)
-             return (String) currentMethod.invoke(actionInvocation.getProxy().getAction(),params[0]);
-            if (i==2)
+         /*   if (i==1)
+            return (String) currentMethod.invoke(actionInvocation.getProxy().getAction(),params[0]);
+             if (i==2)
             return (String) currentMethod.invoke(actionInvocation.getProxy().getAction(),params[0],params[1]);
+         */
+
+            return (String) currentMethod.invoke(actionInvocation.getProxy().getAction(),params);
+
         }
+
 
         return actionInvocation.invoke();
     }
