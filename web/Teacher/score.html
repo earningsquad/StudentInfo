@@ -28,7 +28,7 @@
                         </a>
                         <a href="javascript:;" class="delete">
                             <i class="icon"></i>
-                            <span class="text">删除</span>
+                            <span class="text" onclick="deleteOne()">删除</span>
                         </a>
                    
                 
@@ -171,6 +171,29 @@
 
         })
     }
+function deleteOne(){
+   var ck=$("input:checkbox")
+    var flag
+    var id
+    $.each(ck,function(k,v){
+        if($(this).attr('checked')=='checked')
+           flag=(k-1)*7
 
+    })
+
+  id=$(".ui-table-td:eq("+flag+")").html()
+    $.ajax({
+        url: "http://localhost:8080/deleteScore",
+        type: "POST",
+        data: {'id': id},
+        success: function (result) {
+            window.location.reload()
+        },
+
+    })
+
+
+
+}
 </script>
 </html>
