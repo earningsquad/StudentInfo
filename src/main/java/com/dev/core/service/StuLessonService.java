@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -83,4 +84,24 @@ public class StuLessonService  {
         }
         return false;
     }
+
+    public List<Lesson> findClassLesson(User u){
+        List<Lesson> cLesson=new ArrayList<>();
+        StudentInfo s=(StudentInfo)dao.getByHql("FROM StudentInfo where id="+u.getId());
+        String hql=" FROM StudentInfo where classNumber="+s.getClassNumber();
+        List<Object> obs = dao.find(hql);
+        List<Integer> sids=new ArrayList<>();
+       for(Object obj:obs){
+            StudentInfo ss=(StudentInfo) obj;
+            sids.add(ss.getId());
+       }
+          cLesson= new ArrayList<Lesson>(new HashSet<>(cLesson));
+       for(int i=0;i<sids.size();i++){
+           StuLesson sle=(StuLesson) dao.getByHql("From StuLesson where STUDENT_ID="+sids.get(i));
+           cLesson.add(sle.getLesson());
+       }
+
+      return cLesson;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.dev.core.action;
 
 import com.dev.core.model.Lesson;
 import com.dev.core.model.StuLesson;
+import com.dev.core.model.User;
 import com.dev.core.service.StuLessonService;
 import lombok.Getter;
 import lombok.Setter;
@@ -96,4 +97,9 @@ public class ScoreAction extends BasicAction {
         tresult.put("lesson",templ);
         return SUCCESS;
     }
+
+
+
+
+
 }
