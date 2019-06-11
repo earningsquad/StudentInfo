@@ -1,31 +1,18 @@
 package com.dev.core.model;
 
-import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-//学生信息表
 @Entity
-@Table(name = "STUDENT_INFO")
-@Data
+@ToString
+@Table(name = "student_info", schema = "studentinfo", catalog = "")
 public class StudentInfo {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    //学生名
-    @Column(name = "NAME")
+    private Integer classNumber;
     private String name;
-
-    //学生班级
-    @Column(name = "CLASS_NUMBER")
-    private int classNumber;
-
-    //学业预紧
-    @Column(name = "WARN")
     private String warn;
     private String sex;
     private String patry;
@@ -83,10 +70,168 @@ public class StudentInfo {
     }
 
 
+    private User user;
     //用户ID
     @OneToOne
     @JoinColumn(name = "UID")
-    private User user;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "CLASS_NUMBER")
+    public Integer getClassNumber() {
+        return classNumber;
+    }
+
+    public void setClassNumber(Integer classNumber) {
+        this.classNumber = classNumber;
+    }
+
+    @Basic
+    @Column(name = "NAME")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
+    @Column(name = "WARN")
+    public String getWarn() {
+        return warn;
+    }
+
+    public void setWarn(String warn) {
+        this.warn = warn;
+    }
+
+    @Basic
+    @Column(name = "SEX")
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    @Basic
+    @Column(name = "PATRY")
+    public String getPatry() {
+        return patry;
+    }
+
+    public void setPatry(String patry) {
+        this.patry = patry;
+    }
+
+    @Basic
+    @Column(name = "CATE")
+    public String getCate() {
+        return cate;
+    }
+
+    public void setCate(String cate) {
+        this.cate = cate;
+    }
+
+    @Basic
+    @Column(name = "LOCATION1")
+    public String getLocation1() {
+        return location1;
+    }
+
+    public void setLocation1(String location1) {
+        this.location1 = location1;
+    }
+
+    @Basic
+    @Column(name = "LOCATION2")
+    public String getLocation2() {
+        return location2;
+    }
+
+    public void setLocation2(String location2) {
+        this.location2 = location2;
+    }
+
+    @Basic
+    @Column(name = "EMEG_CONTECT")
+    public String getEmegContect() {
+        return emegContect;
+    }
+
+    public void setEmegContect(String emegContect) {
+        this.emegContect = emegContect;
+    }
+
+    @Basic
+    @Column(name = "EMEG_PHONE")
+    public String getEmegPhone() {
+        return emegPhone;
+    }
+
+    public void setEmegPhone(String emegPhone) {
+        this.emegPhone = emegPhone;
+    }
+
+    @Basic
+    @Column(name = "PHONE")
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Basic
+    @Column(name = "STU_FROM")
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    @Basic
+    @Column(name = "DETIAL")
+    public String getDetial() {
+        return detial;
+    }
+
+    public void setDetial(String detial) {
+        this.detial = detial;
+    }
+
+    @Basic
+    @Column(name = "MY_IMG")
+    public String getMyImg() {
+        return myImg;
+    }
+
+    public void setMyImg(String myImg) {
+        this.myImg = myImg;
+    }
 
     @Override
     public boolean equals(Object o) {
