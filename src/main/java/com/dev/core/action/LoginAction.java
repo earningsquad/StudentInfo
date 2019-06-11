@@ -3,6 +3,7 @@ package com.dev.core.action;
 import com.dev.core.anno.GetUser;
 import com.dev.core.anno.JsonObj;
 import com.dev.core.anno.LoginRequired;
+import com.dev.core.anno.RawPostData;
 import com.dev.core.model.User;
 import com.dev.core.service.UserService;
 import org.apache.struts2.convention.annotation.Action;
@@ -47,7 +48,8 @@ public class    LoginAction extends BasicAction{
     }
 
     @LoginRequired
-    public String test1(){
+    @Action(value = "test2")
+    public String test1(@RawPostData String string){
         result.success("test");
         return ISUCCESS;
     }
