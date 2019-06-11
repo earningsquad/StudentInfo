@@ -7,10 +7,13 @@ import java.util.Date;
 @Data
 public class NotifyFormat {
     private int id;
+    private int notifyId;
+    private int beNotifyId;
     private String notifyName;
     private String beNotifyName;
     private String detail;
     private String type;
+    private String additional;
     private Date date;
 
     public NotifyFormat(){
@@ -33,6 +36,9 @@ public class NotifyFormat {
         this.detail = notify.getDetail();
         this.type = notify.getType();
         this.date = notify.getCreateTime();
+        this.additional = notify.getAdditional();
+        this.notifyId = notify.getNotifier().getId();
+        this.beNotifyId = notify.getBeNotifier().getId();
     }
 
 }

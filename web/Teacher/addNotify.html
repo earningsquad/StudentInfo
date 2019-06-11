@@ -92,7 +92,8 @@
                     "id":$("select option:selected").val()
                 },
                 "detail":$("input[name = 'detail']").val(),
-                "type":$("input[name = 'type']").val()
+                "type":"1",
+                "isEnding":0
             }),
             success: function (data) {
                 alert("添加成功")

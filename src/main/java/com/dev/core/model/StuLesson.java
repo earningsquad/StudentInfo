@@ -32,7 +32,7 @@ public class StuLesson {
     @Column(name = "LE_CHECK")
     private int leCheck;
 
-    //补考状态  0: 无状态， 1：无需补考 ， 2 ：需要补考 3：补考通过 4：补考失败
+    //补考状态  0:无需补考 1 ：需要补考 2：申请补考中， 3：补考通过 4：补考失败 5补考申请通过  6：补考拒绝
     @Column(name = "SUPPLEMENTARY")
     private  int supplementary;
 
