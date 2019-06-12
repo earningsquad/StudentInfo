@@ -17,7 +17,6 @@
   <link rel="stylesheet" href="../../css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/favicon.png" />
-
 </head>
 
 <body>
@@ -119,28 +118,31 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="true" aria-controls="ui-basic">
               <i class="menu-icon mdi mdi-content-copy"></i>
-              <span class="menu-title active">我的信息</span>
+              <span class="menu-title">我的信息</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse show" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item">
-                  <a class="nav-link "  href="../info/mybasic.html">我的基本信息</a>
+                <li class="nav-item ">
+                  <a class="nav-link"  href="../info/mybasic.html">我的基本信息</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link " href="../info/myall.html">我的全信息</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../kb/kb.html">我的课程表</a>
                 </li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../reward/mybasic.html">
+            <a class="nav-link" href="../reward/myhoneour.html">
               <i class="menu-icon mdi mdi-backup-restore"></i>
               <span class="menu-title">荣誉称号</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link" href="../file/myallfile.html">
               <i class="menu-icon mdi mdi-chart-line"></i>
               <span class="menu-title">文件管理</span>
             </a>
@@ -161,61 +163,55 @@
               </span>
             </div>
           </div>
-     
           <div class="row">
-         
-              
-              <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                  
-                  <div class="card-body">
-                    <h4 class="card-title">文件管理</h4>
-                    <p class="card-description">
-                      <input type="file" name="file" id="file" onchange="fileUpload()" style="display:none">
-                      <div> <button type="button" class="btn btn-info btn-fw" onclick="select_file()">
-                          <i class="mdi mdi-upload"></i>上传</button>
-                       </div>
-                 
-                    </p>
-                    <div class="table-responsive">
-                      <table class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th style="width: 8px;"><span class="form-check">
-                                <label class="form-check-label">
-                                  <input type="checkbox" class="form-check-input" checked="">
-                                <i class="input-helper"></i></label>
-                                </span>
-                            </th>
-                            <th>文件名</th>
-                            <th>上传时间</th>
-                            <th>操作</th>
-                          </tr>
-                        </thead>
-                        <tbody id="showDetail">
-                          <tr>
-                            <td><span class="form-check">
-                                <label class="form-check-label">
-                                  <input type="checkbox" class="form-check-input" >
-                                <i class="input-helper"></i></label>
-                                </span></td>
-                            <td>Photoshop</td>
-                            <td class="text-danger"> 2019/06/07
-                            
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-dark btn-fw">
-                                    <i class="mdi mdi-cloud-download"></i>下载</button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div class="col-12 grid-margin">
+                  <iframe src="rewardtb.html" style="width: 100%;height:515px;background:white;"> 
+
+                    </iframe>
+              </div></div>
         
+          <div class="row" id="appx" style="display: none;">
+            <div class="col-12 grid-margin">
+                <div class="row">
+            
+                    <div class="col-md-12 grid-margin stretch-card">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">荣誉申请</h4>
+                          <p class="card-description">
+                           我的申请
+                          </p>
+                          <form class="forms-sample">
+                            <input id="hid" type=hidden />
+                            <div class="form-group">
+                              <label for="applyName">申请荣誉称号名称</label>
+                              <input type="text" disabled class="form-control" id="applyName">
+                            </div>
+                           
+                            <div class="form-group">
+                              <label>上传材料</label>
+                              <input type="file" name="img[]"  onchange="chengetext()" id="fileUp"class="file-upload-default">
+                              <div class="input-group col-xs-12">
+                                <input type="text" id="fbt" class="form-control file-upload-info" disabled placeholder="上传文档">
+                                <span class="input-group-append">
+                                  <button class="file-upload-browse btn btn-info"  type="button" onclick="$('#fileUp').click()">上传文件</button>
+                                </span>
+                              </div>
+                            </div>
+                         
+                            <div class="form-group">
+                              <label for="exampleTextarea1">申请理由</label>
+                              <textarea class="form-control" id="exampleTextarea1" rows="2" >在学习上勤奋刻苦，工作中认真负责。</textarea>
+                            </div>
+                            <button type="button" class="btn btn-success mr-2">申请</button>
+                            <button class="btn btn-light">取消</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
             </div>
+          </div>
+        </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
        
@@ -225,9 +221,8 @@
     </div>
     <!-- page-body-wrapper ends -->
   </div>
-  </div>
   <!-- container-scroller -->
-
+  </div>
   <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
   <script src="../../vendors/js/vendor.bundle.addons.js"></script>
@@ -241,7 +236,62 @@
   <!-- Custom js for this page-->
   <script src="../../js/dashboard.js"></script>
   <!-- End custom js for this page-->
-  <script src="load.js"></script>
+  <script>
+
+    $(".mr-2").click(function () {
+        var id =  $("#hid").val();
+        var reason = $("#exampleTextarea1").val();
+        $.ajax({
+            url:"http://localhost:8080/addHonourDetail",
+            dataType : "json",//数据格式 
+            type : "post",//请求方式
+            contentType: "application/json",
+            data:JSON.stringify({
+                "honour":{
+                    "id":id
+                },
+                "studentInfo":{
+                    "id":1
+                },
+                "state":0,
+                "applyReason":reason,
+                "file":{
+                    "id":1
+                }
+            }),
+            success : function(data) {   //如果请求成功，返回数据。
+
+              fileUpload()
+            }
+        })
+    })
+    function chengetext(){
+    $("#fbt").val( $('#fileUp').val())
+
+    }
+    function fileUpload(){
+
+      var formData = new FormData();
+
+      formData.append('file', $('#fileUp')[0].files[0]);
+      $.ajax({
+        url : '/filesupload',
+        type : 'POST',
+        data : formData,
+        contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
+        processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
+        dataType: 'json',//这里是返回类型，一般是json,text等
+        clearForm: true,//提交后是否清空表单数据
+        success: function(data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+          alert('上传成功');
+        },
+        error: function(data, status, e) {  //提交失败自动执行的处理函数。
+          console.error(e);
+        }
+      });
+    }
+  </script>
+
 </body>
 
 </html>
