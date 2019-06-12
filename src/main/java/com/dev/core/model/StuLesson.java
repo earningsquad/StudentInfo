@@ -3,20 +3,19 @@ package com.dev.core.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 //学生课程信息表
 @Entity
 @Table(name = "STU_LESSON")
 @Data
-public class StuLesson {
+public class StuLesson implements Comparable<StuLesson> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     //学生ID
-    @JoinColumn(name = "STU_ID")
+    @JoinColumn(name = "STUDENT_ID")
     @OneToOne
     private StudentInfo studentInfo;
 
@@ -36,6 +35,12 @@ public class StuLesson {
     //补考状态
     @Column(name = "SUPPLEMENTARY")
     private  int supplementary;
+
+    @Override
+   public int compareTo(StuLesson s){
+      int flag=studentInfo.getId()-s.getStudentInfo().getId();
+           return flag;
+   }
 
 
    }

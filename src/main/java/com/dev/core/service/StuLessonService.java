@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StuLessonService  {
@@ -35,12 +34,7 @@ public class StuLessonService  {
         dao.delete(s);
         return true;
     }
-    public  Boolean updateLessCheck(int id,int flag){
-        StuLesson s=(StuLesson)dao.getByHql("FROM StuLesson where id="+id);
-        s.setLeCheck(flag);
-        dao.update(s);
-        return true;
-    }
+
     public Boolean updateScore(int id,int score){
       try {
           StuLesson s=(StuLesson)dao.getByHql("From StuLesson where id="+id);
@@ -88,4 +82,56 @@ public class StuLessonService  {
         }
         return false;
     }
+
+    public List<List<String>> findWarnStudents(){
+        List<StuLesson> scores=new ArrayList<>();
+        List<Object> list=dao.find("From StuLesson where SCORE<60");
+        List<List<String>> sts=new ArrayList<>();
+        for(Object obj: list)
+            scores.add((StuLesson) obj);
+        Collections.sort(scores);
+
+        int flag=1;
+        for(int i=1;i<scores.size();i++){
+            if(scores.get(i).getStudentInfo().getId()==scores.get(i-1).getStudentInfo().getId()&&i<scores.size()-1){
+                flag++;
+            }else{
+                if(scores.get(i).getStudentInfo().getId()==scores.get(i-1).getStudentInfo().getId()&&i==scores.size()-1)
+                    flag++;
+                if(flag>=3){
+                    List<String> temp=new ArrayList<>();
+                    scores.get(i-1).getStudentInfo().setWarn("挂科总数为："+flag);
+                    dao.update(scores.get(i-1).getStudentInfo());
+                     temp.add(sts.size()+1+"");
+                     temp.add(scores.get(i-1).getStudentInfo().getName());
+                     temp.add(flag+"");
+                     temp.add("已预警");
+                     sts.add(temp);
+                }
+              flag=1;
+            }
+        }
+
+       return sts;
+    }
+
+    public List<Lesson> findClassLesson(User u){
+        List<Lesson> cLesson=new ArrayList<>();
+        StudentInfo s=(StudentInfo)dao.getByHql("FROM StudentInfo where id="+u.getId());
+        String hql=" FROM StudentInfo where classNumber="+s.getClassNumber();
+        List<Object> obs = dao.find(hql);
+        List<Integer> sids=new ArrayList<>();
+       for(Object obj:obs){
+            StudentInfo ss=(StudentInfo) obj;
+            sids.add(ss.getId());
+       }
+          cLesson= new ArrayList<Lesson>(new HashSet<>(cLesson));
+       for(int i=0;i<sids.size();i++){
+           StuLesson sle=(StuLesson) dao.getByHql("From StuLesson where STUDENT_ID="+sids.get(i));
+           cLesson.add(sle.getLesson());
+       }
+
+      return cLesson;
+    }
+
 }
