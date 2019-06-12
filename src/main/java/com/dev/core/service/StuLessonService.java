@@ -117,7 +117,7 @@ public class StuLessonService  {
 
     public List<Lesson> findClassLesson(User u){
         List<Lesson> cLesson=new ArrayList<>();
-        StudentInfo s=(StudentInfo)dao.getByHql("FROM StudentInfo where id="+u.getId());
+        StudentInfo s=(StudentInfo)dao.getByHql("FROM StudentInfo where UID="+u.getId());
         String hql=" FROM StudentInfo where classNumber="+s.getClassNumber();
         List<Object> obs = dao.find(hql);
         List<Integer> sids=new ArrayList<>();

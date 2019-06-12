@@ -50,7 +50,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   table.render({
     elem: '#demo'
     ,height: 420
-    ,url: 'lesson.json' //数据接口
+    ,url: '/findClassLesson' //数据接口
     ,title: '课程'
     ,cols: [[ //表头
       {field: 'id', title: '课程ID', width:80, fixed: 'left'}
@@ -170,6 +170,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   lay('#footer').html(layui.laytpl(footerTpl).render({}))
   .removeClass('layui-hide');
 });
+
 </script>
 <style>
 * {font-family: "Microsoft YaHei","iconfont","FontAwesome" !important;}
