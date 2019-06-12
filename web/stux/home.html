@@ -8,6 +8,7 @@
   <title>学生信息管理</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="layui/css/layui.css">
 
   <!-- endinject -->
   <!-- plugin css for this page -->
@@ -99,6 +100,7 @@
   <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/global.js"></script>
   <script type="text/javascript" src="js/core.js"></script>
+  <script src="layui/layui.js"></script>
   <!-- plugins:js -->
 
   <!-- Plugin js for this page-->
@@ -108,6 +110,16 @@
 
 
 <script>
+
+  layui.use('layer', function(){ //独立版的layer无需执行这一句
+  var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+  $.getJSON('img.json?v='+new Date, function(json){
+  layer.photos({
+    photos: json //格式见API文档手册页
+    ,anim: 3 //0-6的选择，指定弹出图片动画类型，默认随机
+  });
+});})
+
 $("#bd").height($(window).height());
 
 $(window).resize(function(e) {

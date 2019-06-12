@@ -1,0 +1,28 @@
+{
+    "status": 1,
+    "msg": "",
+    "title": "JSON请求的相册",
+    "id": 3,
+    "start": 1,
+    "data": [
+        {
+            "alt": "首页展示",
+            "pid": 1,
+            "src": "images/intro/welcome.png",
+            "thumb": ""
+        },
+        {
+            "alt": "天气预报",
+            "pid": 2,
+            "src": "images/intro/weather.png",
+            "thumb": ""
+        },
+        {
+            "alt": "警告查询",
+            "pid": 3,
+            "src": "images/intro/warn.png",
+            "thumb": ""
+        }
+     
+    ]
+}
