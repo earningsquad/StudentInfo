@@ -51,9 +51,7 @@
                           <th>
                             平均
                           </th>
-                          <th>
-                              排名
-                            </th>
+
                         </tr>
                       </thead>
                       <tbody id="mysc">
@@ -91,50 +89,7 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-    <script type="text/html" id="myscore">
-      <tr>
-        <td class="font-weight-medium">
-         %sid%
-        </td>
-        <td>
-          %lesson.leName%
-        </td>
-
-        <td>
-          %lesson.detail%
-        </td>
-        <td class="text-danger">
-          %score%
-          <i class="mdi mdi-arrow-down"></i>
-        </td>
-        <td>
-          1
-        </td>
-      </tr>
-    </script>
-    <script type="text/html" id="myhonour">
-      <tr>
-        <td  class="font-weight-medium">
-          %hid%
-        </td>
-        <td>
-         %honour.name%
-        </td>
-
-        <td>
-          %honour.detial%
-        </td>
-
-        <td>
-         %honour.type%
-        </td>
-        <td class="text-success">
-          %state%
-        </td>
-      </tr>
-    </script>
-
-    <!-- plugins:js -->
+        <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
   <script src="../../vendors/js/vendor.bundle.addons.js"></script>
   <!-- endinject -->
@@ -148,7 +103,10 @@
   <script src="../../js/dashboard.js"></script>
   <!-- End custom js for this page-->
     <script>
-      String.prototype.temp = function (obj) {
+
+
+
+     String.prototype.temp = function (obj) {
         return this.replace(/\%\w+\.?\w+?\.?\w+?\%/gi, function (matchs) {
 
 
@@ -212,7 +170,40 @@
           }
         })
       }
+function updateTable(data){
+  $("#mysc").empty()
+  $.each(data,function (i,item) {
+    $("#mysc").append("<tr>\n" +
+            "                          <td class=\"font-weight-medium\">\n" +
+            "                             "+(i+1) +
+            "                          </td>\n" +
+            "                          <td>\n" +
+            "                           "+item.LE_NAME +
+            "                          </td>\n" +
+            "                          \n" +
+            "                          <td>\n" +
+            "                            必修课" +
+            "                          </td>\n" +
+            "                          <td> "+item.avgs +
+            "                            \n" +
+            "                          </td>\n" +
+            "                        </tr>")
+  })
 
+
+
+
+}
+      $.ajax({
+        url: "http://localhost:8080/findClassScore",
+        type : "post",//请求方式
+        async: false,   //不要让它异步提交
+        dataType: "json",
+        success: function (data) {
+          updateTable(data)
+
+        }
+      })
     </script>
 
   </div>

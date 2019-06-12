@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +42,12 @@ public class HibernateTable {
    public void test1(){
         ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
         IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
-        StudentInfo s=new StudentInfo();
-        s.setId(3);
-        baseDao.delete(s);
+        List<Map> lists=new ArrayList<>();
+        lists=baseDao.findBySql("SELECT SI.CLASS_NUMBER,lesson.LE_NAME,AVG(SL.SCORE) FROM student_info SI \n" +
+                "LEFT JOIN stu_lesson SL ON SI.ID = SL.STUDENT_ID \n" +
+                "LEFT JOIN lesson on lesson.id = LESSON_ID\n" +
+                "GROUP BY SI.CLASS_NUMBER,SL.LESSON_ID\n");
+        System.out.println(lists.toString());
 
    }
 }

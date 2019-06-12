@@ -51,9 +51,7 @@
                           <th>
                             报名人数
                           </th>
-                          <th>
-                              操作
-                            </th>
+
                         </tr>
 
                         
@@ -110,48 +108,7 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-    <script type="text/html" id="myscore">
-      <tr>
-        <td class="font-weight-medium">
-         %sid%
-        </td>
-        <td>
-          %lesson.leName%
-        </td>
 
-        <td>
-          %lesson.detail%
-        </td>
-        <td class="text-danger">
-          %score%
-          <i class="mdi mdi-arrow-down"></i>
-        </td>
-        <td>
-          1
-        </td>
-      </tr>
-    </script>
-    <script type="text/html" id="myhonour">
-      <tr>
-        <td  class="font-weight-medium">
-          %hid%
-        </td>
-        <td>
-         %honour.name%
-        </td>
-
-        <td>
-          %honour.detial%
-        </td>
-
-        <td>
-         %honour.type%
-        </td>
-        <td class="text-success">
-          %state%
-        </td>
-      </tr>
-    </script>
 
     <!-- plugins:js -->
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
@@ -187,21 +144,18 @@
 
     </script>
     <script>
-      function arrange(obj){
-        temp=""
-        for(var i in obj){//用javascript的for/in循环遍历对象的属性
-          //temp += i+":"+obj[i]+"\n";
-          $("input[name="+i+"]").val(obj[i])
-          if (i=='patry'){
-            if (obj[i]=='群众') {
-              $("#membershipRadios1").attr("checked","checked")
-            }else {
-              $("#membershipRadios2").attr("checked","checked")
-            }
-          } 
+
+      $.ajax({
+        url: "http://localhost:8080/findClassActivity",
+        type : "post",//请求方式
+        async: false,   //不要让它异步提交
+        dataType: "json",
+        success: function (data) {
+          updateTable(data)
+
         }
-        console.info(temp)
-      }
+      })
+
       function x() {
         $.ajax({
           url:"/stu/myWholeInfo",
@@ -231,7 +185,28 @@
           }
         })
       }
+function updateTable(data){
+  $("#mysc").empty()
+  $.each(data,function (i,item) {
+    $("#mysc").append("<tr>\n" +
+            "                          <td class=\"font-weight-medium\">\n" +
+            "                             "+(i+1) +
+            "                          </td>\n" +
+            "                          <td>\n" +
+            "                           "+item.name +
+            "                          </td>\n" +
+            "                          \n" +
+            "                          <td>\n" +
+            "                      "+item.introduction +
+            "                          </td>\n" +
+            "                          <td> "+item.amount +
+            "                            \n" +
+            "                          </td>\n" +
 
+            "                        </tr>")
+  })
+
+}
     </script>
 
   </div>

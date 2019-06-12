@@ -1,9 +1,11 @@
 package com.dev.core.action;
 
 import com.dev.core.anno.GetUser;
+import com.dev.core.model.ClassInfor;
 import com.dev.core.model.ClassLessonFormat;
 import com.dev.core.model.Lesson;
 import com.dev.core.model.User;
+import com.dev.core.service.ClassInforService;
 import com.dev.core.service.StuLessonService;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,10 +29,19 @@ import java.util.Map;
 public class StuClassAction extends BasicAction {
     @Autowired
     StuLessonService service;
+    @Autowired
+    ClassInforService classService;
     @Getter@Setter
     Map<String,Object> cLesson;
     @Setter@Getter
     int id;
+    @Getter@Setter
+    List<ClassInfor> classActivity;
+    @Getter@Setter
+    List<Map> classScore;
+    @Getter@Setter
+    List<ClassInfor> classHonour;
+
     @Action(value = "findClassLesson",results = {
             @Result(name = SUCCESS,type = "json" ,params={"root", "cLesson"}),
             @Result(name = ERROR,type = "json" )
@@ -50,6 +61,38 @@ public class StuClassAction extends BasicAction {
         return SUCCESS;
 
 
+    }
+
+
+    @Action(value = "findClassActivity",results = {
+            @Result(name = SUCCESS,type = "json" ,params={"root", "classActivity"}),
+            @Result(name = ERROR,type = "json" )
+    })
+public String findClassActivity(@GetUser User user){
+     classActivity=classService.findClassActivity(user);
+
+        return SUCCESS;
+}
+
+
+    @Action(value = "findClassScore",results = {
+            @Result(name = SUCCESS,type = "json" ,params={"root", "classScore"}),
+            @Result(name = ERROR,type = "json" )
+    })
+public String findClassScore(@GetUser User user){
+        classScore=classService.finClassScore(user);
+        return SUCCESS;
+}
+
+
+ @Action(value = "findClassHonur",results = {
+            @Result(name = SUCCESS,type = "json" ,params={"root", "classHonour"}),
+            @Result(name = ERROR,type = "json" )
+    })
+public String findClassHonur(@GetUser User user) {
+
+        classHonour = classService.findClassHonour(user);
+        return SUCCESS;
     }
 
 
