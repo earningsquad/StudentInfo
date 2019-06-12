@@ -83,4 +83,57 @@ public class StuLessonService  {
         }
         return false;
     }
+
+    //查看复核申请
+    public List<ScoreFormat> searchSelfScore(int studentId){
+      List<ScoreFormat> scoreFormatList = new ArrayList<>();
+      String hql = "from StuLesson where leCheck != 0 and studentInfo.id = " + studentId;
+      List<Object> list = dao.find(hql);
+      for(Object o : list){
+          ScoreFormat scoreFormat = new ScoreFormat((StuLesson) o);
+          scoreFormatList.add(scoreFormat);
+      }
+      return scoreFormatList;
+    }
+
+    //查看补考
+    public List<ScoreFormat> searchSupplementary(int studentId){
+        List<ScoreFormat> scoreFormatList = new ArrayList<>();
+        String hql = "from StuLesson where supplementary not in (0,1) and studentInfo.id = " + studentId;
+        List<Object> list = dao.find(hql);
+        for(Object o : list){
+            ScoreFormat scoreFormat = new ScoreFormat((StuLesson) o);
+            scoreFormatList.add(scoreFormat);
+        }
+        return scoreFormatList;
+    }
+
+    public List<ScoreFormat> searchSelfLesson(int studentId){
+        List<ScoreFormat> scoreFormatList = new ArrayList<>();
+        String hql = "from StuLesson where leCheck = 0 and studentInfo.id = " + studentId;
+        List<Object> list = dao.find(hql);
+        for(Object o : list){
+            ScoreFormat scoreFormat = new ScoreFormat((StuLesson) o);
+            scoreFormatList.add(scoreFormat);
+        }
+        return scoreFormatList;
+    }
+
+    public StuLesson getScoreByLesson(int id){
+      String hql = "from StuLesson where id = "+ id;
+      List<Object> list = dao.find(hql);
+      StuLesson stuLesson = (StuLesson)list.get(0);
+      return stuLesson;
+    }
+
+    public void applyLeCheck(int id){
+        String hql = "update StuLesson set leCheck = 1  where id = "+ id;
+        dao.executeHql(hql);
+    }
+
+    public void applySupplementary(int id){
+        String hql = "update StuLesson set supplementary = 2  where id = "+ id;
+        dao.executeHql(hql);
+    }
+
 }

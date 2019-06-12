@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>学生信息管理</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+</head>
+
+<body>
+<div class="container-scroller">
+
+    <!-- partial -->
+    <div>
+        <!-- partial:partials/_sidebar.html -->
+
+        <!-- partial -->
+        <div>
+            <div class="content-wrapper">
+
+
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <h4 class="card-title">我的申请</h4>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                序号
+                                            </th>
+                                            <th>
+                                                科目
+                                            </th>
+                                            <th>
+                                                成绩
+                                            </th>
+
+                                            <th>
+                                                状态
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="myhc">
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 grid-margin">
+                        <div class="row">
+
+                            <div class="col-md-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title"><span id="apy"></span>申请</h4>
+                                        <p class="card-description">
+
+                                        </p>
+                                        <form class="forms-sample">
+                                            <div class="form-group">
+                                                <label for="name">我的姓名</label>
+                                                <input type="text" disabled class="form-control" name="name" id="name" value="">
+                                            </div>
+
+
+
+
+                                            <div class="form-group" id = "lessonName">
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="uid">原始成绩</label>
+                                                <input type="text" disabled class="form-control" name="score" id="score" value="">
+                                            </div>
+                                            <input type="hidden" name="userId" id="userId" value="">
+                                            <input type="hidden" name="studentId" id="studentId" value="">
+                                            <button type="submit" id="sub" class="btn btn-success mr-2">申请</button>
+                                            <button class="btn btn-light">取消</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+</div>
+<!-- plugins:js -->
+<script src="../../vendors/js/vendor.bundle.base.js"></script>
+<script src="../../vendors/js/vendor.bundle.addons.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="../../js/off-canvas.js"></script>
+<script src="../../js/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="../../js/dashboard.js"></script>
+<script>
+    $("#apy").html("补考")
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [ o[this.name] ];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    }
+
+    function arrange(obj){
+        temp=""
+        for(var i in obj){//用javascript的for/in循环遍历对象的属性
+            //temp += i+":"+obj[i]+"\n";
+            $("#"+i).val(obj[i])
+        }
+        console.info(temp)
+    }
+    function refresh(){
+        /*$.ajax({
+          url:"/stu/myBasicInfo",
+          success:function(d) {
+            if (d.isSuccess) {
+              arrange(d.bean)
+            }else {
+              alert("未登录")
+              window.location.href="/stuw/pages/login/login.html"
+            }
+
+            disable=true;
+            //console.info(d)
+          },error:function (d) {
+            console.info(d)
+          }
+        })*/
+    }
+    $(function () {
+        refresh()
+        //  disable=true;
+    })
+</script>
+
+<script>
+
+
+
+    $('#password').bind('click', function(){
+        $("#password").val("")
+        $('#password').unbind('click');
+    });
+    disable=true;
+    $("#sub").click(function () {
+        if (disable){
+            if (confirm("确定更改？")){
+                var origLength;
+                origLength = document.all.length;
+                for(i=0;i<origLength;i++){
+                    document.all[i].disabled=false;
+                }
+                $("#sub").html("保存")
+                disable=false
+            }
+
+
+        }else {
+            if (confirm("确定提交？"))
+            {
+                subitdata( $("form"),"/stu/myBasicInfo")
+            }
+        }
+    })
+    function subitdata(form,url) {
+
+        var params = form.serializeObject();
+        //console.info(params)
+        $.ajax({
+            url : url,
+            type : "POST",
+            contentType:"application/json",
+            data :JSON.stringify(params),
+            success : function(result) {
+                console.info(result)
+                if (result.isSuccess) {
+                    alert("修改成功")
+                    refresh();
+                }else {
+                    alert("未登录")
+                    window.location.href="/stuw/pages/login/login.html"
+                }
+
+            },
+            error:function(msg){
+                console.info(msg)
+            }
+        })
+    }
+
+</script>
+
+<script>
+    $.ajax({
+        url:"http://localhost:8080/getStudentName",
+        dataType:"json",
+        type:"post",
+        success:function (data) {
+            $('#name').val(data.data)
+        }
+    })
+
+    $.ajax({
+        url:"http://localhost:8080/searchSupplementary",
+        dataType:"json",
+        type:"post",
+        success:function (data) {
+            var str = '';
+            for(var i = 0;i < data.data.length;i++){
+                str+='<tr><td  class="font-weight-medium">' + i +'</td><td>'+data.data[i].lessonName+'</td><td>'
+                    +data.data[i].score+'</td>';
+                if(data.data[i].supplementary == 2){
+                    str+='<td class="text-warning">申请补考中</td></tr>'
+                }else if(data.data[i].supplementary == 5){
+                    str+='<td class="text-success">允许补考</td></tr>'
+                }else if(data.data[i].supplementary == 6){
+                    str+='<td class="text-success">拒绝补考</td></tr>'
+                }
+            }
+            $("#myhc").html(str)
+        }
+    })
+
+    $.ajax({
+        url:"http://localhost:8080/searchSelfLesson",
+        dataType:"json",
+        type:"post",
+        success:function (data) {
+            var str = '<label for="uid">科目</label><select class="form-control" id="className" name="classNum"><option></option>';
+            for(var i = 0;i < data.data.length;i++){
+                str += '<option value='+data.data[i].id+'>'+data.data[i].lessonName+'</option>'
+            }
+            str += '</select'>
+                $('#lessonName').html(str);
+            $('#className').change(function () {
+                var selectId = $('select option:selected').val();
+                $.ajax({
+                    url:"http://localhost:8080/getScoreByLesson",
+                    dataType:"JSON",
+                    type:"POST",
+                    contentType:"application/json",
+                    async:false,
+                    data:JSON.stringify({
+                        id:selectId
+                    }),
+                    success:function (data) {
+                        $("#score").val(data.data.score)
+                    }
+                })
+            })
+        }
+    })
+
+    $("#sub").click(function () {
+        var selectId = $('select option:selected').val();
+        $.ajax({
+            url:"http://localhost:8080/applySupplementary",
+            dataType:"json",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify({
+                "id":selectId
+            }),
+            success:function (data) {
+                alert("success")
+            }
+        })
+    })
+
+
+</script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

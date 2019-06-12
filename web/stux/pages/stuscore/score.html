@@ -54,7 +54,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   table.render({
     elem: '#demo'
     ,height: 420
-    ,url: 'a.json' //数据接口
+    ,url: 'http://localhost:8080/searchScore' //数据接口
     ,title: '用户表'
     ,page: true //开启分页
     ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
@@ -63,11 +63,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
       {type: 'checkbox', fixed: 'left'}
       ,{field: 'id', title: '课程ID', width:80, sort: true, fixed: 'left', totalRowText: '合计：'}
       ,{field: 'leName', title: '课程名', width:180}
-      ,{field: 'teacher', title: '任课教师', width: 190, sort: true}
-      ,{field: 'progress', title: '课程进度', width:180, sort: true}
-    
-      ,{field: 'detial', title: '成绩', width: 200}
-      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
+      ,{field: 'score', title: '成绩', width: 200}
+      ,{field: 'supply', title: '是否可以补考', width: 200}
     ]]
   });
   

@@ -49,49 +49,17 @@
                               <th>
                                 科目
                               </th>
-                             
-                              <th>
-                                审核人
-                              </th>
+                                <th>
+                                    成绩
+                                </th>
                              
                               <th>
                                   状态
-                                </th>
+                              </th>
                             </tr>
                           </thead>
                           <tbody id="myhc">
-                            <tr>
-                              <td  class="font-weight-medium">
-                                1
-                              </td>
-                       
-                              <td>
-                               高数
-                              </td>
-                              
-                              <td>
-                               彼得
-                              </td>
-                              <td class="text-success"> 
-                                  已获得批准
-                                </td>
-                            </tr>
-                            <tr>
-                                <td  class="font-weight-medium">
-                                  1
-                                </td>
-                                <td>
-                               RAP
-                                </td>
-                         
-                                
-                                <td>
-                                 彼得
-                                </td>
-                                <td class="text-warning"> 
-                                    正在申请
-                                  </td>
-                              </tr>
+
                           
                           </tbody>
                         </table>
@@ -114,34 +82,20 @@
                           <form class="forms-sample">
                             <div class="form-group">
                               <label for="name">我的姓名</label>
-                              <input type="text" disabled class="form-control" name="name" id="name" value="小明">
+                              <input type="text" disabled class="form-control" name="name" id="name" value="">
                             </div>
 
-                            <div class="form-group">
-                                <label for="uid">我的学号</label>
-                                <input type="text" disabled class="form-control" name="uid" id="uid" value="20190000">
-                              </div>
                          
                              
                                 
-                              <div class="form-group">
-                                  <label for="uid">科目</label>
-                                  <select class="form-control" id="classNum" name="classNum">
-                                      <option>唱歌</option>
-                                      <option>篮球</option>
-                                      <option>RAP</option>
-                               
-                                    </select>
+                              <div class="form-group" id = "lessonName">
+
                                 </div>
 
                                 <div class="form-group">
                                     <label for="uid">原始成绩</label>
-                                    <input type="text" disabled class="form-control" name="score" id="score" value="20190000">
+                                    <input type="text" disabled class="form-control" name="score" id="score" value="">
                                   </div>
-                            <div class="form-group">
-                              <label for="detial">申请原因</label>
-                              <textarea class="form-control" id="detial"  name="detial" rows="2" >班级学习气氛太浓</textarea>
-                            </div>
                             <input type="hidden" name="userId" id="userId" value="">
                             <input type="hidden" name="studentId" id="studentId" value="">
                             <button type="submit" id="sub" class="btn btn-success mr-2">申请</button>
@@ -177,11 +131,7 @@
   <!-- Custom js for this page-->
   <script src="../../js/dashboard.js"></script>
     <script>
-       if(window.location.search.indexOf('t=1')){
-        $("#apy").html("补考")
-     }else if(window.location.search.indexOf('t=2')){
-      $("#apy").html("复核")
-     }
+        $("#apy").html("复核")
       $.fn.serializeObject = function() {
         var o = {};
         var a = this.serializeArray();
@@ -207,7 +157,7 @@
         console.info(temp)
       }
       function refresh(){
-        $.ajax({
+        /*$.ajax({
           url:"/stu/myBasicInfo",
           success:function(d) {
             if (d.isSuccess) {
@@ -222,7 +172,7 @@
           },error:function (d) {
             console.info(d)
           }
-        })
+        })*/
       }
       $(function () {
       refresh()
@@ -286,6 +236,84 @@
       }
     
     </script>
+
+  <script>
+      $.ajax({
+          url:"http://localhost:8080/getStudentName",
+          dataType:"json",
+          type:"post",
+          success:function (data) {
+              $('#name').val(data.data)
+          }
+      })
+
+      $.ajax({
+          url:"http://localhost:8080/searchSelfScore",
+          dataType:"json",
+          type:"post",
+          success:function (data) {
+              var str = '';
+              for(var i = 0;i < data.data.length;i++){
+                  str+='<tr><td  class="font-weight-medium">' + i +'</td><td>'+data.data[i].lessonName+'</td><td>'
+                      +data.data[i].score+'</td>';
+                  if(data.data[i].leCheck == 1){
+                      str+='<td class="text-warning">正在申请</td></tr>'
+                  }else if(data.data[i].leCheck == 2){
+                      str+='<td class="text-success">已复核</td></tr>'
+                  }
+              }
+            $("#myhc").html(str)
+          }
+      })
+
+      $.ajax({
+          url:"http://localhost:8080/searchSelfLesson",
+          dataType:"json",
+          type:"post",
+          success:function (data) {
+              var str = '<label for="uid">科目</label><select class="form-control" id="className" name="classNum"><option></option>';
+              for(var i = 0;i < data.data.length;i++){
+                  str += '<option value='+data.data[i].id+'>'+data.data[i].lessonName+'</option>'
+              }
+              str += '</select'>
+              $('#lessonName').html(str);
+              $('#className').change(function () {
+                  var selectId = $('select option:selected').val();
+                    $.ajax({
+                        url:"http://localhost:8080/getScoreByLesson",
+                        dataType:"JSON",
+                        type:"POST",
+                        contentType:"application/json",
+                        async:false,
+                        data:JSON.stringify({
+                            id:selectId
+                        }),
+                        success:function (data) {
+                            $("#score").val(data.data.score)
+                        }
+                    })
+              })
+          }
+      })
+
+      $("#sub").click(function () {
+          var selectId = $('select option:selected').val();
+          $.ajax({
+              url:"http://localhost:8080/applyLeCheck",
+              dataType:"json",
+              type:"post",
+              contentType:"application/json",
+              data:JSON.stringify({
+                  "id":selectId
+              }),
+              success:function (data) {
+                alert("success")
+              }
+          })
+      })
+
+
+  </script>
   <!-- End custom js for this page-->
 </body>
 

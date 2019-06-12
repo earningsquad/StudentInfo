@@ -33,6 +33,8 @@ public class UserService {
             int uid= ((User)list.get(0)).getId();
             user.setRole(role);
             user.setId(uid);
+            user.setStudentInfo(((User)list.get(0)).getStudentInfo());
+            user.setTeacherInfo(((User)list.get(0)).getTeacherInfo());
             return true;
         }
 

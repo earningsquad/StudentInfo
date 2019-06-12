@@ -5,6 +5,7 @@ import com.dev.core.model.*;
 import com.dev.core.service.HonourDetailService;
 import com.dev.core.service.HonourService;
 import com.dev.core.utils.HonourResult;
+import com.opensymphony.xwork2.ActionContext;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.struts2.ServletActionContext;
@@ -34,7 +35,7 @@ public class HonourAction extends BasicAction{
     HonourDetailService honourDetailService;
 
     @Getter
-    HonourResult honourResult = new HonourResult();
+    HonourResult honourResult ;
 
     @Getter@Setter
     private String name;
@@ -47,10 +48,11 @@ public class HonourAction extends BasicAction{
 
     //查询荣誉
     @Action(value = "findHonour" , results = {
-            @Result(name = SUCCESS , type = "json"),
+            @Result(name = SUCCESS , type = "json" , params={"root", "honourResult"}),
             @Result(name = ERROR , type = "json")
     })
     public String findHonour(){
+        honourResult = new HonourResult();
         Honour honour = new Honour(getType(),getName(),getDetail());
         List<Honour> honourList = new ArrayList<>();
         honourList = honourService.findHonourBy(honour);
@@ -60,10 +62,11 @@ public class HonourAction extends BasicAction{
 
     //新增荣誉
     @Action(value = "addHonour" , results = {
-            @Result(name = SUCCESS , type = "json"),
+            @Result(name = SUCCESS , type = "json" , params={"root", "honourResult"}),
             @Result(name = ERROR , type = "json")
     })
     public String addHonour(){
+        honourResult = new HonourResult();
         Honour honour = null;
         try {
             honour = JSONObject.parseObject(getRequestPostData(),Honour.class);
@@ -77,10 +80,11 @@ public class HonourAction extends BasicAction{
 
     //删除荣誉
     @Action(value = "deleteHonour" , results = {
-            @Result(name = SUCCESS , type = "json"),
+            @Result(name = SUCCESS , type = "json" , params={"root", "honourResult"}),
             @Result(name = ERROR , type = "json")
     })
     public String deleteHonour(){
+        honourResult = new HonourResult();
         Honour honour = null;
         try {
             honour = JSONObject.parseObject(getRequestPostData(),Honour.class);
@@ -94,16 +98,19 @@ public class HonourAction extends BasicAction{
 
     //申请荣誉
     @Action(value = "addHonourDetail" , results = {
-            @Result(name = SUCCESS , type = "json"),
+            @Result(name = SUCCESS , type = "json" , params={"root", "honourResult"}),
             @Result(name = ERROR , type = "json")
     })
     public String addHonourDetail(){
+        User me= (User) ActionContext.getContext().getSession().get("user");
+        honourResult = new HonourResult();
         HonourDetail honourDetail = null;
         try {
             honourDetail = JSONObject.parseObject(getRequestPostData(),HonourDetail.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        honourDetail.setStudentInfo(me.getStudentInfo());
         honourDetailService.addHonourDetail(honourDetail);
         honourResult.success();
         return SUCCESS;
@@ -111,17 +118,32 @@ public class HonourAction extends BasicAction{
 
     //查看我申请的荣誉
     @Action(value = "showSelfHonourDetail" , results = {
-            @Result(name = SUCCESS , type = "json"),
+            @Result(name = SUCCESS , type = "json" , params={"root", "honourResult"}),
             @Result(name = ERROR , type = "json")
     })
     public String showSelfHonourDetail(){
+        User me= (User) ActionContext.getContext().getSession().get("user");
+        honourResult = new HonourResult();
         /*HttpServletRequest request = ServletActionContext.getRequest();
         User user = getUser(request);*/
         HonourDetail honourDetail = new HonourDetail();
-        StudentInfo studentInfo = new StudentInfo();
-        studentInfo.setId(getStuId());
-        honourDetail.setStudentInfo(studentInfo);
+        honourDetail.setStudentInfo(me.getStudentInfo());
         List<HonourDetailFormat> honourDetailList = honourDetailService.showSelfHonourDetail(honourDetail);
+        honourResult.success(honourDetailList,honourDetailList.size());
+        return SUCCESS;
+    }
+
+    //查看我申请的荣誉
+    @Action(value = "showHonour" , results = {
+            @Result(name = SUCCESS , type = "json" , params={"root", "honourResult"}),
+            @Result(name = ERROR , type = "json")
+    })
+    public String showHonour(){
+        honourResult = new HonourResult();
+        /*HttpServletRequest request = ServletActionContext.getRequest();
+        User user = getUser(request);*/
+
+        List<Honour> honourDetailList = honourService.findHonour();
         honourResult.success(honourDetailList,honourDetailList.size());
         return SUCCESS;
     }

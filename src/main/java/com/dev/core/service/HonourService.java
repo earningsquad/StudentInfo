@@ -36,6 +36,7 @@ public class HonourService {
         return dao.find(hql.toString());
     }
 
+
     //新增荣誉
     public void addHonour(Honour honour){
         dao.save(honour);

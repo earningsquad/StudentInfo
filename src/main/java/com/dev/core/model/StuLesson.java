@@ -28,11 +28,11 @@ public class StuLesson {
     @Column(name = "SCORE")
     private int score;
 
-    //复核
+    //复核  0:允许  1：复核中 2：复核通过
     @Column(name = "LE_CHECK")
     private int leCheck;
 
-    //补考状态
+    //补考状态 0:无需补考 1 ：需要补考 2：申请补考中， 3：补考通过 4：补考失败 5补考申请通过  6：补考拒绝
     @Column(name = "SUPPLEMENTARY")
     private  int supplementary;
    }

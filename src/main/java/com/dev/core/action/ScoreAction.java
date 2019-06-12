@@ -1,21 +1,29 @@
 package com.dev.core.action;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.dev.core.model.Lesson;
+import com.dev.core.model.ScoreFormat;
 import com.dev.core.model.StuLesson;
+import com.dev.core.model.User;
 import com.dev.core.service.StuLessonService;
+import com.dev.core.utils.ResponseResult;
+import com.opensymphony.xwork2.ActionContext;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ScoreAction extends BasicAction {
+    @Getter@Setter
+    ResponseResult responseResult;
     @Autowired
     StuLessonService service;
     @Getter@Setter
@@ -96,4 +104,108 @@ public class ScoreAction extends BasicAction {
         tresult.put("lesson",templ);
         return SUCCESS;
     }
+
+    //我的复核申请
+    @Action(value = "searchSelfScore",results = {
+            @Result(name = SUCCESS,type = "json" , params={"root", "responseResult"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String searchSelfScore(){
+        User me= (User) ActionContext.getContext().getSession().get("user");
+        responseResult = new ResponseResult();
+        List<ScoreFormat> list = service.searchSelfScore(me.getStudentInfo().getId());
+        responseResult.success(list,list.size());
+        return SUCCESS;
+    }
+
+    //我的复核申请
+    @Action(value = "searchSupplementary",results = {
+            @Result(name = SUCCESS,type = "json" , params={"root", "responseResult"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String searchSupplementary(){
+        User me= (User) ActionContext.getContext().getSession().get("user");
+        responseResult = new ResponseResult();
+        List<ScoreFormat> list = service.searchSupplementary(1);
+        responseResult.success(list,list.size());
+        return SUCCESS;
+    }
+
+    @Action(value = "searchSelfLesson",results = {
+            @Result(name = SUCCESS,type = "json" , params={"root", "responseResult"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String searchSelfLesson(){
+        User me= (User) ActionContext.getContext().getSession().get("user");
+        responseResult = new ResponseResult();
+        List<ScoreFormat> list = service.searchSelfLesson(me.getStudentInfo().getId());
+        responseResult.success(list,list.size());
+        return SUCCESS;
+    }
+
+    @Action(value = "getStudentName",results = {
+            @Result(name = SUCCESS,type = "json" , params={"root", "responseResult"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String getStudentName(){
+        responseResult = new ResponseResult();
+        User me= (User) ActionContext.getContext().getSession().get("user");
+        responseResult.success(me.getStudentInfo().getName());
+        return SUCCESS;
+    }
+
+
+    @Action(value = "getScoreByLesson",results = {
+            @Result(name = SUCCESS,type = "json" , params={"root", "responseResult"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String getScoreByLesson(){
+        responseResult = new ResponseResult();
+        StuLesson stuLesson = null;
+        try {
+            stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StuLesson stuLesson1 = service.getScoreByLesson(stuLesson.getId());
+        responseResult.success(stuLesson1);
+        return SUCCESS;
+    }
+
+    @Action(value = "applyLeCheck",results = {
+            @Result(name = SUCCESS,type = "json" , params={"root", "responseResult"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String applyLeCheck(){
+        responseResult = new ResponseResult();
+        StuLesson stuLesson = null;
+        try {
+            stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        service.applyLeCheck(stuLesson.getId());
+        responseResult.success();
+        return SUCCESS;
+    }
+
+    @Action(value = "applySupplementary",results = {
+            @Result(name = SUCCESS,type = "json" , params={"root", "responseResult"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String applySupplementary(){
+        responseResult = new ResponseResult();
+        StuLesson stuLesson = null;
+        try {
+            stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        service.applySupplementary(stuLesson.getId());
+        responseResult.success();
+        return SUCCESS;
+    }
+
+
+
 }
