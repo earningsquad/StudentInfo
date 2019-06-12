@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StuLessonService  {
@@ -83,6 +81,38 @@ public class StuLessonService  {
 
         }
         return false;
+    }
+
+    public List<List<String>> findWarnStudents(){
+        List<StuLesson> scores=new ArrayList<>();
+        List<Object> list=dao.find("From StuLesson where SCORE<60");
+        List<List<String>> sts=new ArrayList<>();
+        for(Object obj: list)
+            scores.add((StuLesson) obj);
+        Collections.sort(scores);
+
+        int flag=1;
+        for(int i=1;i<scores.size();i++){
+            if(scores.get(i).getStudentInfo().getId()==scores.get(i-1).getStudentInfo().getId()&&i<scores.size()-1){
+                flag++;
+            }else{
+                if(scores.get(i).getStudentInfo().getId()==scores.get(i-1).getStudentInfo().getId()&&i==scores.size()-1)
+                    flag++;
+                if(flag>=3){
+                    List<String> temp=new ArrayList<>();
+                    scores.get(i-1).getStudentInfo().setWarn("挂科总数为："+flag);
+                    dao.update(scores.get(i-1).getStudentInfo());
+                     temp.add(sts.size()+1+"");
+                     temp.add(scores.get(i-1).getStudentInfo().getName());
+                     temp.add(flag+"");
+                     temp.add("已预警");
+                     sts.add(temp);
+                }
+              flag=1;
+            }
+        }
+
+       return sts;
     }
 
     public List<Lesson> findClassLesson(User u){

@@ -3,6 +3,7 @@ package com.dev.core.action;
 
 import com.dev.core.model.Lesson;
 import com.dev.core.model.StuLesson;
+import com.dev.core.model.StudentInfo;
 import com.dev.core.model.User;
 import com.dev.core.service.StuLessonService;
 import lombok.Getter;
@@ -29,6 +30,8 @@ public class ScoreAction extends BasicAction {
     int score;
     @Setter@Getter
     int[] add;
+    @Setter@Getter
+    List<List<String>> warnStudents;
     @Action(value = "searchScore",results = {
             @Result(name = SUCCESS,type = "json" , params={"root", "tresult"}),
             @Result(name = ERROR,type = "json" )
@@ -98,7 +101,13 @@ public class ScoreAction extends BasicAction {
         return SUCCESS;
     }
 
-
+    @Action(value = "warnStudent",results = {
+            @Result(name = SUCCESS, type = "json", params = {"root", "warnStudents"})
+    })
+public String warnStudent(){
+        warnStudents =service.findWarnStudents();
+        return SUCCESS;
+}
 
 
 

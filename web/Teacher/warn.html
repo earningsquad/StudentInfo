@@ -29,7 +29,7 @@
                       <div class="site-demo-button" style="margin-top: 20px; margin-bottom: 0;">
                         <button id="smart" class="button site-demo-active" data-type="loading">智能预警</button>
                         <button id="hand" class="button site-demo-active" >手动预警</button>
-                      
+
                     </div>
                                  
                   
@@ -170,8 +170,18 @@ $("#hand").click(function(){
     $("#handarea").show();
 })
 function sw(){
+
     $("#warntable").show()
 }
+var tbody=[[]]
+$.ajax({
+    url: "http://localhost:8080/warnStudent",
+    type : "get",//请求方式
+    async: false,   //不要让它异步提交
+    success: function (data) {
+        tbody=data
+    }
+})
 	$('select').select();
 	var head = [{
 				label: 'ID',
@@ -191,15 +201,7 @@ function sw(){
 				width:100	
 			}];
 			
-	
-	var tbody = [
-					["1","小明","100","已预警"], 
-					["1","小明","100","已预警"], 
-                    ["1","小明","100","已预警"], 
-                    ["1","小明","100","已预警"]
-				]
-					
-					
+
 		$('.grid').Grid({
 			thead: head,
 			tbody: null,
