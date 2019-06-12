@@ -16,7 +16,6 @@ public class Honour {
 
 
 
-
     //荣耀类型
     @Column(name = "TYPE")
     private int type;
