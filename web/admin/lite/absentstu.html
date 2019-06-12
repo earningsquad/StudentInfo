@@ -23,15 +23,11 @@
     <link href="css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="css/colors/blue.css" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -92,30 +88,32 @@
             <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                      
-                        <li> <a class="waves-effect waves-dark active" href="student.html" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">学生信息</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="lesson.html" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">课程信息</span></a>
-                        </li>
-
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="comment.html" aria-expanded="false"><i class="mdi mdi-earth"></i><span class="hide-menu">留言板</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="score.html" aria-expanded="false"><i class="mdi mdi-book-open-variant"></i><span class="hide-menu">成绩管理</span></a>
-                        </li>
-
-                        <li> <a class="waves-effect waves-dark" href="absentstu.html" aria-expanded="false"><i class="mdi mdi-bullhorn"></i><span class="hide-menu">缺课提醒</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="lessonp.html" aria-expanded="false"><i class="mdi mdi-calendar-clock"></i><span class="hide-menu">课程进度查询</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="lessonarange.html" aria-expanded="false"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">教学排课</span></a>
-                        </li>
-
-
-                        <li> <a class="waves-effect waves-dark" href="system.html" aria-expanded="false"><i class="mdi mdi-help-circle"></i><span class="hide-menu">系统管理</span></a>
-                        </li>
-                    </ul>
+                        <nav class="sidebar-nav">
+                                <ul id="sidebarnav">
+                              
+                                        <li> <a class="waves-effect waves-dark " href="student.html" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">学生信息</span></a>
+                                        </li>
+                                        <li> <a class="waves-effect waves-dark " href="lesson.html" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">课程信息</span></a>
+                                        </li>
+            
+                                        <li> <a class="waves-effect waves-dark" href="comment.html" aria-expanded="false"><i class="mdi mdi-earth"></i><span class="hide-menu">留言板</span></a>
+                                        </li>
+                                        <li> <a class="waves-effect waves-dark" href="score.html" aria-expanded="false"><i class="mdi mdi-book-open-variant"></i><span class="hide-menu">成绩管理</span></a>
+                                        </li>
+                
+                                        <li> <a class="waves-effect waves-dark active" href="absentstu.html" aria-expanded="false"><i class="mdi mdi-bullhorn"></i><span class="hide-menu">缺课提醒</span></a>
+                                        </li>
+                                        <li> <a class="waves-effect waves-dark" href="lessonp.html" aria-expanded="false"><i class="mdi mdi-calendar-clock"></i><span class="hide-menu">课程进度查询</span></a>
+                                        </li>
+                                        <li> <a class="waves-effect waves-dark" href="lessonarange.html" aria-expanded="false"><i class="mdi mdi-calendar-check"></i><span class="hide-menu">教学排课</span></a>
+                                        </li>
+                
+                
+                                        <li> <a class="waves-effect waves-dark" href="system.html" aria-expanded="false"><i class="mdi mdi-help-circle"></i><span class="hide-menu">系统管理</span></a>
+                                        </li>
+                                    </ul>
+                           
+                        </nav>
                     <div class="text-center m-t-30">
                         <a href="#" class="btn waves-effect waves-light btn-warning hidden-md-down"> 注销用户</a>
                     </div>
@@ -146,112 +144,14 @@
                         <h3 class="text-themecolor">首页</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">学生信息管理</a></li>
-                            <li class="breadcrumb-item active">学生信息管理</li>
+                            <li class="breadcrumb-item active">缺课提醒</li>
                         </ol>
                     </div>
                    
                 </div>
 
 
-           
-
-
-
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                <!-- Row -->
-                <div class="row">
-                    <!-- column -->
-                    <div id="all" class="col-lg-12">
-                        <div class="card">
-                            <div class="card-block">
-                                <h4 class="card-title">学生信息</h4>
-                                <h6 class="card-subtitle">增加<button class="btn  waves-effect btn-default" onclick="test()">添加学生</button></h6>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>学号</th>
-                                                <th>班级</th>
-                                                <th>姓名</th>
-                                                <th>警告</th>
-                                                <th>操作</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>小明</td>
-                                                <td><h6 class="text-muted  text-warn"><i class="fa fa-circle font-10 m-r-10"></i>无警告</h6></td>
-                                                <td><button class="btn  waves-effect btn-default" onclick="test()">编辑学生</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>小明</td>
-                                                <td><h6 class="text-muted  text-success"><i class="fa fa-circle font-10 m-r-10"></i>学业预警</h6></td>
-                                            </tr>
-                                         
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="diy" class="col-lg-12 col-xlg-9 col-md-7" style="display: none;">
-                        <div class="card">
-                            <div class="card-block">
-                                <form class="form-horizontal form-material">
-                                    <div class="form-group">
-                                        <label class="col-md-12">学生姓名</label>
-                                        <div class="col-md-12">
-                                            <input type="text" placeholder="输入学生姓名" class="form-control form-control-line">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                            <label class="col-md-12">用户名</label>
-                                            <div class="col-md-12">
-                                                <input type="text" placeholder="输入用户名" class="form-control form-control-line">
-                                            </div>
-                                        </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12">密码</label>
-                                        <div class="col-md-12">
-                                            <input type="password" value="password" class="form-control form-control-line">
-                                        </div>
-                                    </div>
-                                
-                                    <div class="form-group">
-                                        <label class="col-md-12">警告</label>
-                                        <div class="col-md-12">
-                                            <textarea rows="2" class="form-control form-control-line"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-12">班级</label>
-                                        <div class="col-sm-12">
-                                            <select class="form-control form-control-line">
-                                                <option>一班</option>
-                                                <option>二班</option>
-                                                <option>三班</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-success" onclick="test2()">提交</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <iframe style="background:#FFF;height:770px;width: 950px;" src="alertabsent.html"></iframe>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -275,11 +175,16 @@
     
     <!-- ============================================================== -->
     <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
+
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="../assets/plugins/jquery/jquery.min.js"></script>
+
+    <!-- ============================================================== -->
+    <script src="js/student.js"></script>
+
+
+    <!-- ============================================================== -->
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>
     <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -304,16 +209,7 @@
     <script src="../assets/plugins/c3-master/c3.min.js"></script>
     <!-- Chart JS -->
     <script src="js/dashboard1.js"></script>
-    <script>
-        function test(){
-            $("#all").hide("200")
-            $("#diy").show("200")
-        }
-        function test2(){
-            $("#diy").hide("200")
-            $("#all").show("200")
-        }
-    </script>
+
 </body>
 
 </html>

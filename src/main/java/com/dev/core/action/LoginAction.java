@@ -22,7 +22,6 @@ public class    LoginAction extends BasicAction{
     @Autowired
     UserService service;
 
-
     @Action(value = "login")
     public String login(@JsonObj User user  )  {
 
