@@ -1,5 +1,7 @@
 package com.dev.core.dao;
 
+import org.hibernate.SessionFactory;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.Map;
  */
 public interface IBaseDao<T> {
 
+	public SessionFactory getSessionFactory();
 	/**
 	 * 保存一个对象
 	 * 
