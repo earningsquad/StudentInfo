@@ -101,18 +101,29 @@
 </head>
 <body>
 <div id="coursesTable"></div>
+</br>
+<button onclick="onPrint()"
+        style="background-color: #00a2ae; color: #fff; padding: 5px 10px; border-radius: 4px;border: none">
+  打印
+</button>
 <button onclick="onChange()"
         style="background-color: #00a2ae; color: #fff; padding: 5px 10px; border-radius: 4px;border: none">
     切换课表
 </button>
+<script src="jquery.min.js"></script>
 <script>
-  var courseList = [
-    ['大学英语(Ⅳ)@10203', '大学英语(Ⅳ)@10203', '', '', '', '', '毛概@14208', '毛概@14208', '', '', '', '选修'],
-    ['', '', '信号与系统@11302', '信号与系统@11302', '模拟电子技术基础@16204', '模拟电子技术基础@16204', '', '', '', '', '', ''],
-    ['大学体育(Ⅳ)', '大学体育(Ⅳ)', '形势与政策(Ⅳ)@15208', '形势与政策(Ⅳ)@15208', '', '', '电路、信号与系统实验', '电路、信号与系统实验', '', '', '', ''],
-    ['', '', '', '', '电装实习@11301', '电装实习@11301', '', '', '', '大学体育', '大学体育', ''],
-    ['', '', '数据结构与算法分析', '数据结构与算法分析', '', '', '', '', '信号与系统', '信号与系统', '', ''],
-  ];
+    var courseList = ""
+
+    $.ajax({
+        url: "http://localhost:8080/getLessonBySid",
+        type : "post",//请求方式
+        contentType: "application/json",
+        async: false,   //不要让它异步提交
+        dataType: "json",
+        success: function (data) {
+            courseList = data.results.data
+        }
+    })
   var week = window.innerWidth > 360 ? ['周一', '周二', '周三', '周四', '周五'] :
     ['一', '二', '三', '四', '五'];
   var day = new Date().getDay();
@@ -168,7 +179,10 @@
       }
     });
   };
-
+function onPrint() {
+   // document.body.innerHTML = $("iframe")[0].outerHTML;
+    window.print()
+}
 </script>
 </body>
 </html>
