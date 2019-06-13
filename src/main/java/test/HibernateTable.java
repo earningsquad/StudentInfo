@@ -6,6 +6,8 @@ import com.dev.core.model.MyBasicInfo;
 import com.dev.core.model.MyWholeInfo;
 import com.dev.core.model.User;
 import com.dev.core.service.MyInfoService;
+import com.dev.core.service.TimetableService;
+import com.dev.core.service.UserService;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -102,4 +104,30 @@ public class HibernateTable {
 
     }
 
+
+    @Test
+    public void test9(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+      TimetableService timetableService= (TimetableService) ctx.getBean("timetableService");
+      /*    List list=timetableService.getTimetableBySid(1);
+        System.out.println(list);*/
+
+        List<List<String>> resultList = timetableService.getTimetableBySid(1);
+        System.out.println(resultList);
+        //System.out.println(JSON.toJSONString(list));
+        //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
+
+    } @Test
+    public void test10(){
+        ApplicationContext ctx = new FileSystemXmlApplicationContext( "classpath:applicationContext.xml");
+        UserService userService= (UserService) ctx.getBean("userService");
+      /*    List list=timetableService.getTimetableBySid(1);
+        System.out.println(list);*/
+
+
+        System.out.println(userService.getStudentByUid(1));
+        //System.out.println(JSON.toJSONString(list));
+        //   IBaseDao baseDao = (IBaseDao) ctx.getBean("baseDao");
+
+    }
 }

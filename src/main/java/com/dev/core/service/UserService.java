@@ -1,6 +1,7 @@
 package com.dev.core.service;
 
 import com.dev.core.dao.IBaseDao;
+import com.dev.core.model.StudentInfo;
 import com.dev.core.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,4 +39,13 @@ public class UserService {
 
         return false;
     }
+
+    public StudentInfo getStudentByUid(int uid){
+        List list=dao.find("from StudentInfo s where s.user.id="+uid);
+    if (list!=null&&list.size()>0){
+        return (StudentInfo) list.get(0);
+    }
+   return null;
+    }
+
 }
