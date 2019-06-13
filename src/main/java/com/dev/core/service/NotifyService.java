@@ -61,4 +61,15 @@ public class NotifyService {
         return notifyFormatList;
     }
 
+    //查询老师评价
+    public List<NotifyFormat> findEvaluateNotify(){
+        List<Notify> notifyList = dao.find("from Notify where type = 3");
+        List<NotifyFormat> notifyFormatList = new ArrayList<>(notifyList.size());
+        for(Notify notify : notifyList){
+            NotifyFormat notifyFormat = new NotifyFormat(notify);
+            notifyFormatList.add(notifyFormat);
+        }
+        return notifyFormatList;
+    }
+
 }

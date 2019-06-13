@@ -66,6 +66,18 @@ public class NotifyAction extends BasicAction{
         return SUCCESS;
     }
 
+    //查询老师评价申请
+    @Action(value = "findEvaluateNotify" , results = {
+            @Result(name = SUCCESS , type = "json" , params = {"root", "results"}),
+            @Result(name = ERROR , type = "json")
+    })
+    public String findEvaluateNotify(){
+        results = new ResponseResult();
+        List<NotifyFormat> notifyList = notifyService.findEvaluateNotify();
+        results.success(notifyList,notifyList.size());
+        return SUCCESS;
+    }
+
     //查询被通知的学生
     @Action(value = "getStudentUser" , results = {
             @Result(name = SUCCESS , type = "json" , params = {"root", "results"}),

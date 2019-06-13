@@ -24,12 +24,12 @@
                 	<span class="optarea">
                         <a href="javascript:;" class="add">
                             <i class="icon"></i>
-                            <span class="text">发布预警</span>
+                            <span class="text">发起总结</span>
                         </a>
-                        <a href="javascript:;" class="delete">
+                        <!--<a href="javascript:;" class="delete">
                             <i class="icon"></i>
                             <span class="text">删除预警</span>
-                        </a>
+                        </a>-->
 
                     </span>
                 </div>
@@ -61,12 +61,12 @@
         layui.$(".add").click(function () {
             layer.open({
                 type: 2,
-                title: '发布预警',
+                title: '老师总结',
                 shadeClose: true,
                 shade: 0.8,
                 maxmin: true,
                 area: ['30%', '30%'],
-                content: 'http://localhost:8080/Teacher/addNotify.html',//设置你要弹出的jsp页面
+                content: 'http://localhost:8080/Teacher/addEvaluate.html',//设置你要弹出的jsp页面
                 success: function (layero, index) {
 
                 }
@@ -80,7 +80,7 @@
     var tbody = ''
 
     $.ajax({
-        url:"http://localhost:8080/findNotify",
+        url:"http://localhost:8080/findEvaluateNotify",
         type : "post",//请求方式
         dataType:"json",
         success: function (respon) {
@@ -132,13 +132,13 @@
         label:'接收人',
         width:150
     },{
-        label: '通知类型',
+        label: '类型',
         width: 150
     },{
-        label: '通知内容',
+        label: '评价内容',
         minWidth: 200
     },{
-        label: '通知时间',
+        label: '评价时间',
         width: 120
     }];
 

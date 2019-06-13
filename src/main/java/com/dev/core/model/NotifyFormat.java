@@ -34,7 +34,13 @@ public class NotifyFormat {
         }
         this.id = notify.getId();
         this.detail = notify.getDetail();
-        this.type = notify.getType();
+        if(notify.getType() .equals("1") ){
+            this.type = "缺课提醒";
+        }else if(notify.getType() .equals("2")){
+            this.type = "班级变更";
+        }else if(notify.getType() .equals("3")) {
+            this.type = "评价总结";
+        }
         this.date = notify.getCreateTime();
         this.additional = notify.getAdditional();
         this.notifyId = notify.getNotifier().getId();

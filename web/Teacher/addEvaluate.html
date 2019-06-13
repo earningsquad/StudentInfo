@@ -15,7 +15,7 @@
     <div class="layui-form-item">
 
         <div class="layui-inline" >
-            <label class="layui-form-label">接收人</label>
+            <label class="layui-form-label">学生</label>
             <div class="layui-input-block">
                 <select id = "beNotify" lay-verify="required">
                 </select>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="layui-inline">
-            <label class="layui-form-label">通知详情</label>
+            <label class="layui-form-label">评价总结</label>
             <div class="layui-input-inline">
                 <input name="detail" lay-verify="required|number" autocomplete="off" class="layui-input" type="text">
             </div>
@@ -92,7 +92,7 @@
                     "id":$("select option:selected").val()
                 },
                 "detail":$("input[name = 'detail']").val(),
-                "type":"1",
+                "type":"3",
                 "isEnding":0
             }),
             success: function (data) {
