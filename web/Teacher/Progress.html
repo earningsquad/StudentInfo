@@ -36,12 +36,12 @@
       </tr> 
     </thead>
     <tbody>
-      <tr>
+      <tr id="infox">
         <td>1</td>
         <td>散文</td>
         <td>张爱玲</td>
         <td><div id="slideTest2" class="demo-slider"></div>
-               </td>
+        </td>
         <td>1920-09-30</td>
         <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
       </tr>
@@ -58,21 +58,85 @@
 <script src="layui/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-        layui.use('slider', function(){
+        layui.use(['slider','layer'], function(){
           var $ = layui.$
-          ,slider = layui.slider;
+          ,slider = layui.slider
+          ,layer = layui.layer;
           //默认滑块
+          d=""
+          var progress=""
+          $.ajax({
+            url:"/myLessonProgress"
+           , success:function (data) {
+              d=data
+
+              var date=""
+              var words=""
+
+              if (data.isSuccess){
+                progx=data.bean.progress.split(":")
+                progress=progx[0]
+                words=progx[1]
+                date=progx[2]
+
+                $("#infox").html("  <td>1</td>\n" +
+                        "        <td>"+data.bean.leName+"</td>\n" +
+                        "        <td>"+data.bean.teacherInfo.name+"</td>\n" +
+                        "        <td><div id=\"slideTest2\" class=\"demo-slider\"></div>\n" +
+                        "               </td>\n" +
+                        "        <td>"+date+"</td>\n" +
+                        "        <td>"+words+"</td>")
+              i=''
+                slider.render({
+                  elem: '#slideTest2'
+                  ,value:progress
+                  ,change: function(value){
+                  // alert(value)
+
+                    clearTimeout(i)
+                    i=setTimeout(function () {
+                      layer.prompt({title: '输入总结', formType: 2}, function(text, index){
+                        $.ajax({
+                          method:"POST",
+                          url:"/myLessonProgress",
+                          contentType : "application/json",
+                          dataType : "json",
+                          data:"{'progress':'"+value+"','words':'"+text+"'}",
+                          success:function(data) {
+                            layer.close(index);
+                            layer.msg('成功', {icon: 1});
+                            window.location.reload();
+                          }
+
+                        })
+
+
+
+                      });
+                    },600)
+                  }
+                });
+              } else {
+                 layer.alert("未登录", {
+                  title: '信息',
+                   yes:function () {
+                     window.location.href="/Teacher/login.html"
+                   }
+                })
+
+              }
+            }
+          })
+
+
           slider.render({
             elem: '#slideTest1'
           });
           
           //定义初始值
-          slider.render({
-            elem: '#slideTest2'
-            ,value: 20 //初始值
-          });
+
         })
-        
+
         </script>
 </body>
 </html>

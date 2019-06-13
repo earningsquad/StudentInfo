@@ -19,6 +19,7 @@ import java.io.IOException;
 @ResultPath("/")
 public class BasicAction extends ActionSupport {
     public static String ISUCCESS="json";
+    public static String IERROR="json";
 
     @Autowired
     @Getter@Setter

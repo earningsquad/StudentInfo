@@ -35,7 +35,7 @@
         <th>总结</th>
       </tr> 
     </thead>
-    <tbody>
+    <tbody id="info">
       <tr>
         <td>1</td>
         <td>散文</td>
@@ -56,6 +56,50 @@
           
 <script src="../assets/plugins/layui/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+  layui.use('layer',function () {
+    var $=layui.jquery,
+    layer=layui.layer;
+    $.ajax({
+      url:"/allProgress"
+      , success:function (data) {
+      
 
+
+        if (data.isSuccess){
+          html=""
+          $.each(data.bean,function (k,v) {
+            progx=v.progress.split(":")
+            progress=progx[0]
+            words=progx[1]
+            date=progx[2]
+
+
+            html+=" <tr> <td>"+k+"</td>\n" +
+                    "        <td>"+v.leName+"</td>\n" +
+                    "        <td>"+v.teacherInfo.name+"</td>\n" +
+                    "        <td>"+progress+"%"+
+                    "               </td>\n" +
+                    "        <td>"+date+"</td>\n" +
+                    "        <td>"+words+"</td></tr>"
+          })
+          
+          $("#info").html(html)
+
+
+        } else {
+          layer.alert("未登录", {
+            title: '信息',
+            yes:function () {
+              window.location.href="/Teacher/login.html"
+            }
+          })
+
+        }
+      }
+    })
+
+  })
+</script>
 </body>
 </html>

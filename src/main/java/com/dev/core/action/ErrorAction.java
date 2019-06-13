@@ -22,6 +22,7 @@ public class ErrorAction extends BasicAction{
             @Result(name = SUCCESS,type = "json", params={"root", "result", "ignoreHierarchy", "false"})
     })
     public String noPermission(){
+        result.setBean("");
         result.fail("没有权限");
         return SUCCESS;
     }
