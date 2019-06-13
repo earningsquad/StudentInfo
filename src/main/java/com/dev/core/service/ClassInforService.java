@@ -32,7 +32,21 @@ public List<ClassInfor> findClassHonour(User u){
     List<ClassInfor> cHonour = dao.findByHqL("From ClassInfor c where c.type=2 and c.classnumber=" + s.getClassNumber());
     return cHonour;
 }
-
+    public Boolean addChangeClass(User u,int cnb,String reason){
+        StudentInfo s = sdao.getByHql("From StudentInfo where UID=" + u.getId());
+        ClassInfor c=new ClassInfor();
+        c.setType(4);
+        c.setAmount(s.getClassNumber());
+        c.setClassnumber(cnb);
+        c.setIntroduction(reason);
+        dao.save(c);
+        return true;
+    }
+    public List<ClassInfor> findChangedClass(User u){
+        StudentInfo s = sdao.getByHql("From StudentInfo where UID=" + u.getId());
+        List<ClassInfor> changedClass = dao.findByHqL("From ClassInfor c where c.type>2 and c.amount=" + s.getId());
+        return changedClass;
+    }
 
 public List<Map> finClassScore(User u){
     StudentInfo s = sdao.getByHql("From StudentInfo where UID=" + u.getId());

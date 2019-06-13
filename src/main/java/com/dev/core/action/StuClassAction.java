@@ -40,8 +40,11 @@ public class StuClassAction extends BasicAction {
     @Getter@Setter
     List<Map> classScore;
     @Getter@Setter
-    List<ClassInfor> classHonour;
-
+    List<ClassInfor> classInf;
+    @Setter@Getter
+    int cnb;
+    @Setter@Getter
+    String reason;
     @Action(value = "findClassLesson",results = {
             @Result(name = SUCCESS,type = "json" ,params={"root", "cLesson"}),
             @Result(name = ERROR,type = "json" )
@@ -86,14 +89,41 @@ public String findClassScore(@GetUser User user){
 
 
  @Action(value = "findClassHonur",results = {
-            @Result(name = SUCCESS,type = "json" ,params={"root", "classHonour"}),
+            @Result(name = SUCCESS,type = "json" ,params={"root", "classInf"}),
             @Result(name = ERROR,type = "json" )
     })
 public String findClassHonur(@GetUser User user) {
 
-        classHonour = classService.findClassHonour(user);
+     classInf = classService.findClassHonour(user);
         return SUCCESS;
     }
+
+
+ @Action(value = "StuChangeClass",results = {
+            @Result(name = SUCCESS,type = "json" ,params={"root", "classInf"}),
+            @Result(name = ERROR,type = "json" )
+    })
+public String StuChangeClass(@GetUser User user){
+
+   classService.addChangeClass(user,cnb,reason);
+     return SUCCESS;
+}
+
+
+
+
+    @Action(value = "findChangeClass",results = {
+            @Result(name = SUCCESS,type = "json" ,params={"root", "classInf"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String findChangeClass(@GetUser User user){
+
+        classInf= classService.findChangedClass(user);
+        return SUCCESS;
+    }
+
+
+
 
 
 }

@@ -44,6 +44,10 @@ public class StuInfService {
         StudentInfo s=dao.getByHql("FROM StudentInfo where id="+id);
         return s;
     }
+    public StudentInfo findLoginStu(User u){
+        StudentInfo s=dao.getByHql("FROM StudentInfo where uid="+u.getId());
+        return s;
+    }
     public Boolean  updateStu(StudentInfo s){
         dao.update(s);
         return true;

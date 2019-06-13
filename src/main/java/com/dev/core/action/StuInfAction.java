@@ -1,6 +1,7 @@
 package com.dev.core.action;
 
 import com.alibaba.fastjson.JSON;
+import com.dev.core.anno.GetUser;
 import com.dev.core.anno.LoginRequired;
 import com.dev.core.model.StuLesson;
 import com.dev.core.model.StudentInfo;
@@ -89,6 +90,17 @@ public String findTheStu(){
         System.out.println(studentInfo.getName()+"----");
         return SUCCESS;
 }
+
+    @Action(value = "findLoginStu",results = {
+            @Result(name = SUCCESS,type = "json" ,params={"root", "studentInfo"}),
+            @Result(name = ERROR,type = "json" )
+    })
+    public String findLoginStu(@GetUser  User u){
+
+        studentInfo=service.findLoginStu(u);
+        return SUCCESS;
+    }
+
 
     @LoginRequired
     @Action(value = "findClassStu",results = {
