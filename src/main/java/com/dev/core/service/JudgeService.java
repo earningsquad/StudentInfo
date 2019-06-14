@@ -21,11 +21,14 @@ public class JudgeService {
     @Qualifier("baseDao")
     IBaseDao<TeacherInfo> tdao;
 
-public TeacherInfo findJudgeTeacher(User  u){
 
-    Judge j=dao.getByHql("From Judge where JUDGER="+u.getId());
+    //数据库设计，需要被评价的老师分数为0
+public JudgeFormat findJudgeTeacher(User  u){
+
+    Judge j=dao.getByHql("From Judge where result=0 and JUDGER="+u.getId());
    TeacherInfo t=tdao.getByHql("From TeacherInfo where UID="+j.getBeJudeged().getId());
-    return t;
+    JudgeFormat ju=new JudgeFormat(t.getName(),0,j.getId());
+    return ju;
 }
 
 
@@ -45,7 +48,7 @@ public TeacherInfo findJudgeTeacher(User  u){
       List<JudgeFormat> ts=new ArrayList<>();
       for(Judge j:js){
          TeacherInfo t=tdao.getByHql("From TeacherInfo where UID="+j.getBeJudeged().getId());
-          ts.add(new JudgeFormat(t.getName(),j.getResult()));
+          ts.add(new JudgeFormat(t.getName(),j.getResult(),0));
 
      }
      return ts;

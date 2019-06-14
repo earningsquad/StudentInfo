@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,30 +28,21 @@ public class JudgeAction extends BasicAction {
     JudgeService service;
      @Getter@Setter
      Judge judge;
-    @Getter@Setter
-     TeacherInfo teacher;
-    @Getter@Setter
+      @Getter@Setter
     int tresult;
     @Getter@Setter
     int id;
     @Setter@Getter
     List<JudgeFormat> judgeFormats;
-    @Action(value = "StudentJudge",results = {
-            @Result(name = SUCCESS,type = "json" ,params={"root", "classInf"}),
-            @Result(name = ERROR,type = "json" )
-    })
-    public String StudentJudge(@GetUser User user){
 
-
-        return SUCCESS;
-    }
 
     @Action(value = "findJudgeTeacher",results = {
-            @Result(name = SUCCESS,type = "json" ,params={"root", "teacher"}),
+            @Result(name = SUCCESS,type = "json" ,params={"root", "judgeFormats"}),
             @Result(name = ERROR,type = "json" )
     })
     public String findJudge(@GetUser User user){
-        teacher=service.findJudgeTeacher(user);
+        judgeFormats=new ArrayList<>();
+        judgeFormats.add(service.findJudgeTeacher(user));
         return SUCCESS;
     }
 
