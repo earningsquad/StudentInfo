@@ -3,6 +3,7 @@ package com.dev.core.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 //荣耀表
 @Entity
@@ -13,6 +14,7 @@ public class Honour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
 
 
 

@@ -1,0 +1,28 @@
+{
+    "status": 1,
+    "msg": "",
+    "title": "JSON请求的相册",
+    "id": 3,
+    "start": 0,
+    "data": [
+        {
+            "alt": "首页展示",
+            "pid": 1,
+            "src": "images/intro/welcome.png",
+            "thumb": ""
+        },
+        {
+            "alt": "教学日历",
+            "pid": 2,
+            "src": "images/intro/cal.png",
+            "thumb": ""
+        },
+        {
+            "alt": "教学进度",
+            "pid": 3,
+            "src": "images/intro/progress.png",
+            "thumb": ""
+        }
+     
+    ]
+}

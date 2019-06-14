@@ -1,0 +1,343 @@
+Index: src/main/java/com/dev/core/action/TeaScoreAction.java
+===================================================================
+--- src/main/java/com/dev/core/action/TeaScoreAction.java	(date 1560129814000)
++++ src/main/java/com/dev/core/action/TeaScoreAction.java	(date 1560180722000)
+@@ -1,20 +1,57 @@
+ package com.dev.core.action;
+ 
++import com.dev.core.model.StuLesson;
++import com.dev.core.model.StudentInfo;
+ import com.dev.core.service.StuLessonService;
+ import lombok.Getter;
+ import lombok.Setter;
+ import org.apache.struts2.convention.annotation.Action;
++import org.apache.struts2.convention.annotation.Result;
+ import org.springframework.beans.factory.annotation.Autowired;
+ 
++import java.util.ArrayList;
++import java.util.List;
++
+ public class TeaScoreAction extends BasicAction  {
+     @Autowired
+     StuLessonService service;
+     @Setter @Getter
+     int[] add;
+-
++    @Getter
++    List<ArrayList<String>> scores;
++    @Setter
++    int id;
++    @Setter
++    int flag;
+     @Action(value = "TeaAddScore")
+     public String addStuScore(){
+         service.TeaAddLess(add);
+         return ISUCCESS;
+     }
++    @Action(value = "updateStuLessCheck")
++    public String updateStuLessCheck(){
++        service.updateLessCheck(id,flag);
++        return ISUCCESS;
++    }
++
++    @Action(value = "TeaSearchAllScore",results = {
++            @Result(name = SUCCESS,type = "json" , params={"root", "scores"}),
++            @Result(name = ERROR,type = "json" )
++    })
++    public String searchAllScore(){
++    scores=new ArrayList<>();
++    List<StuLesson> stu=service.allScore();
++    for(StuLesson s:stu){
++        ArrayList<String> ssore=new ArrayList<>();
++        ssore.add(s.getId()+"");
++        ssore.add(s.getStudentInfo().getName()+"");
++        ssore.add(s.getLesson().getLeName()+"");
++        ssore.add(s.getScore()+"");
++        ssore.add(s.getLesson().getTeacherInfo().getName()+"");
++        ssore.add(s.getLesson().getMonitor().getTime()+"");
++        ssore.add(s.getLeCheck()+"");
++       scores.add(ssore);
++    }
++    return SUCCESS;
++    }
+ }
+Index: src/main/java/com/dev/core/model/Lesson.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/dev/core/model/Lesson.java	(date 1560129814000)
++++ src/main/java/com/dev/core/model/Lesson.java	(date 1560180722000)
+@@ -3,6 +3,7 @@
+ import lombok.Data;
+ 
+ import javax.persistence.*;
++import java.sql.Date;
+ import java.util.List;
+ 
+ //课程表
+@@ -49,5 +50,7 @@
+     @Column(name = "TOTAL")
+     private int total;
+ 
+-
++    @JoinColumn(name = "MONITOR_ID")
++    @OneToOne
++    private Monitor monitor;
+ }
+Index: src/main/java/com/dev/core/model/StuLesson.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/dev/core/model/StuLesson.java	(date 1560129814000)
++++ src/main/java/com/dev/core/model/StuLesson.java	(date 1560180722000)
+@@ -3,6 +3,7 @@
+ import lombok.Data;
+ 
+ import javax.persistence.*;
++import java.sql.Date;
+ 
+ //学生课程信息表
+ @Entity
+@@ -35,4 +36,6 @@
+     //补考状态
+     @Column(name = "SUPPLEMENTARY")
+     private  int supplementary;
++
++
+    }
+Index: src/main/java/com/dev/core/service/StuLessonService.java
+===================================================================
+--- src/main/java/com/dev/core/service/StuLessonService.java	(date 1560129814000)
++++ src/main/java/com/dev/core/service/StuLessonService.java	(date 1560180722000)
+@@ -35,7 +35,12 @@
+         dao.delete(s);
+         return true;
+     }
+-
++    public  Boolean updateLessCheck(int id,int flag){
++        StuLesson s=(StuLesson)dao.getByHql("FROM StuLesson where id="+id);
++        s.setLeCheck(flag);
++        dao.update(s);
++        return true;
++    }
+     public Boolean updateScore(int id,int score){
+       try {
+           StuLesson s=(StuLesson)dao.getByHql("From StuLesson where id="+id);
+Index: web/Teacher/score.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/Teacher/score.html	(date 1560129814000)
++++ web/Teacher/score.html	(date 1560180722000)
+@@ -51,89 +51,126 @@
+ <script type="text/javascript" src="js/jquery.grid.js"></script>
+ <script type="text/javascript" src="js/WdatePicker.js"></script>
+ <script type="text/javascript">
+-	$('select').select();
+-	var head = [{
+-				label: 'ID',
+-				width: 100,
+-				sortable: 'default',
+-				name: 'id'	
+-			},{
+-				label:'学生姓名',
+-				width: 150,
+-				sortable: 'default',
+-				name:'name'	
+-			},{
+-				label:'课程名',
+-				width:150	
+-			},{
+-				label: '分数',
+-				width: 150	
+-			},{
+-				label: '任课老师',
+-				minWidth: 200	
+-			},{
+-				label: '考试时间',
+-				width: 120	
+-			},{
+-				label: '是否审核',
+-				width:100	
+-			}];
+-			
+-	var oper = [{label:'审核',onclick:function(){
+-						alert('审核');
+-				}},{label:'不予审核',onclick: function(){
+-					alert('不予审核')	
+-				}}]
+-	var tbody = [
+-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper], 
+-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","未审核",oper],
+-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
+-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
+-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper],
+-					["1","蔡徐坤","100","篮球","吴亦凡","1982-10-18","已审核",oper]	
+-				]
+-					
+-					
+-		$('.grid').Grid({
+-			thead: head,
+-			tbody: null,
+-			height:400,
+-			checkbox: {
+-				single:true	
+-			},
+-			operator: {
+-				type : "normal",
+-				width : 100	
+-			},
+-			sortCallBack : function(name,index,type){
+-				alert(name+","+index+','+type);
+-			}
+-			
+-		});
+-	
+-	$('.grid').Grid('addLoading');
+-	
+-	/// 模拟异步
+-	setTimeout(function(){
+-		$('.grid').Grid('setData',tbody, head);
+-	},2000)
+-	
+-	
+-	$('.pagination').pagination(100,{
+-		callback: function(page){
+-			alert(page);	
+-		},
+-		display_msg: false
+-	});
+-	
+-	$('.search-box input[type=radio]').click(function(e) {
++    function ssss(flag,id) {
++        return function () {
++            checkScore(flag,id)
++        }
++    }
++
++
++    var tbody=[[]]
++    $.ajax({
++        url : "http://localhost:8080/TeaSearchAllScore",
++        type : "get",
++        success : function(data) {
++            tbody=data;
++
++            var oper1=[
++                {label:'已审核'}
++            ]
++            var oper2=[
++                {label:'不予审核'}
++            ]
++            for(var tlength=0;tlength<tbody.length;tlength++){
++                if(tbody[tlength][6]==1){
++                    tbody[tlength].push(oper1)
++                }
++                else if(tbody[tlength][6]==-1){
++                    tbody[tlength].push(oper2)
++                }
++                else  if(tbody[tlength][6]==0) {
++                           var a=tbody[tlength][0]
++                    tbody[tlength].push([{label:'审核',onclick:ssss(1,a)
++
++                    },{label:'不予审核',onclick:ssss(-1,a)}]
++
++                    )
++                }
++            }
++        }
++    })
++
++
++    $('select').select();
++    var head = [{
++        label: 'ID',
++        width: 100,
++        sortable: 'default',
++        name: 'id'
++    },{
++        label:'学生姓名',
++        width: 150,
++        sortable: 'default',
++        name:'name'
++    },{
++        label:'课程名',
++        width:150
++    },{
++        label: '分数',
++        width: 150
++    },{
++        label: '任课老师',
++        minWidth: 200
++    },{
++        label: '考试时间',
++        width: 120
++    }];
++
++
++    $('.grid').Grid({
++        thead: head,
++        tbody: null,
++        height:400,
++        checkbox: {
++            single:true
++        },
++        operator: {
++            type : "normal",
++            width : 100
++        },
++        sortCallBack : function(name,index,type){
++            alert(name+","+index+','+type);
++        }
++
++    });
++
++    $('.grid').Grid('addLoading');
++
++    /// 模拟异步
++    setTimeout(function(){
++        $('.grid').Grid('setData',tbody, head);
++    },2000)
++
++
++    $('.pagination').pagination(100,{
++        callback: function(page){
++            alert(page);
++        },
++        display_msg: false
++    });
++
++    $('.search-box input[type=radio]').click(function(e) {
+         if($(this).prop('checked')){
+-			if($(this).attr('data-define') === 'define'){
+-				$('.define-input').show();
+-			}else{
+-				$('.define-input').hide();
+-			}
+-		}
++            if($(this).attr('data-define') === 'define'){
++                $('.define-input').show();
++            }else{
++                $('.define-input').hide();
++            }
++        }
+     });
++    function checkScore(flag,id) {
++          alert(flag+"---"+id)
++        $.ajax({
++            url: "http://localhost:8080/updateStuLessCheck",
++            type: "POST",
++            data: {'id': id, 'flag': flag},
++            success: function (result) {
++                         window.location.reload()
++
++            },
++
++        })
++    }
++
+ </script>
+ </html>
