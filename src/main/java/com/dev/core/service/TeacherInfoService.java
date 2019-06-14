@@ -10,13 +10,11 @@ import java.util.List;
 
 @Service
 public class TeacherInfoService {
-
     @Autowired
     @Qualifier("baseDao")
     IBaseDao<TeacherInfo> dao;
 
-    public List<TeacherInfo> getTeacherInfoList(){
+    public List<TeacherInfo> getTeacherInfo(){
         return dao.find("from TeacherInfo");
     }
-
 }
