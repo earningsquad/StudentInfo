@@ -34,6 +34,16 @@ public class NotifyService {
         return notifyFormatList;
     }
 
+    public List<NotifyFormat> findAll(){
+        List<Notify> notifyList = dao.find("from Notify where isEnding = 0");
+        List<NotifyFormat> notifyFormatList = new ArrayList<>(notifyList.size());
+        for(Notify notify : notifyList){
+            NotifyFormat notifyFormat = new NotifyFormat(notify);
+            notifyFormatList.add(notifyFormat);
+        }
+        return notifyFormatList;
+    }
+
     public void postNotify(Notify notify){
         dao.save(notify);
     }

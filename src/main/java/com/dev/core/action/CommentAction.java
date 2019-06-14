@@ -70,7 +70,7 @@ public class CommentAction extends BasicAction{
         return SUCCESS;
     }
 
-    @Action(value = "findSelfComment" , results = {
+    /*@Action(value = "findSelfComment" , results = {
             @Result(name = "SUCCESS" , type = "json"),
             @Result(name = "ERROR" , type = "json")
     })
@@ -82,6 +82,16 @@ public class CommentAction extends BasicAction{
             e.printStackTrace();
         }
         List<Comment> selfComment= commentService.findSelfComment(comment);
+        result = JsonResult.successX(selfComment);
+        return "SUCCESS";
+    }*/
+
+    @Action(value = "findSelfComment" , results = {
+            @Result(name = "SUCCESS" , type = "json"),
+            @Result(name = "ERROR" , type = "json")
+    })
+    public String findSelfComment(){
+        List<Comment> selfComment= commentService.findSelfComment(1);
         result = JsonResult.successX(selfComment);
         return "SUCCESS";
     }

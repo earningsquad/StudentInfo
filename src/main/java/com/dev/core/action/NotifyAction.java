@@ -54,6 +54,18 @@ public class NotifyAction extends BasicAction{
         return SUCCESS;
     }
 
+    //查询通告
+    @Action(value = "findAllNotify" , results = {
+            @Result(name = SUCCESS , type = "json" , params = {"root", "results"}),
+            @Result(name = ERROR , type = "json")
+    })
+    public String findAllNotify(){
+        results = new ResponseResult();
+        List<NotifyFormat> notifyList = notifyService.findAll();
+        results.success(notifyList,notifyList.size());
+        return SUCCESS;
+    }
+
     //查询班级变动申请
     @Action(value = "findClassNotify" , results = {
             @Result(name = SUCCESS , type = "json" , params = {"root", "results"}),

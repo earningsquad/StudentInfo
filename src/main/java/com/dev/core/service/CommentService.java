@@ -48,8 +48,8 @@ public class CommentService {
 
     //查看自己的留言
     //动态HQL 根据条件查询
-    public List<Comment> findSelfComment(Comment comment){
-        Map<String, Object> param = new HashMap();
+    public List<Comment> findSelfComment(int uid){
+        /*Map<String, Object> param = new HashMap();
         StringBuffer hql = new StringBuffer();
         hql.append("From Comment where user.id = :userId");
         param.put("userId",comment.getUser().getId());
@@ -61,7 +61,8 @@ public class CommentService {
             hql.append(" and createTime <= :endTime ");
             param.put("endTime",comment.getEndTime());
         }
-        return dao.find(hql.toString(),param,comment.getPage(),comment.getLimit());
+        return dao.find(hql.toString(),param,comment.getPage(),comment.getLimit());*/
+        return dao.find("from Comment where type = 0 and user.id = " + uid);
     }
 
     //查看所有人的留言
