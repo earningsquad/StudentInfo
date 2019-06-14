@@ -134,7 +134,7 @@ public class LessonAction extends BasicAction{
     })
     public String getTeacherInfoList(){
         results = new ResponseResult();
-        results.success(teacherInfoService.getTeacherInfoList());
+        results.success(teacherInfoService.getTeacherInfo());
         return SUCCESS;
     }
 
