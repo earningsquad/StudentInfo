@@ -31,7 +31,7 @@ public class Comment extends basicPage {
     @Column(name = "PID")
     private int parentId;
 
-    //留言类型
+    //留言类型  1：留言 2：公告
     @Column(name = "TYPE")
     private int type;
 

@@ -24,10 +24,6 @@ public class Lesson {
     @OneToOne
     private TeacherInfo teacherInfo;
 
-    @ManyToMany(targetEntity = StudentInfo.class,fetch=FetchType.EAGER)
-    @JoinTable(name = "STU_LESSON",joinColumns = @JoinColumn(name="LESSON_ID"),inverseJoinColumns =@JoinColumn(name="STUDENT_ID"))
-    private List<StudentInfo> students;
-
 
     //课程详情
     @Column(name = "DETAIL")

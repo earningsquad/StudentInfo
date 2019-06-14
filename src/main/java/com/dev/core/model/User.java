@@ -5,9 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 
 //用户表
+@Data
 @Entity
 @Table(name = "USER")
-@Data
 public class User {
 
     @Id
@@ -25,4 +25,12 @@ public class User {
     //角色
     @Column(name = "ROLE")
     private String role;
+
+    //用户ID
+    @OneToOne(mappedBy = "user")
+    private StudentInfo studentInfo;
+
+    @OneToOne(mappedBy = "user")
+    private TeacherInfo teacherInfo;
+
 }

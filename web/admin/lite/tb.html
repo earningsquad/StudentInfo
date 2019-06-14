@@ -38,7 +38,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   ,upload = layui.upload //上传
   ,element = layui.element //元素操作
   ,slider = layui.slider //滑块
-  
+
   //向世界问个好
   layer.msg('Hello World');
   
@@ -53,22 +53,31 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
   table.render({
     elem: '#demo'
     ,height: 420
-    ,url: 'a.json' //数据接口
-    ,title: '用户表'
+    ,url: 'http://localhost:8080/findLesson' //数据接口
+    ,parseData: function(res) { //res 即为原始返回的数据
+          return {
+              "code": res.results.code, //解析接口状态
+              "msg": res.results.message, //解析提示文本
+              "count": res.results.count, //解析数据长度
+              "data": res.results.data//解析数据列表
+          }
+      }
+      ,title: '用户表'
     ,page: true //开启分页
     ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
     ,totalRow: true //开启合计行
     ,cols: [[ //表头
       {type: 'checkbox', fixed: 'left'}
-      ,{field: 'id', title: '课程ID', width:80, sort: true, fixed: 'left', totalRowText: '合计：'}
-      ,{field: 'leName', title: '课程名', width:80}
-      ,{field: 'teacher', title: '任课教师', width: 90, sort: true}
-      ,{field: 'progress', title: '课程进度', width:80, sort: true}
-      ,{field: 'total', title: '课程容量', sort: true, width:80, totalRow: true} 
-      ,{field: 'leChange', title: '课程变更', width: 80}
-      ,{field: 'arrage', title: '课程安排', width: 80, sort: true}
-      ,{field: 'detial', title: '课程详情', width: 200}
-      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
+      ,{field: 'id', title: '课程ID', width:80, sort: true, fixed: 'left', totalRowText: '合计：',hide:true}
+      ,{field: 'teacherId', title: '老师ID', width:80, sort: true, fixed: 'left', hide:true}
+      ,{field: 'leName', title: '课程名', width:80 , edit: 'text'}
+      ,{field: 'teacher', title: '任课教师', width: 90, sort: true , edit: 'text' }
+      ,{field: 'progress', title: '课程进度', width:80, sort: true , edit: 'text'}
+      ,{field: 'total', title: '课程容量', sort: true, width:80, totalRow: true , edit: 'text'}
+      ,{field: 'leChange', title: '课程变更', width: 80 , edit: 'text'}
+      ,{field: 'arrange', title: '课程安排', width: 80, sort: true , edit: 'text'}
+      ,{field: 'detail', title: '课程详情', width: 200 , edit: 'text'}
+      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo', edit: 'text'}
     ]]
   });
   
@@ -79,6 +88,54 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
     switch(obj.event){
       case 'add':
         layer.msg('添加');
+          var name = encodeURIComponent(data.toolName);
+          layer.open({
+              type: 2,
+              title: '新增课程信息',
+              shadeClose: true,
+              shade: 0.8,
+              maxmin: true,
+              area: ['70%', '70%'],
+              content: 'http://localhost:8080/admin/lite/editLesson.html',//设置你要弹出的jsp页面
+              success: function(layero, index){
+                  var body = layer.getChildFrame('body', index);
+                  var leLesson = body.find('form input:eq(0)').val()
+                  var progress = body.find('form input:eq(1)').val()
+                  var total = body.find('form input:eq(2)').val()
+                  var leChange = body.find('form input:eq(3)').val()
+                  var arrange = body.find('form input:eq(4)').val()
+                  var detail = body.find('form input:eq(5)').val()
+
+
+                  /*body.find('form button:eq(0)').click(function () {
+                      alert("ss")
+                      var teacherId = body.find('form select option:selected').val()
+                      layui.$.ajax({
+                          url: "http://localhost:8080/addLesson",
+                          type : "post",//请求方式
+                          contentType: "application/json",
+                          async: false,   //不要让它异步提交
+                          data: JSON.stringify({
+                              "leName":leLesson ,
+                              "teacherInfo":{
+                                  "id":teacherId
+                              } ,
+                              "progress":progress ,
+                              "total":total ,
+                              "leChange":leChange ,
+                              "arrange":arrange ,
+                              "detail":detail
+                          }),
+                          dataType: "json",
+                          success: function (data) {
+                              layer.closeAll();
+                          }
+                      });
+                      return false;
+                  })*/
+
+              }
+          });
       break;
       case 'update':
         if(data.length === 0){
@@ -98,23 +155,88 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'elemen
       break;
     };
   });
+
   
   //监听行工具事件
   table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
     var data = obj.data //获得当前行数据
-    ,layEvent = obj.event; //获得 lay-event 对应的值
+    ,layEvent = obj.event
+        , editList=[]; //存放获取到的那条json数据中的value值（不放key）
+      layui.$.each(data,function(name,value) {//循环遍历json数据
+          editList.push(value);//将json数据中的value放入数组中（下面的子窗口显示的时候要用到）
+      }); //获得 lay-event 对应的值
     if(layEvent === 'detail'){
       layer.msg('查看操作');
     } else if(layEvent === 'del'){
       layer.confirm('真的删除行么', function(index){
         obj.del(); //删除对应行（tr）的DOM结构
         layer.close(index);
-        //向服务端发送删除指令
+        //向服务端发送删除指令;
+          layui.$.ajax({
+              dataType : "json",//数据格式 
+              type : "post",//请求方式
+              contentType: "application/json",
+              url:"http://localhost:8080/deleteLesson",
+              data:JSON.stringify({
+                  "id":obj.data.id
+              }),
+              success: function(res){
+                  window.location.reload()
+              }
+          })
       });
     } else if(layEvent === 'edit'){
-      layer.msg('编辑操作');
+        /*obj.update({
+            leName: '体育课'
+        });*/
+
+        // console.log(data.toolName);
+
     }
   });
+
+    /*layui.use(['form', 'layedit'] ,function(){
+        var $ = layui.jquery
+            ,form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit;
+        form.render();
+        //监听提交
+        form.on('submit(addLesson)', function(){ //这块要跟表单中的lay-filter="editStudent"对应
+            alert("aa")
+
+            return false;
+        });
+
+    });*/
+
+    table.on('edit(test)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data;
+        layui.$.ajax({
+            url: "http://localhost:8080/updateLesson",
+            type : "post",//请求方式
+            contentType: "application/json",
+            async: false,   //不要让它异步提交
+            data: JSON.stringify({
+                "id":data.id,
+                "leName":data.leName,
+                "teacherInfo":{
+                    "id":data.teacherId
+                },
+                "progress":data.progress,
+                "total":data.total,
+                "leChange":data.leChange,
+                "arrange":data.arrange,
+                "detail":data.detail
+            }),
+            dataType: "json",
+            success:function () {
+                alert("update")
+            }
+        })
+        /*console.log(obj.field); //当前编辑的字段名
+        console.log(obj.data); //所在行的所有相关数据*/
+    });
   
   //执行一个轮播实例
   carousel.render({

@@ -1,10 +1,13 @@
 package com.dev.core.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 //学生荣耀表
 @Entity
 @Table(name = "HONOUR_DETAIL")
+@Data
 public class HonourDetail {
 
     @Id
@@ -21,8 +24,17 @@ public class HonourDetail {
     @JoinColumn(name = "STUDENT_ID")
     private StudentInfo studentInfo;
 
-    //审核状态
+    //审核状态  0：审核中  1：通过  2：失败
     @Column(name = "STATE")
     private int state;
+
+    //申请理由
+    @Column(name = "APPLY_REASON")
+    private String applyReason;
+
+    //文件ID
+    @OneToOne
+    @JoinColumn(name = "FILE_ID")
+    private File file;
 
 }
