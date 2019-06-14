@@ -21,6 +21,12 @@ public class StuInfService {
         List<StudentInfo> students = dao.find(hql);
         return students;
     }
+    public List<StudentInfo> getClassStudentsInfo(User u){
+       StudentInfo s=dao.getByHql("FROM StudentInfo where id="+u.getId());
+        String hql=" FROM StudentInfo where classNumber="+s.getClassNumber();
+        List<StudentInfo> students = dao.find(hql);
+        return students;
+    }
 
     public  Boolean deleteStu(int id){
         StudentInfo s=dao.getByHql("FROM StudentInfo where id="+id);
@@ -31,12 +37,23 @@ public class StuInfService {
         dao.save(s);
         return true;
     }
+
+
+
     public StudentInfo findtheStu(int id){
         StudentInfo s=dao.getByHql("FROM StudentInfo where id="+id);
+        return s;
+    }
+    public StudentInfo findLoginStu(User u){
+        StudentInfo s=dao.getByHql("FROM StudentInfo where uid="+u.getId());
         return s;
     }
     public Boolean  updateStu(StudentInfo s){
         dao.update(s);
         return true;
     }
+
+
+
+
 }

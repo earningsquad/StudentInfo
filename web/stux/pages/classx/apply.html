@@ -139,12 +139,7 @@
                                 
                               <div class="form-group">
                                   <label for="uid">迁入班级</label>
-                                  <select class="form-control" id="classNum" name="classNum">
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                    </select>
+                                  <input type="text"  class="form-control" name="newclassnum" id="newclassnum" >
                                 </div>
 
                            
@@ -154,7 +149,7 @@
                             </div>
                             <input type="hidden" name="userId" id="userId" value="">
                             <input type="hidden" name="studentId" id="studentId" value="">
-                            <button type="submit" id="sub" class="btn btn-success mr-2">申请</button>
+                            <button type="submit" onclick="stChangeClass()" id="sub" class="btn btn-success mr-2">申请</button>
                             <button class="btn btn-light">取消</button>
                           </form>
                         </div>
@@ -236,6 +231,20 @@
     </script>
 
     <script>
+          $.ajax({
+            url :"http://localhost:8080/findLoginStu",
+            type : "get",
+            success : function(result) {
+                $("#name").val(result.name)
+                $("#uid").val(result.id)
+                $("#oldclassnum").val(result.classNumber)
+                classNb=result.classNumber
+            },
+            error:function(msg){
+                console.info(msg)
+            }
+        })
+
 
 
 
@@ -289,6 +298,80 @@
           }
         })
       }
+function updateTable(){
+    $.ajax({
+        url :"http://localhost:8080/findChangeClass",
+        type : "get",
+        success : function(result) {
+            var a
+
+            $("#myhc").empty()
+            $.each(result,function (i,item) {
+                if(item.type==3){
+                a="       <td class=\"text-success\"> \n" +
+                        "                                  已获得批准\n" +
+                        "                                </td>"
+
+                }else{
+                    a="    <td class=\"text-warning\"> \n" +
+                        "                                    正在申请\n" +
+                        "                                  </td>"
+
+                }
+                $("#myhc").append("<tr>\n" +
+                    "                          <td class=\"font-weight-medium\">\n" +
+                    "                             "+(i+1) +
+                    "                          </td>\n" +
+                    "                          <td>\n" +
+                    "                           "+item.amount +
+                    "                          </td>\n" +
+                    "                          \n" +
+                    "                          <td>\n" +
+                    "                          "+item.classnumber +
+                    "                          </td>\n" +
+                    "                          <td> "+item.name +
+                    "                            \n" +
+                    "                          </td>\n" +a+
+                    "                        </tr>")
+            })
+
+
+
+
+        },
+        error:function(msg){
+            console.info(msg)
+        }
+    })
+
+}
+        updateTable()
+
+        function stChangeClass(){
+       var cnb =$("#newclassnum").val()
+       var reason= $("#detial").val()
+            $.ajax({
+                url : "http://localhost:8080/StuChangeClass",
+                type : "POST",
+                data :{'cnb':cnb,'reason':reason},
+                success : function(result) {
+
+                    updateTable()
+
+                },
+                error:function(msg){
+                    console.info(msg)
+                }
+            })
+
+
+
+
+
+
+
+        }
+
 
     </script>
   <!-- End custom js for this page-->

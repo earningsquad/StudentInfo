@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "STU_LESSON")
 @Data
-public class StuLesson {
+public class StuLesson implements Comparable<StuLesson> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +35,12 @@ public class StuLesson {
     //补考状态
     @Column(name = "SUPPLEMENTARY")
     private  int supplementary;
+
+    @Override
+   public int compareTo(StuLesson s){
+      int flag=studentInfo.getId()-s.getStudentInfo().getId();
+           return flag;
+   }
+
+
    }
