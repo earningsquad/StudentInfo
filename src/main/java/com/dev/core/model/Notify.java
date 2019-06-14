@@ -36,8 +36,17 @@ public class Notify implements Serializable {
     private String detail;
 
 
-    //通知类型 1：缺课提醒
+    //通知类型 1：缺课提醒 2:班级变动申请
     @Column(name = "TYPE")
     private String type;
+
+
+    //判断是否已查看已审阅 0：未审阅 1：已查看/已审阅1
+    @Column(name = "IS_ENDING")
+    private int isEnding;
+
+    //额外的内容 班级申请调整班级
+    @Column(name = "ADDITIONAL")
+    private String additional;
 
 }

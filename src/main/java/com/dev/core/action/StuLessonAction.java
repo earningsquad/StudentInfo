@@ -3,9 +3,9 @@ package com.dev.core.action;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dev.core.anno.LoginRequired;
-import com.dev.core.anno.RoleRequired;
 import com.dev.core.model.StuLesson;
 
+import com.dev.core.model.StuLessonFormat;
 import com.dev.core.model.StudentInfo;
 import com.dev.core.service.LessonService;
 import com.dev.core.service.StuLessonService;
@@ -35,10 +35,9 @@ public class StuLessonAction extends BasicAction{
 
     //选课
     @Action(value = "selectLesson" , results = {
-            @Result(name = SUCCESS , type = "json"),
+            @Result(name = SUCCESS , type = "json" ,params = {"root", "results"}),
             @Result(name = ERROR , type = "json")
     })
-    @LoginRequired
     public String selectLesson(){
          results = new ResponseResult();
         StuLesson stuLesson = null;
@@ -56,10 +55,9 @@ public class StuLessonAction extends BasicAction{
 
     //退课
     @Action(value = "retireLesson" , results = {
-            @Result(name = SUCCESS , type = "json"),
+            @Result(name = SUCCESS , type = "json" ,params = {"root", "results"}),
             @Result(name = ERROR , type = "json")
     })
-    @LoginRequired
     public String retireLesson(){
          results = new ResponseResult();
         StuLesson stuLesson = null;
@@ -78,10 +76,9 @@ public class StuLessonAction extends BasicAction{
 
     //查询已选课程
     @Action(value = "getLesson" , results = {
-            @Result(name = SUCCESS , type = "json"),
+            @Result(name = SUCCESS , type = "json" ,params = {"root", "results"}),
             @Result(name = ERROR , type = "json")
     })
-    @LoginRequired
     public String getLesson(){
          results = new ResponseResult();
         /*StuLesson stuLesson = null;
@@ -92,6 +89,43 @@ public class StuLessonAction extends BasicAction{
         }*/
         List<StuLesson> stuLessonList = stuLessonService.getLesson();
         results.success(stuLessonList,stuLessonList.size());
+        return SUCCESS;
+    }
+
+    //查询补考申请
+    @Action(value = "getSupplementary" , results = {
+            @Result(name = SUCCESS , type = "json" ,params = {"root", "results"}),
+            @Result(name = ERROR , type = "json")
+    })
+    public String getSupplementary(){
+        results = new ResponseResult();
+        /*StuLesson stuLesson = null;
+        try {
+            stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        List<StuLessonFormat> stuLessonFormatList = stuLessonService.getSupplementary();
+        results.success(stuLessonFormatList,stuLessonFormatList.size());
+        return SUCCESS;
+    }
+
+
+    //查询补考申请
+    @Action(value = "updateSupplementary" , results = {
+            @Result(name = SUCCESS , type = "json" ,params = {"root", "results"}),
+            @Result(name = ERROR , type = "json")
+    })
+    public String updateSupplementary(){
+        results = new ResponseResult();
+        StuLesson stuLesson = null;
+        try {
+            stuLesson = JSONObject.parseObject(getRequestPostData(),StuLesson.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stuLessonService.updateSupplementary(stuLesson);
+        results.success();
         return SUCCESS;
     }
 
