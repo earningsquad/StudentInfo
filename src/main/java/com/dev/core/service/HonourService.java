@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.xml.ws.Action;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HonourService {
@@ -21,7 +25,23 @@ public class HonourService {
     }
 
     //条件查询荣誉
-    public List<Honour> findHonourBy(Honour honour){
+    public List<Honour> findHonourBy(Honour honour,int stuId){
+
+        String sql = "SELECT id FROM honour WHERE id NOT IN" +
+                "(SELECT h.id FROM student_info stu LEFT JOIN honour_detail hd on stu.id = hd.STUDENT_ID " +
+                "LEFT JOIN honour h ON hd.HONOUR_ID = h.id WHERE stu.id = "+ stuId +" )";
+
+        List<Map> list = dao.findBySql(sql);
+
+        List<Integer> ids = new ArrayList<>();
+        for(int i = 0;i < list.size();i++){
+            ids.add((Integer) list.get(i).get("id"));
+        }
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("ids",ids);
+
+
         StringBuffer hql = new StringBuffer("from Honour where 1 = 1  " );
         if(honour.getType()!=0){
             hql.append(" and type = " + honour.getType());
@@ -32,7 +52,11 @@ public class HonourService {
         if(honour.getDetail() != null && honour.getDetail().length()!=0){
             hql.append(" and detail like '%" + honour.getDetail() + "%'");
         }
-        return dao.find(hql.toString());
+        if(ids.size()!=0){
+            hql.append(" and id in :ids");
+        }
+
+        return dao.find(hql.toString(),map);
     }
 
     //新增荣誉

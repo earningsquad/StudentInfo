@@ -8,9 +8,7 @@
 <link rel="stylesheet" type="text/css" href="css/jquery.dialog.css" />
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/global.js"></script>
-    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
-
-    <title>教师信息管理</title>
+<title>教师信息管理</title>
 </head>
 
 <body>
@@ -20,7 +18,11 @@
             <h1 class="logo">
               
             </h1>
-
+            <div class="user-info">
+                <a href="javascript:;" class="user-avatar"><span></span></a>
+                <span class="user-name">苗</span>
+                <a href="javascript:;" class="more-info"></a>
+            </div>
             <div class="setting ue-clear">
             
                 <ul class="setting-main ue-clear">
@@ -113,21 +115,33 @@
     <div class="opt-panel-br"></div>
 </div>
 
-
+<!-- <div class="system-switch">
+	<ul>
+    	<li>
+            <span class="system-name"><i></i>数字管理系统</span>
+        </li>
+        <li>
+            <span class="system-name"><i></i>网络信息管理系统</span>
+        </li>
+        <li>
+            <span class="system-name"><i></i>后台管理系统</span>
+        </li>
+        <li>
+            <span class="system-name"><i></i>信息科技ERP系统</span>
+        </li>
+        <li>
+            <span class="system-name"><i></i>网络管理系统</span>
+        </li>
+    </ul>
+    <div class="opt-panel-mr"></div>
+    <div class="opt-panel-bc"></div>
+    <div class="opt-panel-br"></div>
+</div> -->
 
 </body>
 <script type="text/javascript" src="js/core.js"></script>
 <script type="text/javascript" src="js/jquery.dialog.js"></script>
-<script src="layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use('layer', function(){ //独立版的layer无需执行这一句
-        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-        $.getJSON('img.json?v='+new Date, function(json){
-            layer.photos({
-                photos: json //格式见API文档手册页
-                ,anim: 3 //0-6的选择，指定弹出图片动画类型，默认随机
-            });
-        });})
 $("#bd").height($(window).height()-$("#hd").outerHeight()-26);
 
 $(window).resize(function(e) {

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<script src="js/jquery.js"></script>
+<script src="layui/layui.js"></script>
+<link rel="stylesheet" href="layui/css/layui.css">
+<body>
+
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+
+        <div class="layui-inline" >
+            <label class="layui-form-label">学生</label>
+            <div class="layui-input-block">
+                <select id = "beNotify" lay-verify="required">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">评价总结</label>
+            <div class="layui-input-inline">
+                <input name="detail" lay-verify="required|number" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+        <!--<div class="layui-inline">
+            <label class="layui-form-label">通知类型</label>
+            <div class="layui-input-inline">
+                <input name="type" lay-verify="required|number" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>-->
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <button  type="button" class="layui-btn" lay-filter="addLesson">立即发布</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+
+<script>
+
+
+    $(document).ready(function () {
+
+
+        layui.use('form', function(){
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+            //……
+
+            //但是，如果你的HTML是动态生成的，自动渲染就会失效
+            //因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+            form.render();
+        });
+
+
+        $.ajax({
+            url: "http://localhost:8080/getStudentUser",
+            type : "post",//请求方式
+            contentType: "application/json",
+            async: false,   //不要让它异步提交
+            dataType: "json",
+            success: function (data) {
+                var str = '<option value=""></option>'
+                for(var i = 0;i < data.data.length;i++){
+                    str += '<option value="'+data.data[i].id+'">'+data.data[i].studentInfo.name+'</option>'
+                }
+
+                $("#beNotify").html(str);
+            }
+        })
+    })
+
+    $('.layui-btn').click(function () {
+        $.ajax({
+            url: "http://localhost:8080/postNotify",
+            type : "post",//请求方式
+            contentType: "application/json",
+            async: false,   //不要让它异步提交
+            dataType: "json",
+            data:JSON.stringify({
+                "notifier":{
+                    "id":2
+                },
+                "beNotifier":{
+                    "id":$("select option:selected").val()
+                },
+                "detail":$("input[name = 'detail']").val(),
+                "type":"3",
+                "isEnding":0
+            }),
+            success: function (data) {
+                alert("添加成功")
+                var index = parent.layer.getFrameIndex(window.name);
+                window.parent.location.reload()
+                parent.layer.close(index);
+            }
+        })
+    })
+
+</script>
+</html>

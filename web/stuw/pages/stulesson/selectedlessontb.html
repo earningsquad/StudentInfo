@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../../css/GridManager.css">
+    <script type="text/javascript" src="../../js/GridManager.js"></script>
+    <title>GridManager:使用动态数据渲染</title>
+    <style>
+        html, body{
+            width: 100%;
+            /*height: 100%;*/
+            overflow-x:hidden;
+            margin: 0;
+            padding: 0;
+        }
+        .plugin-action{
+            display: inline-block;
+            color: steelblue;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .plugin-action:hover{
+            text-decoration:underline;
+        }
+        .search-area{
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background: #efefef;
+        }
+        .search-area .sa-ele{
+            display: inline-block;
+            margin-right: 20px;
+            font-size: 12px;
+        }
+        .search-area .sa-ele .se-title{
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .search-area .sa-ele .se-con{
+            display: inline-block;
+            width:180px;
+            height: 24px;
+            border: 1px solid #ccc;
+            padding: 0px 4px;
+            line-height: 24px;
+        }
+        .search-area .sa-ele .search-action, .search-area .sa-ele .reset-action{
+            display: inline-block;
+            width:80px;
+            height: 26px;
+            border: 1px solid #ccc;
+            background: #e8e8e8;
+            padding: 0px 4px;
+            line-height: 26px;
+            text-align: center;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .search-area .sa-ele .search-action:hover, .search-area .sa-ele .reset-action:hover{
+            opacity: 0.7;
+        }
+    </style>
+    <script src="../../js/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="search-area">
+    <div class="sa-ele">
+        <label class="se-title">荣誉名称:</label>
+        <input class="se-con" name="name"/>
+    </div>
+    <div class="sa-ele">
+        <label class="se-title">说明:</label>
+        <input class="se-con" name="detial"/>
+    </div>
+    <div class="sa-ele">
+        <label class="se-title">类型:</label>
+        <input class="se-con" name="type"/>
+    </div>
+    <div class="sa-ele">
+        <button class="search-action">搜索</button>
+        <button class="reset-action">重置</button>
+    </div>
+</div>
+<br/>
+<table></table>
+
+<script>
+    function apply(id,name){
+        parent.$(window.parent.document).find("iframe").hide("50")
+        parent.$(window.parent.document).find("#applyName").val(name)
+        parent.$(window.parent.document).find("#hid").val(id)
+        parent.$(window.parent.document).find("#appx").show("50")
+
+    }
+</script>
+<script type="text/javascript">
+    var table = document.querySelector('table');
+    var TGM = table.GM({
+        supportRemind: true
+        ,gridManagerName: 'test'
+        ,height: '400px'
+        ,supportAjaxPage:true
+        ,supportSorting: true
+        ,isCombSorting: false
+        ,disableCache: false
+        ,ajax_url: 'http://localhost:8080/findSelectLesson'
+        ,ajax_type: 'POST'
+        // 配置 request header, 非xhr自带的头信息将会触发非简单请求, 需要在后端进行对应的配置
+        // 参考链接: http://www.lovejavascript.com/#!zone/blog/content.html?id=53
+//		,ajax_headers: {
+//			'header-test': 'this is test request header'
+//		}
+        // 配置xhr, 如: withCredentials -> 跨域情况使用cookie等证书. 需要在后端进行对应的配置
+        // 参考链接: http://www.lovejavascript.com/#!zone/blog/content.html?id=59
+//		,ajax_xhrFields: {
+//			withCredentials: true
+//		}
+        ,query: {test: 22}
+        ,dataKey: 'list'  // 注意: 这里是用来测试responseHandler 是否生效; 数据本身返回为data, 而在这里我把数据名模拟为list, 再通过responseHandler去更改
+        ,pageSize:30
+
+        // 通过该方法修改全部的请求参数
+        ,requestHandler: function(request){
+            request.newParams = '这个参数是通过 requestHandler 函数新增的';
+            // 更改这个参数后, 将会强制createDate字段使用 降序排序.
+            // 'sort_' 通过 配置项 sortKey 进行配置
+            // 'DESC' 通过 配置项 sortDownText 进行配置
+//			request.sort_createDate = 'DESC';
+        }
+        // 可以通过该方法修改返回的数据
+        ,responseHandler: function(response){
+            console.log(response);
+            response.list = response.results.data;
+        }
+        ,columnData: [{
+            key: 'id',
+            remind: 'the id',
+            width: '100px',
+            align: 'right',
+            text: '课程id',
+            isShow: false,
+            sorting: ''
+        }, {
+            key: 'teacherId',
+            remind: 'the id',
+            width: '100px',
+            align: 'right',
+            text: '老师id',
+            isShow: false,
+            sorting: ''
+        },{
+            key: 'leName',
+            remind: 'the name',
+            width: '100px',
+            align: 'right',
+            text: '课程名称',
+            isShow: true,
+            sorting: ''
+        },{
+            key: 'teacher',
+            remind: 'the type',
+            text: '任课老师',
+            isShow: true,
+        },{
+            key: 'detail',
+            remind: 'the detial',
+            text: '课程介绍'
+        },{
+            key: 'action',
+            remind: 'the action',
+            width: '10%',
+            text: '操作',
+            template: function(action, rowObject){
+                return '<span class="plugin-action del-action" onclick="retireLesson(this)" learnLink-id="'+rowObject.id+'">退课</span>'
+            }
+        }
+        ]
+        // 分页前事件
+        ,pagingBefore: function(query){
+            console.log('pagingBefore', query);
+        }
+        // 分页后事件
+        ,pagingAfter: function(data){
+            console.log('pagingAfter', data);
+        }
+        // 排序前事件
+        ,sortingBefore: function (data) {
+            console.log('sortBefore', data);
+        }
+        // 排序后事件
+        ,sortingAfter: function (data) {
+            console.log('sortAfter', data);
+        }
+        // 宽度调整前事件
+        ,adjustBefore: function (event) {
+            console.log('adjustBefore', event);
+        }
+        // 宽度调整后事件
+        ,adjustAfter: function (event) {
+            console.log('adjustAfter', event);
+        }
+        // 拖拽前事件
+        ,dragBefore: function (event) {
+            console.log('dragBefore', event);
+        }
+        // 拖拽后事件
+        ,dragAfter: function (event) {
+            console.log('dragAfter', event);
+        }
+    }, function(query){
+        // 渲染完成后的回调函数
+        console.log('渲染完成后的回调函数:', query);
+    });
+
+    // 删除功能
+    function delectRowData(node){
+        // 获取到当前的tr node
+        var tr = node.parentNode.parentNode;
+        // 获取到当前渲染tr 所使用的数据
+        var rowData = document.querySelector('table').GM('getRowData', tr);
+        // 执行删除操作
+        if(window.confirm('确认要申请'+rowData.name+'这一荣誉吗?')){
+            //apply(rowData.id,rowData.name)
+            //window.alert('当然这只是个示例,并不会真实删除,要不然每天我每天就光填demo数据了.');
+        }
+    }
+
+    //选课
+    /*function selectLesson(node){
+        // 获取到当前的tr node
+        var tr = node.parentNode.parentNode;
+        // 获取到当前渲染tr 所使用的数据
+        var rowData = document.querySelector('table').GM('getRowData', tr);
+        // 执行选课操作
+        if(window.confirm('确认要选择'+rowData.leName+'这一课程吗?')){
+            /!*apply(rowData.id,rowData.leName)*!/
+            //window.alert('当然这只是个示例,并不会真实删除,要不然每天我每天就光填demo数据了.');
+            $.ajax({
+                url:"http://localhost:8080/retireLesson",
+                dataType : "json",//数据格式 
+                type : "post",//请求方式
+                contentType: "application/json",
+                data:JSON.stringify({
+                    "studentInfo":{
+                        "id":1
+                    },
+                    "lesson":{
+                        "id":rowData.id
+                    }
+                }),
+                success : function(data) {   //如果请求成功，返回数据。
+                    window.location.reload();
+                }
+            })
+        }
+    }*/
+
+    //退课
+    function retireLesson(node){
+        // 获取到当前的tr node
+        var tr = node.parentNode.parentNode;
+        // 获取到当前渲染tr 所使用的数据
+        var rowData = document.querySelector('table').GM('getRowData', tr);
+        // 执行选课操作
+        if(window.confirm('确认要退选'+rowData.leName+'这一课程吗?')){
+            /*apply(rowData.id,rowData.leName)*/
+            //window.alert('当然这只是个示例,并不会真实删除,要不然每天我每天就光填demo数据了.');
+            $.ajax({
+                url:"http://localhost:8080/retireLesson",
+                dataType : "json",//数据格式 
+                type : "post",//请求方式
+                contentType: "application/json",
+                data:JSON.stringify({
+                    "studentInfo":{
+                        "id":1
+                    },
+                    "lesson":{
+                        "id":rowData.id
+                    }
+                }),
+                success : function(data) {   //如果请求成功，返回数据。
+                    window.location.reload();
+                }
+            })
+        }
+    }
+
+    // 绑定搜索事件
+    document.querySelector('.search-action').addEventListener('click', function () {
+        var _query = {
+            name: document.querySelector('[name="name"]').value,
+            detial: document.querySelector('[name="detial"]').value,
+            url: document.querySelector('[name="type"]').value,
+            cPage: 1
+        };
+        table.GM('setQuery', _query, function(){
+            console.log('setQuery执行成功');
+        });
+    });
+
+    // 绑定重置
+    document.querySelector('.reset-action').addEventListener('click', function () {
+        document.querySelector('[name="name"]').value = '';
+        document.querySelector('[name="detial"]').value = '';
+        document.querySelector('[name="type"]').value = '';
+    });
+</script>
+
+</body>
+</html>
