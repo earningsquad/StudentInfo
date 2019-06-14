@@ -66,16 +66,12 @@
 <body>
 <div class="search-area">
     <div class="sa-ele">
-        <label class="se-title">荣誉名称:</label>
-        <input class="se-con" name="name"/>
+        <label class="se-title">课程名称:</label>
+        <input class="se-con" name="leName"/>
     </div>
     <div class="sa-ele">
-        <label class="se-title">说明:</label>
-        <input class="se-con" name="detial"/>
-    </div>
-    <div class="sa-ele">
-        <label class="se-title">类型:</label>
-        <input class="se-con" name="type"/>
+        <label class="se-title">老师名称:</label>
+        <input class="se-con" name="teacherName"/>
     </div>
     <div class="sa-ele">
         <button class="search-action">搜索</button>
@@ -164,7 +160,7 @@
             isShow: true,
         },{
             key: 'detail',
-            remind: 'the detial',
+            remind: 'the detail',
             text: '课程介绍'
         },{
             key: 'action',
@@ -289,9 +285,8 @@
     // 绑定搜索事件
     document.querySelector('.search-action').addEventListener('click', function () {
         var _query = {
-            name: document.querySelector('[name="name"]').value,
-            detial: document.querySelector('[name="detial"]').value,
-            url: document.querySelector('[name="type"]').value,
+            leName: document.querySelector('[name="leName"]').value,
+            teacherName: document.querySelector('[name="teacherName"]').value,
             cPage: 1
         };
         table.GM('setQuery', _query, function(){
@@ -301,8 +296,8 @@
 
     // 绑定重置
     document.querySelector('.reset-action').addEventListener('click', function () {
-        document.querySelector('[name="name"]').value = '';
-        document.querySelector('[name="detial"]').value = '';
+        document.querySelector('[name="lename"]').value = '';
+        document.querySelector('[name="detail"]').value = '';
         document.querySelector('[name="type"]').value = '';
     });
 </script>
