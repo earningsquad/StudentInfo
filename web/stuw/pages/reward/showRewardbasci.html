@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>学生信息管理</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav  class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+            <a class="navbar-brand brand-logo" href="index.html">
+                <img src="../../images/logo.svg" alt="logo" />
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="index.html">
+                <img src="../../images/logo-mini.svg" alt="logo" />
+            </a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+            <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">文件管理
+
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="#" class="nav-link">
+                        <i class="mdi mdi-elevation-rise"></i>我的信息</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="mdi mdi-bookmark-plus-outline"></i>荣誉称号
+                        <span class="badge badge-success ml-1">三好学生</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-nav-right">
+
+                <li class="nav-item dropdown d-none d-xl-inline-block">
+                    <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                        <span class="profile-text">早上好！小明先生~</span>
+                        <img class="img-xs rounded-circle" src="../../images/faces/face1.jpg" alt="Profile image">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                        <a class="dropdown-item p-0">
+                            <div class="d-flex border-bottom">
+                                <div class="py-3 px-4 d-flex align-items-center justify-content-center">
+                                    <i class="mdi mdi-bookmark-plus-outline mr-0 text-gray"></i>
+                                </div>
+                                <div class="py-3 px-4 d-flex align-items-center justify-content-center border-left border-right">
+                                    <i class="mdi mdi-account-outline mr-0 text-gray"></i>
+                                </div>
+                                <div class="py-3 px-4 d-flex align-items-center justify-content-center">
+                                    <i class="mdi mdi-alarm-check mr-0 text-gray"></i>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a class="dropdown-item">
+                            修改密码
+                        </a>
+
+                        <a class="dropdown-item">
+                            退出
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                <span class="mdi mdi-menu"></span>
+            </button>
+        </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <nav style="position: fixed;" class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-profile">
+                    <div class="nav-link">
+                        <div class="user-wrapper">
+                            <div class="profile-image">
+                                <img src="../../images/faces/face1.jpg" alt="profile image">
+                            </div>
+                            <div class="text-wrapper">
+                                <p class="profile-name">小明</p>
+                                <div>
+                                    <small class="designation text-muted">3班</small>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success btn-block">申请荣誉称号
+                            <i class="mdi mdi-plus"></i>
+                        </button>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        <i class="menu-icon mdi mdi-television"></i>
+                        <span class="menu-title">首页</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="true" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-content-copy"></i>
+                        <span class="menu-title active">评优申请</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse show" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link "  href="mybasic.html">评优条件介绍查询</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="rewardbaisc.html">评优申请</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="showRewardbasci.html">审核情况查询</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                        <i class="menu-icon mdi mdi-backup-restore"></i>
+                        <span class="menu-title">荣誉称号</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pages/charts/chartjs.html">
+                        <i class="menu-icon mdi mdi-chart-line"></i>
+                        <span class="menu-title">文件管理</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel" style="margin-left: 19%;">
+            <div class="content-wrapper">
+                <div class="row purchace-popup">
+                    <div class="col-12">
+              <span class="d-block d-md-flex align-items-center">
+                <p>学业警告信息</p>
+                <a class="btn ml-auto download-button d-none d-md-block" >忽略</a>
+                <a class="btn purchase-button mt-4 mt-md-0"  target="_blank">查看我的学业警告</a>
+                <i class="mdi mdi-close popup-dismiss d-none d-md-block"></i>
+              </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 grid-margin">
+                        <iframe src="showReward.html" style="width: 100%;height:515px;background:white;">
+
+                        </iframe>
+                    </div></div>
+
+
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+</div>
+<!-- plugins:js -->
+<script src="../../vendors/js/vendor.bundle.base.js"></script>
+<script src="../../vendors/js/vendor.bundle.addons.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="../../js/off-canvas.js"></script>
+<script src="../../js/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="../../js/dashboard.js"></script>
+<!-- End custom js for this page-->
+<script>
+
+    $(".mr-2").click(function () {
+        var id =  $("#hid").val();
+        var reason = $("#exampleTextarea1").val();
+        $.ajax({
+            url:"http://localhost:8080/addHonourDetail",
+            dataType : "json",//数据格式 
+            type : "post",//请求方式
+            contentType: "application/json",
+            data:JSON.stringify({
+                "honour":{
+                    "id":id
+                },
+                "studentInfo":{
+                    "id":1
+                },
+                "state":0,
+                "applyReason":reason,
+                "file":{
+                    "id":1
+                }
+            }),
+            success : function(data) {   //如果请求成功，返回数据。
+                alert(data.result.message)
+            }
+        })
+    })
+</script>
+
+</body>
+
+</html>

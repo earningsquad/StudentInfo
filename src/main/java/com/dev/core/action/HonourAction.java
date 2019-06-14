@@ -52,7 +52,7 @@ public class HonourAction extends BasicAction{
     })
     public String findHonour(){
         Honour honour = new Honour(getType(),getName(),getDetail());
-        List<Honour> honourList = new ArrayList<>();
+        List<HonourFormat> honourList = new ArrayList<>();
         honourList = honourService.findHonourBy(honour,1);
         honourResult.success(honourList,honourList.size());
         return SUCCESS;

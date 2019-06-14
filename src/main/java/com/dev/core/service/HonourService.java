@@ -2,6 +2,8 @@ package com.dev.core.service;
 
 import com.dev.core.dao.IBaseDao;
 import com.dev.core.model.Honour;
+import com.dev.core.model.HonourDetail;
+import com.dev.core.model.HonourFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,7 @@ public class HonourService {
     }
 
     //条件查询荣誉
-    public List<Honour> findHonourBy(Honour honour,int stuId){
+    public List<HonourFormat> findHonourBy(Honour honour, int stuId){
 
         String sql = "SELECT id FROM honour WHERE id NOT IN" +
                 "(SELECT h.id FROM student_info stu LEFT JOIN honour_detail hd on stu.id = hd.STUDENT_ID " +
@@ -55,8 +57,13 @@ public class HonourService {
         if(ids.size()!=0){
             hql.append(" and id in :ids");
         }
-
-        return dao.find(hql.toString(),map);
+        List<Honour> honourList = dao.find(hql.toString(),map);
+        List<HonourFormat> honourFormatList = new ArrayList<>(honourList.size());
+        for(Honour honour1 : honourList){
+            HonourFormat honourFormat = new HonourFormat(honour1);
+            honourFormatList.add(honourFormat);
+        }
+        return honourFormatList;
     }
 
     //新增荣誉

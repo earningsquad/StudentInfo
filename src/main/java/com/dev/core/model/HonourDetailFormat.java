@@ -10,7 +10,7 @@ public class HonourDetailFormat {
     private int type;
     private String detail;
     private String applyReason;
-    private int state;
+    private String state;
 
     public HonourDetailFormat(HonourDetail honourDetail){
         this.id = honourDetail.getId();
@@ -19,7 +19,13 @@ public class HonourDetailFormat {
         this.type = honourDetail.getHonour().getType();
         this.detail = honourDetail.getHonour().getDetail();
         this.applyReason = honourDetail.getApplyReason();
-        this.state = honourDetail.getState();
+        if(honourDetail.getState() == 0){
+            this.state = "审核中";
+        }else if(honourDetail.getState() == 1){
+            this.state = "审核通过";
+        }else if(honourDetail.getState() == 2){
+            this.state = "审核不通过";
+        }
     }
 
 }
