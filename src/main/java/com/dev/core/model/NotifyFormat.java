@@ -21,13 +21,13 @@ public class NotifyFormat {
     }
 
     public NotifyFormat(Notify notify){
-        if(notify.getNotifier().getRole().equals("1")){
+        if(notify.getNotifier().getRole().equals("stu")){
             this.notifyName = notify.getNotifier().getStudentInfo().getName();
         }else{
             this.notifyName = notify.getNotifier().getTeacherInfo().getName();
         }
 
-        if(notify.getBeNotifier().getRole().equals("1")){
+        if(notify.getBeNotifier().getRole().equals("stu")){
             this.beNotifyName = notify.getBeNotifier().getStudentInfo().getName();
         }else{
             this.beNotifyName = notify.getBeNotifier().getTeacherInfo().getName();
