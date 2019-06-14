@@ -29,3 +29,7 @@
     bottom:0;
 }
 </style>
+<script>
+    window.location.href="http://localhost:8080/stux/pages/login/login.html?userName=xiaoming&password=123456#"
+
+</script>

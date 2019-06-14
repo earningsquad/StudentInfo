@@ -3,6 +3,7 @@ package com.dev.core.service;
 
 import com.dev.core.dao.IBaseDao;
 import com.dev.core.model.FileInfo;
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,7 +13,7 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import java.io.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,5 +59,51 @@ public class FileService {
         }
         return  true;
     }
+
+    public void backup() {
+        try {
+            String dest= ServletActionContext.getServletContext().getRealPath("/upload/" );
+            String path = dest+"\\"+"studentinfo.sql";
+            OutputStream out = new FileOutputStream(path);
+            backup(out, "studentinfo");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+//改成自己的数据库账号密码
+    public void backup(OutputStream output, String dbname) {
+        String command ="cmd /c "+ "mysqldump -u" + "root"
+                + " -p" + "root" + " --set-charset=utf8 " +dbname;
+        PrintWriter p = null;
+        BufferedReader reader = null;
+        try {
+            p = new PrintWriter(new OutputStreamWriter(output, "utf8"));
+            Process process = Runtime.getRuntime().exec(command);
+            InputStreamReader inputStreamReader = new InputStreamReader(process
+                    .getInputStream(), "utf8");
+            reader = new BufferedReader(inputStreamReader);
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                p.println(line);
+            }
+            p.flush();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+                if (p != null) {
+                    p.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }
