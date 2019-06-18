@@ -23,7 +23,6 @@
 <body>
 
 <script>
-alert("123")
     window.location.href="/stuw/pages/login/login.html"
 </script>
 
