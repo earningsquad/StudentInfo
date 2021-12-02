@@ -12,7 +12,7 @@
         <!-- 名称是任意的,建议使用有意义的名字 -->
         <spring.version>5.1.7.RELEASE</spring.version>
         <hibernate.version>5.4.3.Final</hibernate.version>
-        <struts.version>2.3.24</struts.version>
+        <struts.version>2.5.22</struts.version>
     </properties>
     <dependencyManagement>
         <dependencies>
